@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "fuente": "SRD 5.1",
+
+  "objetos": [
+    {
+      "id": "pocion_curacion",
+      "nombre": "Poción de curación",
+      "categoria": "consumible",
+      "coste": "50 po",
+      "peso": 0.25,
+      "descripcion": "Recuperas 2d4+2 puntos de golpe cuando bebes esta poción. La poción es un líquido rojo que brilla cuando se agita.",
+      "efecto": {
+        "tipo": "curacion",
+        "valor": "2d4+2"
+      },
+      "is_magical": true
+    },
+    {
+      "id": "cuerda_seda",
+      "nombre": "Cuerda de seda (50 pies)",
+      "categoria": "equipo",
+      "coste": "10 po",
+      "peso": 2.5,
+      "descripcion": "Tiene 2 puntos de golpe y puede romperse con una prueba de Fuerza CD 17.",
+      "is_magical": false
+    },
+    {
+      "id": "antorcha",
+      "nombre": "Antorcha",
+      "categoria": "equipo",
+      "coste": "1 cp",
+      "peso": 0.5,
+      "descripcion": "Proporciona luz brillante en un radio de 20 pies y luz tenue en 20 pies adicionales. Dura 1 hora.",
+      "duracion": "1 hora",
+      "is_magical": false
+    },
+    {
+      "id": "raciones",
+      "nombre": "Raciones (1 día)",
+      "categoria": "consumible",
+      "coste": "5 pp",
+      "peso": 1,
+      "descripcion": "Consiste en comida seca apropiada para viajes extendidos, incluyendo cecina, fruta seca, galletas duras y nueces.",
+      "is_magical": false
+    },
+    {
+      "id": "kit_curandero",
+      "nombre": "Kit de curandero",
+      "categoria": "herramienta",
+      "coste": "5 po",
+      "peso": 1.5,
+      "descripcion": "Contiene vendas, ungüentos y tablillas. El kit tiene 10 usos. Puedes usar una acción para estabilizar a una criatura con 0 puntos de golpe sin necesidad de tirada de Sabiduría (Medicina).",
+      "usos": 10,
+      "is_magical": false
+    },
+    {
+      "id": "mochila",
+      "nombre": "Mochila",
+      "categoria": "contenedor",
+      "coste": "2 po",
+      "peso": 2.5,
+      "descripcion": "Capacidad: 1 pie cúbico / 30 libras de equipo.",
+      "capacidad_peso": 30,
+      "is_magical": false
+    },
+    {
+      "id": "flechas",
+      "nombre": "Flechas (20)",
+      "categoria": "municion",
+      "coste": "1 po",
+      "peso": 0.5,
+      "descripcion": "Munición para arcos.",
+      "cantidad": 20,
+      "is_magical": false
+    },
+    {
+      "id": "virotes",
+      "nombre": "Virotes de ballesta (20)",
+      "categoria": "municion",
+      "coste": "1 po",
+      "peso": 0.75,
+      "descripcion": "Munición para ballestas.",
+      "cantidad": 20,
+      "is_magical": false
+    }
+  ]
+}

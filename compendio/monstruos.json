@@ -1,0 +1,257 @@
+{
+  "version": "1.0.0",
+  "fuente": "SRD 5.1",
+
+  "monstruos": [
+    {
+      "id": "goblin",
+      "nombre": "Goblin",
+      "tamaño": "Pequeño",
+      "tipo": "Humanoide",
+      "alineamiento": "Neutral malvado",
+      "clase_armadura": 15,
+      "puntos_golpe": 7,
+      "dados_golpe": "2d6",
+      "velocidad": 30,
+      "atributos": {
+        "fuerza": 8,
+        "destreza": 14,
+        "constitucion": 10,
+        "inteligencia": 10,
+        "sabiduria": 8,
+        "carisma": 8
+      },
+      "habilidades": {
+        "sigilo": 6
+      },
+      "sentidos": {
+        "vision_oscura": 60,
+        "percepcion_pasiva": 9
+      },
+      "idiomas": ["Común", "Goblin"],
+      "desafio": 0.25,
+      "experiencia": 50,
+      "rasgos": [
+        {
+          "nombre": "Escape Ágil",
+          "descripcion": "El goblin puede realizar la acción de Desengancharse o Esconderse como acción adicional en cada uno de sus turnos."
+        }
+      ],
+      "acciones": [
+        {
+          "nombre": "Cimitarra",
+          "tipo": "arma_cuerpo",
+          "bonificador_ataque": 4,
+          "alcance": 5,
+          "daño": "1d6+2",
+          "tipo_daño": "cortante"
+        },
+        {
+          "nombre": "Arco corto",
+          "tipo": "arma_distancia",
+          "bonificador_ataque": 4,
+          "alcance": "80/320",
+          "daño": "1d6+2",
+          "tipo_daño": "perforante"
+        }
+      ]
+    },
+    {
+      "id": "lobo",
+      "nombre": "Lobo",
+      "tamaño": "Mediano",
+      "tipo": "Bestia",
+      "alineamiento": "Sin alineamiento",
+      "clase_armadura": 13,
+      "puntos_golpe": 11,
+      "dados_golpe": "2d8+2",
+      "velocidad": 40,
+      "atributos": {
+        "fuerza": 12,
+        "destreza": 15,
+        "constitucion": 12,
+        "inteligencia": 3,
+        "sabiduria": 12,
+        "carisma": 6
+      },
+      "habilidades": {
+        "percepcion": 3,
+        "sigilo": 4
+      },
+      "sentidos": {
+        "percepcion_pasiva": 13
+      },
+      "idiomas": [],
+      "desafio": 0.25,
+      "experiencia": 50,
+      "rasgos": [
+        {
+          "nombre": "Olfato Agudo",
+          "descripcion": "El lobo tiene ventaja en las pruebas de Sabiduría (Percepción) que dependan del olfato."
+        },
+        {
+          "nombre": "Tácticas de Manada",
+          "descripcion": "El lobo tiene ventaja en las tiradas de ataque contra una criatura si al menos uno de los aliados del lobo está a 5 pies de la criatura y el aliado no está incapacitado."
+        }
+      ],
+      "acciones": [
+        {
+          "nombre": "Mordisco",
+          "tipo": "arma_cuerpo",
+          "bonificador_ataque": 4,
+          "alcance": 5,
+          "daño": "2d4+2",
+          "tipo_daño": "perforante",
+          "efecto": "Si el objetivo es una criatura, debe superar una tirada de salvación de Fuerza CD 11 o caer derribada."
+        }
+      ]
+    },
+    {
+      "id": "bandido",
+      "nombre": "Bandido",
+      "tamaño": "Mediano",
+      "tipo": "Humanoide",
+      "alineamiento": "Cualquier alineamiento no legal",
+      "clase_armadura": 12,
+      "puntos_golpe": 11,
+      "dados_golpe": "2d8+2",
+      "velocidad": 30,
+      "atributos": {
+        "fuerza": 11,
+        "destreza": 12,
+        "constitucion": 12,
+        "inteligencia": 10,
+        "sabiduria": 10,
+        "carisma": 10
+      },
+      "habilidades": {},
+      "sentidos": {
+        "percepcion_pasiva": 10
+      },
+      "idiomas": ["Común"],
+      "desafio": 0.125,
+      "experiencia": 25,
+      "rasgos": [],
+      "acciones": [
+        {
+          "nombre": "Cimitarra",
+          "tipo": "arma_cuerpo",
+          "bonificador_ataque": 3,
+          "alcance": 5,
+          "daño": "1d6+1",
+          "tipo_daño": "cortante"
+        },
+        {
+          "nombre": "Ballesta ligera",
+          "tipo": "arma_distancia",
+          "bonificador_ataque": 3,
+          "alcance": "80/320",
+          "daño": "1d8+1",
+          "tipo_daño": "perforante"
+        }
+      ]
+    },
+    {
+      "id": "esqueleto",
+      "nombre": "Esqueleto",
+      "tamaño": "Mediano",
+      "tipo": "No-muerto",
+      "alineamiento": "Legal malvado",
+      "clase_armadura": 13,
+      "puntos_golpe": 13,
+      "dados_golpe": "2d8+4",
+      "velocidad": 30,
+      "atributos": {
+        "fuerza": 10,
+        "destreza": 14,
+        "constitucion": 15,
+        "inteligencia": 6,
+        "sabiduria": 8,
+        "carisma": 5
+      },
+      "habilidades": {},
+      "vulnerabilidades": ["contundente"],
+      "inmunidades_daño": ["veneno"],
+      "inmunidades_condicion": ["agotamiento", "envenenado"],
+      "sentidos": {
+        "vision_oscura": 60,
+        "percepcion_pasiva": 9
+      },
+      "idiomas": ["entiende los idiomas que conocía en vida pero no puede hablar"],
+      "desafio": 0.25,
+      "experiencia": 50,
+      "rasgos": [],
+      "acciones": [
+        {
+          "nombre": "Espada corta",
+          "tipo": "arma_cuerpo",
+          "bonificador_ataque": 4,
+          "alcance": 5,
+          "daño": "1d6+2",
+          "tipo_daño": "perforante"
+        },
+        {
+          "nombre": "Arco corto",
+          "tipo": "arma_distancia",
+          "bonificador_ataque": 4,
+          "alcance": "80/320",
+          "daño": "1d6+2",
+          "tipo_daño": "perforante"
+        }
+      ]
+    },
+    {
+      "id": "orco",
+      "nombre": "Orco",
+      "tamaño": "Mediano",
+      "tipo": "Humanoide",
+      "alineamiento": "Caótico malvado",
+      "clase_armadura": 13,
+      "puntos_golpe": 15,
+      "dados_golpe": "2d8+6",
+      "velocidad": 30,
+      "atributos": {
+        "fuerza": 16,
+        "destreza": 12,
+        "constitucion": 16,
+        "inteligencia": 7,
+        "sabiduria": 11,
+        "carisma": 10
+      },
+      "habilidades": {
+        "intimidacion": 2
+      },
+      "sentidos": {
+        "vision_oscura": 60,
+        "percepcion_pasiva": 10
+      },
+      "idiomas": ["Común", "Orco"],
+      "desafio": 0.5,
+      "experiencia": 100,
+      "rasgos": [
+        {
+          "nombre": "Agresivo",
+          "descripcion": "Como acción adicional, el orco puede moverse hasta su velocidad hacia una criatura hostil que pueda ver."
+        }
+      ],
+      "acciones": [
+        {
+          "nombre": "Hacha de guerra",
+          "tipo": "arma_cuerpo",
+          "bonificador_ataque": 5,
+          "alcance": 5,
+          "daño": "1d12+3",
+          "tipo_daño": "cortante"
+        },
+        {
+          "nombre": "Jabalina",
+          "tipo": "arma_distancia",
+          "bonificador_ataque": 5,
+          "alcance": "30/120",
+          "daño": "1d6+3",
+          "tipo_daño": "perforante"
+        }
+      ]
+    }
+  ]
+}

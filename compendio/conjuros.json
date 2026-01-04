@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "fuente": "SRD 5.1",
+
+  "conjuros": [
+    {
+      "id": "rayo_escarcha",
+      "nombre": "Rayo de escarcha",
+      "nivel": 0,
+      "escuela": "Evocación",
+      "tiempo_lanzamiento": "1 acción",
+      "alcance": "60 pies",
+      "componentes": ["V", "S"],
+      "duracion": "Instantánea",
+      "descripcion": "Un rayo gélido de luz blanquiazul sale disparado hacia una criatura que esté en el alcance del conjuro. Haz un ataque de conjuro a distancia contra el objetivo. Si impactas, la criatura sufre 1d8 de daño por frío y su velocidad se reduce en 10 pies hasta el comienzo de tu siguiente turno.",
+      "daño": "1d8",
+      "tipo_daño": "frío",
+      "tipo_ataque": "ataque_conjuro_distancia",
+      "efecto_adicional": "Reduce velocidad 10 pies",
+      "escalado": "El daño del conjuro aumenta en 1d8 cuando alcanzas el nivel 5 (2d8), nivel 11 (3d8) y nivel 17 (4d8).",
+      "clases": ["Hechicero", "Mago"]
+    },
+    {
+      "id": "proyectil_magico",
+      "nombre": "Proyectil mágico",
+      "nivel": 1,
+      "escuela": "Evocación",
+      "tiempo_lanzamiento": "1 acción",
+      "alcance": "120 pies",
+      "componentes": ["V", "S"],
+      "duracion": "Instantánea",
+      "descripcion": "Creas tres dardos brillantes de fuerza mágica. Cada dardo impacta a una criatura de tu elección que puedas ver y esté en el alcance del conjuro. Cada dardo inflige 1d4+1 de daño por fuerza a su objetivo. Todos los dardos impactan simultáneamente y puedes dirigirlos a un único objetivo o a varios.",
+      "daño": "1d4+1",
+      "tipo_daño": "fuerza",
+      "proyectiles": 3,
+      "tipo_ataque": "automatico",
+      "escalado": "Cuando lanzas este conjuro usando un espacio de conjuros de nivel 2 o superior, el conjuro crea un dardo más por cada nivel de espacio por encima de 1.",
+      "clases": ["Hechicero", "Mago"]
+    },
+    {
+      "id": "curar_heridas",
+      "nombre": "Curar heridas",
+      "nivel": 1,
+      "escuela": "Evocación",
+      "tiempo_lanzamiento": "1 acción",
+      "alcance": "Toque",
+      "componentes": ["V", "S"],
+      "duracion": "Instantánea",
+      "descripcion": "Una criatura que toques recupera un número de puntos de golpe igual a 1d8 + tu modificador de característica de lanzamiento de conjuros. Este conjuro no tiene efecto sobre no-muertos ni autómatas.",
+      "curacion": "1d8 + mod. lanzamiento",
+      "tipo": "curacion",
+      "escalado": "Cuando lanzas este conjuro usando un espacio de conjuros de nivel 2 o superior, la curación aumenta en 1d8 por cada nivel de espacio por encima de 1.",
+      "clases": ["Bardo", "Clérigo", "Druida", "Paladín", "Explorador"]
+    },
+    {
+      "id": "escudo",
+      "nombre": "Escudo",
+      "nivel": 1,
+      "escuela": "Abjuración",
+      "tiempo_lanzamiento": "1 reacción, que realizas cuando te golpean con un ataque o eres objetivo del conjuro proyectil mágico",
+      "alcance": "Personal",
+      "componentes": ["V", "S"],
+      "duracion": "1 asalto",
+      "descripcion": "Una barrera de fuerza mágica invisible aparece y te protege. Hasta el comienzo de tu siguiente turno, tienes un bonificador de +5 a la CA, incluyendo contra el ataque que desencadenó el conjuro, y no sufres daño por proyectil mágico.",
+      "bonificador_ca": 5,
+      "tipo": "defensa",
+      "escalado": null,
+      "clases": ["Hechicero", "Mago"]
+    },
+    {
+      "id": "dormir",
+      "nombre": "Dormir",
+      "nivel": 1,
+      "escuela": "Encantamiento",
+      "tiempo_lanzamiento": "1 acción",
+      "alcance": "90 pies",
+      "componentes": ["V", "S", "M (un puñado de arena fina, pétalos de rosa, o un grillo)"],
+      "duracion": "1 minuto",
+      "descripcion": "Este conjuro hace que las criaturas caigan en un sueño mágico. Tira 5d8; el resultado es la cantidad de puntos de golpe de criaturas que este conjuro puede afectar. Las criaturas en un radio de 20 pies de un punto que elijas en el alcance del conjuro son afectadas en orden ascendente según sus puntos de golpe actuales (ignorando criaturas inconscientes). Empezando por la criatura con menos puntos de golpe actuales, cada criatura afectada por el conjuro cae inconsciente hasta que el conjuro termine, la criatura durmiente sufra daño, o alguien use una acción para despertar a la criatura zarandeándola o abofeteándola.",
+      "puntos_afectados": "5d8",
+      "tipo": "control",
+      "salvacion": null,
+      "efecto": "Inconsciente",
+      "escalado": "Cuando lanzas este conjuro usando un espacio de conjuros de nivel 2 o superior, tira 2d8 adicionales por cada nivel de espacio por encima de 1.",
+      "clases": ["Bardo", "Hechicero", "Mago"]
+    }
+  ]
+}

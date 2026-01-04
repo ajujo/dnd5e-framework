@@ -1,0 +1,122 @@
+{
+  "version": "1.0.0",
+  "fuente": "SRD 5.1",
+
+  "armaduras": [
+    {
+      "id": "acolchada",
+      "nombre": "Armadura acolchada",
+      "categoria": "Armadura ligera",
+      "coste": "5 po",
+      "clase_armadura": "11 + mod. Destreza",
+      "ca_base": 11,
+      "max_mod_destreza": null,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": true,
+      "peso": 4,
+      "is_magical": false
+    },
+    {
+      "id": "cuero",
+      "nombre": "Armadura de cuero",
+      "categoria": "Armadura ligera",
+      "coste": "10 po",
+      "clase_armadura": "11 + mod. Destreza",
+      "ca_base": 11,
+      "max_mod_destreza": null,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": false,
+      "peso": 5,
+      "is_magical": false
+    },
+    {
+      "id": "cuero_tachonado",
+      "nombre": "Armadura de cuero tachonado",
+      "categoria": "Armadura ligera",
+      "coste": "45 po",
+      "clase_armadura": "12 + mod. Destreza",
+      "ca_base": 12,
+      "max_mod_destreza": null,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": false,
+      "peso": 6.5,
+      "is_magical": false
+    },
+    {
+      "id": "pieles",
+      "nombre": "Armadura de pieles",
+      "categoria": "Armadura media",
+      "coste": "10 po",
+      "clase_armadura": "12 + mod. Destreza (máx. 2)",
+      "ca_base": 12,
+      "max_mod_destreza": 2,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": false,
+      "peso": 6,
+      "is_magical": false
+    },
+    {
+      "id": "cota_mallas",
+      "nombre": "Cota de mallas",
+      "categoria": "Armadura media",
+      "coste": "50 po",
+      "clase_armadura": "13 + mod. Destreza (máx. 2)",
+      "ca_base": 13,
+      "max_mod_destreza": 2,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": false,
+      "peso": 10,
+      "is_magical": false
+    },
+    {
+      "id": "cota_escamas",
+      "nombre": "Cota de escamas",
+      "categoria": "Armadura media",
+      "coste": "50 po",
+      "clase_armadura": "14 + mod. Destreza (máx. 2)",
+      "ca_base": 14,
+      "max_mod_destreza": 2,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": true,
+      "peso": 22.5,
+      "is_magical": false
+    },
+    {
+      "id": "anillas",
+      "nombre": "Armadura de anillas",
+      "categoria": "Armadura pesada",
+      "coste": "30 po",
+      "clase_armadura": "14",
+      "ca_base": 14,
+      "max_mod_destreza": 0,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": true,
+      "peso": 20,
+      "is_magical": false
+    },
+    {
+      "id": "mallas",
+      "nombre": "Cota de mallas (pesada)",
+      "categoria": "Armadura pesada",
+      "coste": "75 po",
+      "clase_armadura": "16",
+      "ca_base": 16,
+      "max_mod_destreza": 0,
+      "requisito_fuerza": 13,
+      "desventaja_sigilo": true,
+      "peso": 27.5,
+      "is_magical": false
+    }
+  ],
+
+  "escudos": [
+    {
+      "id": "escudo",
+      "nombre": "Escudo",
+      "coste": "10 po",
+      "bonificador_ca": 2,
+      "peso": 3,
+      "is_magical": false
+    }
+  ]
+}
