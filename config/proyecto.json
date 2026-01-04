@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0-alpha",
+  "nombre_proyecto": "D&D 5e Framework",
+
+  "rutas": {
+    "saves": "./saves",
+    "compendio": "./compendio",
+    "config": "./config"
+  },
+
+  "persistencia": {
+    "autoguardado": true,
+    "formato": "json",
+    "indentacion": 2
+  },
+
+  "debug": {
+    "modo_verbose": false,
+    "log_tiradas": true,
+    "log_llm": false
+  }
+}

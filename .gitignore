@@ -1,0 +1,27 @@
+# Entorno virtual
+.rpg/
+rpg/
+env/
+
+# Cache de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Partidas guardadas (opcional, según preferencia)
+# saves/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
