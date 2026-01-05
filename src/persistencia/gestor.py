@@ -1,6 +1,8 @@
 """
 Gestor de Persistencia
 Maneja todas las operaciones de guardado y carga del juego.
+
+Versión: 1.1 (con refinamientos de esquema)
 """
 
 import json
@@ -13,6 +15,8 @@ from typing import Optional, Dict, Any, List
 
 class GestorPersistencia:
     """Gestiona el almacenamiento y recuperación de datos del juego."""
+
+    VERSION_ESQUEMA = "1.1"
 
     def __init__(self, ruta_base: str = "./saves"):
         """
@@ -73,10 +77,267 @@ class GestorPersistencia:
             print(f"Error cargando {ruta}: {e}")
             return None
 
+    def _crear_personaje_inicial(self, nombre: str, clase: str) -> Dict[str, Any]:
+        """Crea la estructura inicial de un personaje (esquema v1.1)."""
+        personaje_id = str(uuid.uuid4())
+
+        return {
+            "id": personaje_id,
+            "nombre": nombre,
+            "jugador": "",
+
+            "_meta": {
+                "version_esquema": self.VERSION_ESQUEMA,
+                "derivados_calculados_en": None
+            },
+
+            "fuente": {
+                "atributos_base": {
+                    "fuerza": 10,
+                    "destreza": 10,
+                    "constitucion": 10,
+                    "inteligencia": 10,
+                    "sabiduria": 10,
+                    "carisma": 10
+                },
+                "raza": {
+                    "id": None,
+                    "nombre": None,
+                    "velocidad_base": 30,
+                    "tamaño": "Mediano",
+                    "bonificadores_atributo": {
+                        "fuerza": 0, "destreza": 0, "constitucion": 0,
+                        "inteligencia": 0, "sabiduria": 0, "carisma": 0
+                    },
+                    "rasgos": []
+                },
+                "clase": {
+                    "id": clase.lower() if clase else None,
+                    "nombre": clase,
+                    "nivel": 1,
+                    "dado_golpe": "d8",
+                    "caracteristica_lanzamiento": None
+                },
+                "subclase": None,
+                "trasfondo": {
+                    "id": None,
+                    "nombre": None,
+                    "rasgo_personalidad": "",
+                    "ideal": "",
+                    "vinculo": "",
+                    "defecto": ""
+                },
+                "competencias": {
+                    "habilidades": [],
+                    "salvaciones": [],
+                    "armas": [],
+                    "armaduras": [],
+                    "herramientas": [],
+                    "idiomas": ["Común"]
+                },
+                "expertise": [],
+                "equipo_equipado": {
+                    "armadura_id": None,
+                    "escudo_id": None,
+                    "arma_principal_id": None,
+                    "arma_secundaria_id": None
+                },
+                "dotes": [],
+                "multiclase": None,
+                "conjuros_conocidos": [],
+                "conjuros_preparados": []
+            },
+
+            "derivados": {
+                "atributos_finales": {
+                    "fuerza": 10, "destreza": 10, "constitucion": 10,
+                    "inteligencia": 10, "sabiduria": 10, "carisma": 10
+                },
+                "modificadores": {
+                    "fuerza": 0, "destreza": 0, "constitucion": 0,
+                    "inteligencia": 0, "sabiduria": 0, "carisma": 0
+                },
+                "bonificador_competencia": 2,
+                "clase_armadura": 10,
+                "iniciativa": 0,
+                "velocidad": 30,
+                "puntos_golpe_maximo": 8,
+                "habilidades": self._crear_habilidades_vacias(),
+                "salvaciones": self._crear_salvaciones_vacias(),
+                "cd_conjuros": None,
+                "bonificador_ataque_conjuros": None
+            },
+
+            "estado_actual": {
+                "puntos_golpe_actual": 8,
+                "puntos_golpe_temporal": 0,
+                "condiciones": [],
+                "inconsciente": False,
+                "estable": True,
+                "muerto": False,
+                "salvaciones_muerte": {
+                    "exitos": 0,
+                    "fracasos": 0
+                }
+            },
+
+            "recursos": {
+                "dados_golpe": {"disponibles": 1, "maximo": 1},
+                "ranuras_conjuro": {
+                    "nivel_1": {"disponibles": 0, "maximo": 0},
+                    "nivel_2": {"disponibles": 0, "maximo": 0},
+                    "nivel_3": {"disponibles": 0, "maximo": 0},
+                    "nivel_4": {"disponibles": 0, "maximo": 0},
+                    "nivel_5": {"disponibles": 0, "maximo": 0}
+                },
+                "experiencia": 0
+            },
+
+            "dinero": {"pc": 0, "pp": 0, "pe": 0, "po": 0, "ppt": 0}
+        }
+
+    def _crear_habilidades_vacias(self) -> Dict[str, Dict[str, Any]]:
+        """Crea el diccionario de habilidades con valores por defecto."""
+        habilidades = [
+            "acrobacias", "arcanos", "atletismo", "engaño", "historia",
+            "interpretacion", "intimidacion", "investigacion", "juego_manos",
+            "medicina", "naturaleza", "percepcion", "perspicacia", "persuasion",
+            "religion", "sigilo", "supervivencia", "trato_animales"
+        ]
+        return {
+            h: {"modificador_total": 0, "competente": False, "expertise": False}
+            for h in habilidades
+        }
+
+    def _crear_salvaciones_vacias(self) -> Dict[str, Dict[str, Any]]:
+        """Crea el diccionario de salvaciones con valores por defecto."""
+        atributos = ["fuerza", "destreza", "constitucion",
+                     "inteligencia", "sabiduria", "carisma"]
+        return {
+            a: {"modificador_total": 0, "competente": False}
+            for a in atributos
+        }
+
+    def _crear_inventario_inicial(self, personaje_id: str) -> Dict[str, Any]:
+        """Crea la estructura inicial del inventario (esquema v1.1)."""
+        return {
+            "personaje_id": personaje_id,
+            "equipado": {
+                "armadura": None,
+                "escudo": None,
+                "arma_principal": None,
+                "arma_secundaria": None
+            },
+            "objetos": [],
+            "capacidad_carga": {
+                "peso_actual_lb": 0,
+                "peso_actual_kg": 0,
+                "peso_maximo_lb": None,
+                "peso_maximo_kg": None
+            }
+        }
+
+    def _crear_mundo_inicial(self, partida_id: str, setting: str) -> Dict[str, Any]:
+        """Crea la estructura inicial del mundo."""
+        return {
+            "partida_id": partida_id,
+            "setting": {
+                "nombre": setting,
+                "descripcion": "",
+                "tono": "heroico"
+            },
+            "ubicacion": {
+                "region": "",
+                "lugar": "",
+                "interior": False,
+                "descripcion_actual": ""
+            },
+            "tiempo": {
+                "dia": 1,
+                "hora": 8,
+                "periodo": "mañana",
+                "clima": "despejado"
+            },
+            "modo_juego": "exploracion",
+            "aventura_actual": {
+                "nombre": None,
+                "descripcion": None,
+                "objetivo_principal": None,
+                "capitulo_actual": None
+            },
+            "flags": {
+                "eventos_completados": [],
+                "decisiones_importantes": [],
+                "variables_narrativas": {}
+            }
+        }
+
+    def _crear_combate_inicial(self) -> Dict[str, Any]:
+        """Crea la estructura inicial de combate (esquema v1.1)."""
+        return {
+            "activo": False,
+            "combatientes": [],
+            "orden_turnos": [],
+            "turno_actual": None,
+            "ronda": 0,
+            "historial_ronda": [],
+            "ambiente": {
+                "descripcion": "",
+                "terreno_dificil": False,
+                "cobertura_disponible": False,
+                "iluminacion": "brillante"
+            }
+        }
+
+    def _crear_npcs_inicial(self) -> Dict[str, Any]:
+        """Crea la estructura inicial de NPCs (esquema v1.1)."""
+        return {"npcs": []}
+
+    def _crear_historial_inicial(self) -> Dict[str, Any]:
+        """Crea la estructura inicial del historial (esquema v1.1)."""
+        ahora = datetime.now().isoformat()
+        return {
+            "eventos": [],
+            "resumen_ultima_sesion": "",
+            "resumen_campana": "",
+            "estadisticas_campana": {
+                "dias_transcurridos": 1,
+                "combates_totales": 0,
+                "enemigos_derrotados": 0,
+                "npcs_conocidos": 0,
+                "muertes_personaje": 0
+            },
+            "ultima_actualizacion": ahora
+        }
+
+    def _crear_meta_inicial(self, partida_id: str, nombre: str) -> Dict[str, Any]:
+        """Crea la estructura inicial de metadatos."""
+        ahora = datetime.now().isoformat()
+        return {
+            "partida_id": partida_id,
+            "nombre_partida": nombre,
+            "version_framework": "1.0.0-alpha",
+            "version_esquemas": self.VERSION_ESQUEMA,
+            "fecha_creacion": ahora,
+            "fecha_ultima_sesion": ahora,
+            "estadisticas": {
+                "sesiones_jugadas": 0,
+                "tiempo_total_minutos": 0,
+                "combates_completados": 0,
+                "nivel_maximo_alcanzado": 1
+            },
+            "configuracion_partida": {
+                "perfil_llm": "lite",
+                "dificultad": "normal",
+                "modo_muerte": "normal"
+            },
+            "notas_jugador": ""
+        }
+
     def crear_partida(self, nombre: str, nombre_personaje: str,
                       clase: str, setting: str) -> Optional[str]:
         """
-        Crea una nueva partida con estructura vacía.
+        Crea una nueva partida con estructura completa.
 
         Args:
             nombre: Nombre de la partida.
@@ -94,125 +355,33 @@ class GestorPersistencia:
         try:
             ruta_partida.mkdir(parents=True, exist_ok=True)
 
-            ahora = datetime.now().isoformat()
-
-            # Crear meta.json
-            meta = {
-                "partida_id": partida_id,
-                "nombre_partida": nombre,
-                "version_framework": "1.0.0-alpha",
-                "version_esquemas": "1.0",
-                "fecha_creacion": ahora,
-                "fecha_ultima_sesion": ahora,
-                "estadisticas": {
-                    "sesiones_jugadas": 0,
-                    "tiempo_total_minutos": 0,
-                    "combates_completados": 0,
-                    "nivel_maximo_alcanzado": 1
-                },
-                "configuracion_partida": {
-                    "perfil_llm": "lite",
-                    "dificultad": "normal",
-                    "modo_muerte": "normal"
-                },
-                "notas_jugador": ""
-            }
-            self._guardar_json(ruta_partida / "meta.json", meta)
-
-            # Crear personaje.json (esqueleto)
-            personaje = {
-                "id": str(uuid.uuid4()),
-                "nombre": nombre_personaje,
-                "jugador": "",
-                "raza": {},
-                "clase": {"nombre": clase, "nivel": 1},
-                "trasfondo": {},
-                "atributos": {},
-                "estadisticas_derivadas": {},
-                "habilidades": {},
-                "estados": {
-                    "inconsciente": False,
-                    "estable": True,
-                    "muerto": False,
-                    "condiciones": []
-                },
-                "recursos": {},
-                "dinero": {"pc": 0, "pp": 0, "pe": 0, "po": 0, "ppt": 0}
-            }
+            # Crear personaje
+            personaje = self._crear_personaje_inicial(nombre_personaje, clase)
             self._guardar_json(ruta_partida / "personaje.json", personaje)
 
-            # Crear inventario.json
-            inventario = {
-                "personaje_id": personaje["id"],
-                "equipado": {
-                    "armadura": None,
-                    "escudo": None,
-                    "arma_principal": None,
-                    "arma_secundaria": None
-                },
-                "objetos": [],
-                "capacidad_carga": {"peso_actual": 0, "peso_maximo": 150}
-            }
+            # Crear inventario
+            inventario = self._crear_inventario_inicial(personaje["id"])
             self._guardar_json(ruta_partida / "inventario.json", inventario)
 
-            # Crear mundo.json
-            mundo = {
-                "partida_id": partida_id,
-                "setting": {
-                    "nombre": setting,
-                    "descripcion": "",
-                    "tono": "heroico"
-                },
-                "ubicacion": {
-                    "region": "",
-                    "lugar": "",
-                    "interior": False,
-                    "descripcion_actual": ""
-                },
-                "tiempo": {
-                    "dia": 1,
-                    "hora": 8,
-                    "periodo": "mañana",
-                    "clima": "despejado"
-                },
-                "modo_juego": "exploracion",
-                "aventura_actual": {
-                    "nombre": None,
-                    "descripcion": None,
-                    "objetivo_principal": None,
-                    "capitulo_actual": None
-                },
-                "flags": {
-                    "eventos_completados": [],
-                    "decisiones_importantes": [],
-                    "variables_narrativas": {}
-                }
-            }
+            # Crear mundo
+            mundo = self._crear_mundo_inicial(partida_id, setting)
             self._guardar_json(ruta_partida / "mundo.json", mundo)
 
-            # Crear combate.json
-            combate = {
-                "activo": False,
-                "combatientes": [],
-                "orden_turnos": [],
-                "turno_actual": None,
-                "ronda": 0,
-                "historial_ronda": [],
-                "ambiente": {}
-            }
+            # Crear combate
+            combate = self._crear_combate_inicial()
             self._guardar_json(ruta_partida / "combate.json", combate)
 
-            # Crear npcs.json
-            npcs = {"npcs": []}
+            # Crear NPCs
+            npcs = self._crear_npcs_inicial()
             self._guardar_json(ruta_partida / "npcs.json", npcs)
 
-            # Crear historial.json
-            historial = {
-                "eventos": [],
-                "resumen_campana": "",
-                "ultima_actualizacion": ahora
-            }
+            # Crear historial
+            historial = self._crear_historial_inicial()
             self._guardar_json(ruta_partida / "historial.json", historial)
+
+            # Crear meta
+            meta = self._crear_meta_inicial(partida_id, nombre)
+            self._guardar_json(ruta_partida / "meta.json", meta)
 
             # Actualizar índice
             self._agregar_a_indice(
