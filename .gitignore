@@ -25,3 +25,21 @@ Thumbs.db
 
 # Logs
 *.log
+
+echo "*.kate-swp" >> .gitignore
+echo ".*.kate-swp" >> .gitignore
+git add .gitignore
+git commit -m "Añadir archivos temporales de Kate al gitignore"
+git push origin main
+Github_key.txt
+*.key
+*.token
+Github_key.txt
+*.key
+*.token
+Github_key.txt
+*.key
+*.token
+Github_key.txt
+*.key
+*.token
