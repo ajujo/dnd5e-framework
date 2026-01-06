@@ -1,32 +1,21 @@
 """
 Sistema de Tiradas de Dados para D&D 5e
 
-Este módulo proporciona las funciones para simular tiradas de dados.
+Este módulo proporciona las funciones GENÉRICAS para simular tiradas de dados.
+No contiene lógica específica de reglas D&D.
 
 ALCANCE V1:
 - Solo se soporta el formato NdX±M (ej: "2d6+3", "1d20-1")
 - Expresiones compuestas (ej: "2d6+1d4+3") se implementarán en fases posteriores
-- Los dados válidos por defecto son: d4, d6, d8, d10, d12, d20, d100
 
 NOTAS SOBRE CRÍTICOS/PIFIAS:
 - Los flags `critico` y `pifia` se marcan SOLO para tiradas de 1d20
 - El módulo NO interpreta las consecuencias (eso lo hace el motor de reglas)
-- En D&D 5e:
-  - Ataques: 20 natural = crítico (doble dados daño), 1 natural = fallo automático
-  - Salvaciones: NO hay crítico/pifia automático (depende de mesa)
-  - Habilidades: NO hay crítico/pifia automático (depende de mesa)
-- El motor de combate/reglas decidirá qué hacer con estos flags
-
-TODO FUTURO:
-- Separar en módulos: dados.py (tiradas), reglas_basicas.py (modificadores),
-  combate_utils.py (ataque, daño, iniciativa)
-- Soportar expresiones compuestas
-- Soportar rerolls y exploding dice
 """
 
 import random
 import re
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Tuple, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -42,15 +31,9 @@ class GestorAleatorio:
     Permite establecer una semilla para reproducibilidad en debugging/testing.
 
     Uso:
-        # Para debugging: establecer semilla fija
         from motor.dados import rng
-        rng.set_seed(12345)
-
-        # Para obtener la semilla actual (guardar en partida)
-        semilla = rng.get_seed()
-
-        # Para volver a modo aleatorio
-        rng.reset()
+        rng.set_seed(12345)  # Para debugging
+        rng.reset()          # Volver a aleatorio
     """
 
     def __init__(self):
@@ -58,12 +41,7 @@ class GestorAleatorio:
         self._rng = random.Random()
 
     def set_seed(self, seed: int) -> None:
-        """
-        Establece una semilla fija para reproducibilidad.
-
-        Args:
-            seed: Valor entero para la semilla.
-        """
+        """Establece una semilla fija para reproducibilidad."""
         self._seed = seed
         self._rng.seed(seed)
 
@@ -103,7 +81,6 @@ class TipoTirada(Enum):
 
 
 # Dados válidos en D&D 5e estándar
-# Nota: Se mantiene whitelist para V1. En futuro podría permitirse caras >= 2
 DADOS_VALIDOS = [4, 6, 8, 10, 12, 20, 100]
 
 
@@ -119,9 +96,9 @@ class ResultadoTirada:
         expresion: La expresión original (ej: "2d6+3").
         tipo_tirada: Normal, ventaja o desventaja.
         dados_descartados: Dados no usados (en ventaja/desventaja).
-        critico: True si es un 20 natural en d20 (solo marcador, no interpreta reglas).
-        pifia: True si es un 1 natural en d20 (solo marcador, no interpreta reglas).
-        es_d20: True si la tirada fue de 1d20 (útil para el motor).
+        critico: True si es un 20 natural en d20 (solo marcador).
+        pifia: True si es un 1 natural en d20 (solo marcador).
+        es_d20: True si la tirada fue de 1d20.
     """
     dados: List[int]
     total: int
@@ -188,9 +165,6 @@ def tirar_dado(caras: int) -> int:
 
     Raises:
         ValueError: Si el número de caras no es válido.
-
-    Nota V1: Solo se permiten dados en DADOS_VALIDOS.
-    En futuro podría permitirse cualquier caras >= 2.
     """
     if caras not in DADOS_VALIDOS:
         raise ValueError(
@@ -225,7 +199,6 @@ def parsear_expresion(expresion: str) -> Tuple[int, int, int]:
     LIMITACIONES V1:
     - Solo soporta formato NdX±M
     - NO soporta expresiones compuestas como "2d6+1d4+3"
-    - NO soporta rerolls ni exploding dice
 
     Args:
         expresion: Expresión en formato NdX, dX, NdX+M, o NdX-M.
@@ -236,17 +209,15 @@ def parsear_expresion(expresion: str) -> Tuple[int, int, int]:
     Raises:
         ValueError: Si la expresión no es válida.
     """
-    # Limpiar espacios
     expresion = expresion.replace(" ", "").lower()
 
-    # Patrón: NdX+M, NdX-M, NdX, dX
     patron = r'^(\d*)d(\d+)([+-]\d+)?$'
     match = re.match(patron, expresion)
 
     if not match:
         raise ValueError(
             f"Expresión de dados inválida: '{expresion}'. "
-            f"Formato esperado: NdX, dX, NdX+M, NdX-M (ej: '2d6+3', '1d20-1')"
+            f"Formato esperado: NdX, dX, NdX+M, NdX-M"
         )
 
     cantidad_str, caras_str, mod_str = match.groups()
@@ -273,10 +244,6 @@ def tirar(expresion: str,
 
     Returns:
         ResultadoTirada con todos los detalles.
-
-    Nota sobre ventaja/desventaja:
-        Solo aplica a tiradas de exactamente 1d20.
-        Para otros dados se ignora el tipo y se hace tirada normal.
     """
     cantidad, caras, modificador = parsear_expresion(expresion)
 
@@ -291,7 +258,6 @@ def tirar(expresion: str,
     total = sum(dados) + modificador
 
     # Detectar crítico/pifia SOLO en 1d20
-    # NOTA: Estos flags son solo marcadores. El motor decide las consecuencias.
     critico = False
     pifia = False
     if es_d20:
@@ -320,7 +286,7 @@ def _tirar_con_ventaja_desventaja(modificador: int,
     if tipo == TipoTirada.VENTAJA:
         elegido = max(dado1, dado2)
         descartado = min(dado1, dado2)
-    else:  # DESVENTAJA
+    else:
         elegido = min(dado1, dado2)
         descartado = max(dado1, dado2)
 
@@ -351,210 +317,3 @@ def tirar_ventaja(expresion: str) -> ResultadoTirada:
 def tirar_desventaja(expresion: str) -> ResultadoTirada:
     """Atajo para tirar con desventaja."""
     return tirar(expresion, TipoTirada.DESVENTAJA)
-
-
-# =============================================================================
-# FUNCIONES ESPECÍFICAS DE D&D
-# TODO: Considerar mover a motor/combate_utils.py en refactor futuro
-# =============================================================================
-
-def tirar_atributos(metodo: str = "4d6_drop_lowest") -> Dict[str, Any]:
-    """
-    Genera los 6 atributos de un personaje.
-
-    Args:
-        metodo: Método de generación.
-            - "4d6_drop_lowest": Tira 4d6, descarta el menor (estándar PHB).
-            - "3d6": Tira 3d6 (clásico).
-            - "standard_array": Usa array estándar [15,14,13,12,10,8].
-
-    Returns:
-        Diccionario con valores y método usado.
-    """
-    if metodo == "standard_array":
-        valores = [15, 14, 13, 12, 10, 8]
-    elif metodo == "3d6":
-        valores = [sum(tirar_dados(3, 6)) for _ in range(6)]
-    elif metodo == "4d6_drop_lowest":
-        valores = []
-        for _ in range(6):
-            dados = tirar_dados(4, 6)
-            dados.sort()
-            valores.append(sum(dados[1:]))  # Descartar el menor
-    else:
-        raise ValueError(f"Método desconocido: {metodo}")
-
-    return {
-        "valores": sorted(valores, reverse=True),
-        "metodo": metodo
-    }
-
-
-def tirar_iniciativa(modificador_destreza: int,
-                     otros_bonus: int = 0,
-                     tipo: TipoTirada = TipoTirada.NORMAL) -> ResultadoTirada:
-    """
-    Tira iniciativa para un combatiente.
-
-    Args:
-        modificador_destreza: Modificador de Destreza del combatiente.
-        otros_bonus: Otros bonificadores (rasgos, objetos, etc.).
-        tipo: Normal, ventaja o desventaja.
-
-    Returns:
-        ResultadoTirada con el valor de iniciativa.
-    """
-    mod_total = modificador_destreza + otros_bonus
-    if mod_total >= 0:
-        expresion = f"1d20+{mod_total}"
-    else:
-        expresion = f"1d20{mod_total}"
-    return tirar(expresion, tipo)
-
-
-def tirar_ataque(bonificador_ataque: int,
-                 tipo: TipoTirada = TipoTirada.NORMAL) -> ResultadoTirada:
-    """
-    Tira un ataque.
-
-    NOTA: El resultado incluye flags critico/pifia.
-    El motor de combate debe interpretar:
-    - critico=True → doble dados de daño
-    - pifia=True → fallo automático (ignorar total)
-
-    Args:
-        bonificador_ataque: Bonificador total al ataque.
-        tipo: Normal, ventaja o desventaja.
-
-    Returns:
-        ResultadoTirada con flags de crítico/pifia.
-    """
-    if bonificador_ataque >= 0:
-        expresion = f"1d20+{bonificador_ataque}"
-    else:
-        expresion = f"1d20{bonificador_ataque}"
-    return tirar(expresion, tipo)
-
-
-def tirar_daño(expresion_daño: str, critico: bool = False) -> ResultadoTirada:
-    """
-    Tira daño, duplicando dados en caso de crítico.
-
-    Regla D&D 5e: En crítico se duplican los DADOS, no el modificador.
-
-    Args:
-        expresion_daño: Expresión de daño (ej: "2d6+3").
-        critico: Si True, duplica los dados.
-
-    Returns:
-        ResultadoTirada con el daño total.
-    """
-    cantidad, caras, modificador = parsear_expresion(expresion_daño)
-
-    if critico:
-        cantidad *= 2
-
-    nueva_expresion = f"{cantidad}d{caras}"
-    if modificador > 0:
-        nueva_expresion += f"+{modificador}"
-    elif modificador < 0:
-        nueva_expresion += str(modificador)
-
-    return tirar(nueva_expresion)
-
-
-def tirar_salvacion(modificador_salvacion: int,
-                    tipo: TipoTirada = TipoTirada.NORMAL) -> ResultadoTirada:
-    """
-    Tira una tirada de salvación.
-
-    NOTA: Los flags critico/pifia se marcan pero en RAW D&D 5e
-    las salvaciones NO tienen crítico/pifia automático.
-    El motor de reglas decide si aplicar reglas de casa.
-
-    Args:
-        modificador_salvacion: Modificador total a la salvación.
-        tipo: Normal, ventaja o desventaja.
-
-    Returns:
-        ResultadoTirada para comparar contra CD.
-    """
-    if modificador_salvacion >= 0:
-        expresion = f"1d20+{modificador_salvacion}"
-    else:
-        expresion = f"1d20{modificador_salvacion}"
-    return tirar(expresion, tipo)
-
-
-def tirar_habilidad(modificador_habilidad: int,
-                    tipo: TipoTirada = TipoTirada.NORMAL) -> ResultadoTirada:
-    """
-    Tira una prueba de habilidad.
-
-    NOTA: Los flags critico/pifia se marcan pero en RAW D&D 5e
-    las pruebas de habilidad NO tienen crítico/pifia automático.
-    El motor de reglas decide si aplicar reglas de casa.
-
-    Args:
-        modificador_habilidad: Modificador total a la habilidad.
-        tipo: Normal, ventaja o desventaja.
-
-    Returns:
-        ResultadoTirada para comparar contra CD.
-    """
-    if modificador_habilidad >= 0:
-        expresion = f"1d20+{modificador_habilidad}"
-    else:
-        expresion = f"1d20{modificador_habilidad}"
-    return tirar(expresion, tipo)
-
-
-# =============================================================================
-# FUNCIONES DE CÁLCULO DE REGLAS
-# TODO: Considerar mover a motor/reglas_basicas.py en refactor futuro
-# =============================================================================
-
-def calcular_modificador(puntuacion: int) -> int:
-    """
-    Calcula el modificador a partir de una puntuación de atributo.
-
-    Fórmula D&D 5e: (puntuación - 10) // 2
-
-    Args:
-        puntuacion: Puntuación del atributo (1-30).
-
-    Returns:
-        Modificador correspondiente (-5 a +10).
-    """
-    return (puntuacion - 10) // 2
-
-
-def obtener_bonificador_competencia(nivel: int) -> int:
-    """
-    Obtiene el bonificador de competencia según el nivel.
-
-    Tabla D&D 5e:
-    - Niveles 1-4: +2
-    - Niveles 5-8: +3
-    - Niveles 9-12: +4
-    - Niveles 13-16: +5
-    - Niveles 17-20: +6
-
-    Args:
-        nivel: Nivel del personaje (1-20).
-
-    Returns:
-        Bonificador de competencia (2-6).
-    """
-    if nivel < 1:
-        return 2
-    elif nivel <= 4:
-        return 2
-    elif nivel <= 8:
-        return 3
-    elif nivel <= 12:
-        return 4
-    elif nivel <= 16:
-        return 5
-    else:
-        return 6
