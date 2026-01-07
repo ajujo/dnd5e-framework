@@ -117,3 +117,33 @@ __all__ += [
     'EstadoCombate',
     'EstadoTurno',
 ]
+
+# Narrador LLM
+from .narrador import (
+    NarradorLLM,
+    ContextoNarracion,
+    RespuestaNarrador,
+    crear_contexto_narracion,
+)
+
+__all__ += [
+    'NarradorLLM',
+    'ContextoNarracion',
+    'RespuestaNarrador',
+    'crear_contexto_narracion',
+]
+
+# Narrador LLM
+from .narrador import (
+    NarradorLLM,
+    ContextoNarracion,
+    RespuestaNarrador,
+    crear_contexto_narracion,
+)
+
+__all__ += [
+    'NarradorLLM',
+    'ContextoNarracion',
+    'RespuestaNarrador',
+    'crear_contexto_narracion',
+]

@@ -18,6 +18,8 @@ NO HACE:
 PATRÓN: Inyección de dependencias
 """
 
+import json
+import hashlib
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
@@ -179,6 +181,14 @@ class GestorCombate:
         
         # Historial
         self._historial_eventos: List[Dict[str, Any]] = []
+        
+        # Guard contra doble aplicación de cambios
+        # Set de (ronda, actor_id, hash_cambios) ya aplicados
+        self._cambios_aplicados: set = set()
+        
+        # Guard contra doble aplicación de cambios
+        # Set de (ronda, actor_id, hash_cambios) ya aplicados
+        self._cambios_aplicados: set = set()
     
     # =========================================================================
     # INICIALIZACIÓN
@@ -396,10 +406,23 @@ class GestorCombate:
         
         Este es el único lugar donde el estado del combate se modifica
         como resultado de acciones.
+        
+        GUARD: Evita doble aplicación por reintentos del pipeline/LLM.
         """
         combatiente = self.obtener_turno_actual()
         if not combatiente:
             return
+        
+        # Guard contra doble aplicación (JSON canónico para estabilidad)
+        payload = json.dumps(cambios, sort_keys=True, separators=(",", ":"))
+        cambios_hash = hashlib.sha256(payload.encode()).hexdigest()[:12]
+        clave_cambio = (self._turno.ronda, combatiente.id, getattr(self._turno, "indice_turno", 0), cambios_hash)
+        
+        if clave_cambio in self._cambios_aplicados:
+            # Ya se aplicó este cambio exacto en este turno
+            return
+        
+        self._cambios_aplicados.add(clave_cambio)
         
         # Acción usada
         if cambios.get("accion_usada"):

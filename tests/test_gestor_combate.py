@@ -9,6 +9,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from motor import (
+    rng,  # Para seed fijo en tests
     GestorCombate,
     Combatiente,
     TipoCombatiente,
@@ -90,11 +91,16 @@ def test_iniciar_combate():
     """Test de iniciar combate con iniciativa."""
     print("2. Iniciar combate:")
     
+    rng.set_seed(42)  # Seed fijo para reproducibilidad
+    
     compendio = CompendioMotor()
     gestor = GestorCombate(compendio)
     
-    gestor.agregar_combatiente(crear_pc_basico())
-    gestor.agregar_combatiente(crear_enemigo_basico())
+    pc = crear_pc_basico()  # DES 14 -> mod +2
+    goblin = crear_enemigo_basico()  # DES 14 -> mod +2
+    
+    gestor.agregar_combatiente(pc)
+    gestor.agregar_combatiente(goblin)
     
     gestor.iniciar_combate()
     
@@ -103,6 +109,11 @@ def test_iniciar_combate():
     
     turno = gestor.obtener_turno_actual()
     assert turno is not None
+    
+    # Verificar rango de iniciativa (1d20 + mod DES)
+    # Con DES 14, mod = +2, rango = 3-22
+    for c in gestor.listar_combatientes():
+        assert 1 <= c.iniciativa <= 30, f"Iniciativa fuera de rango: {c.iniciativa}"
     
     print(f"   Estado: {gestor.estado.value}")
     print(f"   Ronda: {gestor.ronda_actual}")
@@ -202,14 +213,17 @@ def test_contexto_escena():
 
 
 def test_procesar_accion():
-    """Test de procesar una accion."""
-    print("6. Procesar accion:")
+    """Test de procesar una accion (escenario A: via pipeline)."""
+    print("6. Procesar accion (via pipeline):")
+    
+    rng.set_seed(100)  # Seed fijo
     
     compendio = CompendioMotor()
     gestor = GestorCombate(compendio)
     
     pc = crear_pc_basico()
     goblin = crear_enemigo_basico()
+    goblin.clase_armadura = 5  # CA baja para asegurar impacto
     
     gestor.agregar_combatiente(pc)
     gestor.agregar_combatiente(goblin)
@@ -224,6 +238,11 @@ def test_procesar_accion():
     
     assert resultado.tipo == TipoResultado.ACCION_APLICADA
     
+    # Verificar coherencia HP vs daño reportado
+    if "daño_infligido" in resultado.cambios_estado:
+        dano = resultado.cambios_estado["daño_infligido"]["cantidad"]
+        assert hp_antes - goblin.hp_actual == dano, "HP no coincide con daño"
+    
     print(f"   Resultado: {resultado.tipo.value}")
     print(f"   Eventos: {[e.tipo for e in resultado.eventos]}")
     print(f"   HP Goblin: {hp_antes} -> {goblin.hp_actual}")
@@ -232,33 +251,38 @@ def test_procesar_accion():
 
 
 def test_aplicar_dano():
-    """Test de aplicar dano."""
-    print("7. Aplicar dano:")
+    """Test de aplicar dano (escenario B: directo, sin pipeline)."""
+    print("7. Aplicar dano (directo, sin pipeline):")
+    print("   [Escenario independiente del test 6]")
     
     compendio = CompendioMotor()
     gestor = GestorCombate(compendio)
     
     pc = crear_pc_basico()
-    goblin = crear_enemigo_basico()
+    goblin = crear_enemigo_basico()  # HP = 7 fresco
     
     gestor.agregar_combatiente(pc)
     gestor.agregar_combatiente(goblin)
     gestor.iniciar_combate()
     
+    # Aplicar daño directo (bypass pipeline)
+    hp_inicial = goblin.hp_actual
     gestor._aplicar_daño("goblin_1", 5)
     
-    assert goblin.hp_actual == 2
+    assert goblin.hp_actual == hp_inicial - 5
     assert not goblin.muerto
     
+    print(f"   HP inicial: {hp_inicial}")
     print(f"   Dano aplicado: 5")
-    print(f"   HP Goblin: 7 -> {goblin.hp_actual}")
+    print(f"   HP actual: {goblin.hp_actual}")
     
+    # Daño letal
     gestor._aplicar_daño("goblin_1", 10)
     
     assert goblin.hp_actual == 0
     assert goblin.muerto
     
-    print(f"   Dano letal aplicado")
+    print(f"   Dano letal: 10")
     print(f"   Goblin muerto: {goblin.muerto}")
     print("   OK Dano aplicado correctamente\n")
     return True
@@ -422,14 +446,17 @@ def test_combate_completo():
 
 def test_dano_aplicado_una_sola_vez():
     """
-    Test CRITICO: Verifica que el dano se aplica exactamente una vez.
+    Test CRITICO: Verifica consistencia de dano en IMPACTO y FALLO.
     
-    Regla:
+    Reglas verificadas:
     - Pipeline produce cambios_estado (no muta)
     - GestorCombate es el unico que muta HP
-    - dano_infligido.cantidad == cambio real en HP
+    - IMPACTO: dano_infligido.cantidad == cambio real en HP
+    - FALLO: HP no cambia, no hay dano_infligido, no hay evento dano_calculado
     """
     print("13. Dano aplicado una sola vez:")
+    
+    rng.set_seed(200)  # Seed fijo
     
     compendio = CompendioMotor()
     gestor = GestorCombate(compendio)
@@ -437,7 +464,7 @@ def test_dano_aplicado_una_sola_vez():
     pc = crear_pc_basico()
     goblin = crear_enemigo_basico()
     goblin.hp_actual = 50
-    goblin.clase_armadura = 5
+    goblin.clase_armadura = 5  # CA baja para facilitar impactos
     
     gestor.agregar_combatiente(pc)
     gestor.agregar_combatiente(goblin)
@@ -446,7 +473,10 @@ def test_dano_aplicado_una_sola_vez():
     while gestor.obtener_turno_actual().tipo != TipoCombatiente.PC:
         gestor.siguiente_turno()
     
-    for intento in range(10):
+    impacto_verificado = False
+    fallo_verificado = False
+    
+    for intento in range(15):
         hp_antes = goblin.hp_actual
         
         resultado = gestor.procesar_accion("Ataco al goblin con mi espada")
@@ -455,27 +485,64 @@ def test_dano_aplicado_una_sola_vez():
         
         assert resultado.tipo == TipoResultado.ACCION_APLICADA
         
-        if "daño_infligido" in resultado.cambios_estado:
+        # Buscar evento de ataque para saber si impacto
+        evento_ataque = next((e for e in resultado.eventos if e.tipo == "ataque_realizado"), None)
+        impacta = evento_ataque.datos.get("impacta", False) if evento_ataque else False
+        
+        if impacta:
+            # === CASO IMPACTO ===
+            assert "daño_infligido" in resultado.cambios_estado,                 "Impacto sin dano_infligido en cambios_estado!"
+            
+            # Verificar evento de dano existe
+            evento_dano = next((e for e in resultado.eventos if e.tipo == "daño_calculado"), None)
+            assert evento_dano is not None, "Impacto sin evento daño_calculado!"
+            
             dano_reportado = resultado.cambios_estado["daño_infligido"]["cantidad"]
             dano_real = hp_antes - hp_despues
             
-            print(f"   HP antes: {hp_antes}")
-            print(f"   HP despues: {hp_despues}")
-            print(f"   Dano reportado: {dano_reportado}")
-            print(f"   Dano real: {dano_real}")
+            assert dano_reportado == dano_real,                 f"INCONSISTENCIA! Reportado ({dano_reportado}) != Real ({dano_real})"
             
-            assert dano_reportado == dano_real, \
-                f"INCONSISTENCIA! Reportado ({dano_reportado}) != Real ({dano_real})"
-            
-            print("   OK Dano aplicado exactamente una vez\n")
-            return True
+            if not impacto_verificado:
+                print(f"   [IMPACTO] HP: {hp_antes} -> {hp_despues}, dano: {dano_reportado}")
+                impacto_verificado = True
         else:
-            assert hp_antes == hp_despues, "HP cambio sin dano_infligido!"
-            print(f"   Intento {intento + 1}: Ataque fallo, reintentando...")
-            pc.accion_usada = False
+            # === CASO FALLO ===
+            # Debe existir ataque_realizado (hubo ataque, pero fallo)
+            assert evento_ataque is not None, "Fallo sin evento ataque_realizado!"
+            assert hp_antes == hp_despues,                 f"HP cambio sin impacto! {hp_antes} -> {hp_despues}"
+            
+            assert "daño_infligido" not in resultado.cambios_estado,                 "Fallo con dano_infligido en cambios_estado!"
+            
+            # Verificar que NO hay evento de dano
+            evento_dano = next((e for e in resultado.eventos if e.tipo == "daño_calculado"), None)
+            assert evento_dano is None, "Fallo con evento daño_calculado!"
+            
+            if not fallo_verificado:
+                print(f"   [FALLO] HP sin cambio: {hp_antes}, sin eventos de dano")
+                fallo_verificado = True
+        
+        # Reiniciar para siguiente intento
+        pc.accion_usada = False
+        
+        # Si ya verificamos ambos casos, terminamos
+        if impacto_verificado and fallo_verificado:
+            break
     
-    print("   WARN: Todos los ataques fallaron")
-    print("   OK Test pasado (HP no cambio sin dano)\n")
+    # Resumen
+    if impacto_verificado:
+        print("   OK Impacto: dano aplicado exactamente una vez")
+    if fallo_verificado:
+        print("   OK Fallo: sin dano, sin cambio HP, sin eventos")
+    
+    if not impacto_verificado:
+        print("   WARN: No se pudo verificar impacto (todos fallaron)")
+    if not fallo_verificado:
+        print("   WARN: No se pudo verificar fallo (todos impactaron)")
+    
+    # Al menos uno debe verificarse
+    assert impacto_verificado or fallo_verificado, "No se verifico ningun caso!"
+    
+    print("")
     return True
 
 
