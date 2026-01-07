@@ -32,6 +32,8 @@ from .reglas_basicas import (
 from .combate_utils import (
     tirar_ataque, tirar_daño, tirar_salvacion, tirar_habilidad,
     tirar_iniciativa, tirar_atributos, resolver_ataque,
+    resolver_ataque_completo,
+    ResultadoAtaqueCompleto,
 )
 
 from .compendio import (
@@ -80,4 +82,21 @@ __all__ = [
     'TipoIntencion', 'detectar_intencion_por_verbo', 'detectar_habilidad_por_verbo',
     'detectar_accion_generica', 'es_ataque_desarmado', 'buscar_sinonimo_arma',
     'VERBOS_INTENCION', 'VERBOS_HABILIDAD', 'SINONIMOS_ACCION_GENERICA', 'SINONIMOS_ARMA',
+]
+
+# Pipeline de turno
+from .pipeline_turno import (
+    PipelineTurno,
+    TipoResultado,
+    ResultadoPipeline,
+    Evento,
+    OpcionClarificacion,
+)
+
+__all__ += [
+    'PipelineTurno',
+    'TipoResultado',
+    'ResultadoPipeline',
+    'Evento',
+    'OpcionClarificacion',
 ]
