@@ -22,6 +22,7 @@ from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass, field
 from enum import Enum
 
+from .utils import normalizar_nombre
 from .normalizador import NormalizadorAcciones, TipoAccionNorm, AccionNormalizada, ContextoEscena
 from .validador import ValidadorAcciones, TipoAccion, ResultadoValidacion
 from .compendio import CompendioMotor
@@ -124,6 +125,41 @@ class ResultadoPipeline:
             resultado["accion"] = self.accion_normalizada.to_dict()
         
         return resultado
+
+
+
+def _elegir_accion_monstruo_inteligente(acciones: List[Dict]) -> Dict:
+    """
+    Elige la mejor acción de monstruo por defecto.
+    
+    Heurística:
+    - Preferir ataques cuerpo a cuerpo (más comunes)
+    - Pero si solo hay distancia, usar esa
+    """
+    if not acciones:
+        return None
+    
+    if len(acciones) == 1:
+        return acciones[0]
+    
+    # Separar por tipo de alcance
+    melee = []
+    ranged = []
+    
+    for acc in acciones:
+        alcance = str(acc.get("alcance", "5"))
+        if "/" in alcance:  # Formato "80/320" = distancia
+            ranged.append(acc)
+        else:
+            melee.append(acc)
+    
+    # Preferir melee por defecto (más común en combate)
+    if melee:
+        return melee[0]
+    elif ranged:
+        return ranged[0]
+    
+    return acciones[0]
 
 
 class PipelineTurno:
@@ -380,21 +416,81 @@ class PipelineTurno:
         
         El pipeline solo:
         1. Extrae datos de la acción normalizada
-        2. Llama a resolver_ataque_completo
-        3. Transforma el resultado en eventos
+        2. Detecta si usar acción de monstruo o arma
+        3. Llama al resolver apropiado
+        4. Transforma el resultado en eventos
         """
-        from .combate_utils import resolver_ataque_completo
+        from .combate_utils import resolver_ataque_completo, resolver_ataque_monstruo
         
-        arma_id = accion.datos.get("arma_id", "unarmed")
         objetivo_id = accion.datos.get("objetivo_id")
         modo = accion.datos.get("modo", "normal")
         
-        # TODO: Obtener bonificadores reales del personaje
-        bonificador_ataque = 5  # Placeholder (Fuerza/Destreza + competencia)
-        modificador_daño = 3   # Placeholder (Fuerza/Destreza)
-        ca_objetivo = 12       # Placeholder (obtener del objetivo real)
+        # Obtener CA del objetivo real
+        ca_objetivo = 10  # Default
+        if objetivo_id:
+            # Buscar en enemigos
+            for enemigo in contexto.enemigos_vivos:
+                if enemigo.get("instancia_id") == objetivo_id:
+                    # Intentar obtener CA si está disponible
+                    ca_objetivo = enemigo.get("clase_armadura", 10)
+                    break
+            # Buscar en aliados también
+            for aliado in contexto.aliados:
+                if aliado.get("instancia_id") == objetivo_id:
+                    ca_objetivo = aliado.get("clase_armadura", 10)
+                    break
         
-        # Delegar toda la lógica de reglas
+        # Determinar si usar acción de monstruo o arma
+        ataque_nombre = accion.datos.get("ataque_nombre")
+        usar_accion_monstruo = False
+        accion_monstruo = None
+        
+        if contexto.acciones_monstruo:
+            # Buscar acción por nombre si se especificó
+            if ataque_nombre:
+                for acc in contexto.acciones_monstruo:
+                    if acc["nombre"].lower() == ataque_nombre.lower():
+                        accion_monstruo = acc
+                        usar_accion_monstruo = True
+                        break
+            
+            # Si no se encontró por nombre, intentar mapear arma_id a acción
+            if not accion_monstruo and contexto.acciones_monstruo:
+                arma_id = accion.datos.get("arma_id")
+                if arma_id and arma_id != "unarmed":
+                    # Mapear arma_id a nombre de acción (ej: "arco_corto" -> "Arco corto")
+                    for acc in contexto.acciones_monstruo:
+                        nombre_normalizado = normalizar_nombre(acc["nombre"])
+                        if nombre_normalizado == arma_id:
+                            accion_monstruo = acc
+                            usar_accion_monstruo = True
+                            break
+                
+                # Si aún no hay, elegir inteligentemente según contexto
+                if not accion_monstruo:
+                    accion_monstruo = _elegir_accion_monstruo_inteligente(
+                        contexto.acciones_monstruo
+                    )
+                    usar_accion_monstruo = True
+        
+        if usar_accion_monstruo and accion_monstruo:
+            # Usar resolver de monstruo
+            resultado = resolver_ataque_monstruo(
+                accion=accion_monstruo,
+                ca_objetivo=ca_objetivo,
+                modo=modo
+            )
+            
+            # Adaptar resultado para eventos (mismo formato)
+            return self._crear_eventos_ataque_monstruo(resultado, contexto, objetivo_id)
+        
+        # Fallback: usar arma normal
+        arma_id = accion.datos.get("arma_id", "unarmed")
+        
+        # TODO: Obtener bonificadores reales del personaje
+        bonificador_ataque = 5  # Placeholder
+        modificador_daño = 3   # Placeholder
+        
         resultado = resolver_ataque_completo(
             compendio=self._compendio,
             arma_id=arma_id,
@@ -463,6 +559,67 @@ class PipelineTurno:
         
         return eventos, cambios
     
+
+    def _crear_eventos_ataque_monstruo(self, resultado, contexto, objetivo_id) -> tuple:
+        """Crea eventos desde ResultadoAtaqueMonstruo."""
+        eventos = []
+        cambios = {}
+        
+        # Evento de ataque
+        evento_ataque = Evento(
+            tipo="ataque_realizado",
+            actor_id=contexto.actor_id,
+            datos={
+                "objetivo_id": objetivo_id,
+                "arma_id": None,
+                "arma_nombre": resultado.accion_nombre,
+                "tirada": {
+                    "dados": resultado.tirada_ataque.dados,
+                    "modificador": resultado.bonificador_ataque,
+                    "total": resultado.total_ataque,
+                    "tipo": resultado.modo
+                },
+                "es_critico": resultado.es_critico,
+                "es_pifia": resultado.es_pifia,
+                "impacta": resultado.impacta
+            }
+        )
+        eventos.append(evento_ataque)
+        
+        # Evento de daño (solo si impacta)
+        if resultado.impacta:
+            evento_daño = Evento(
+                tipo="daño_calculado",
+                actor_id=contexto.actor_id,
+                datos={
+                    "objetivo_id": objetivo_id,
+                    "tirada": {
+                        "expresion": resultado.expresion_daño,
+                        "dados": resultado.tirada_daño.dados if resultado.tirada_daño else [],
+                        "modificador": 0,
+                        "es_critico": resultado.es_critico
+                    },
+                    "daño_total": resultado.daño_total,
+                    "tipo_daño": resultado.tipo_daño,
+                    "fuente": {
+                        "tipo": "accion_monstruo",
+                        "id": resultado.accion_nombre,
+                        "nombre": resultado.accion_nombre
+                    }
+                }
+            )
+            eventos.append(evento_daño)
+            
+            cambios["daño_infligido"] = {
+                "objetivo_id": objetivo_id,
+                "cantidad": resultado.daño_total,
+                "tipo": resultado.tipo_daño
+            }
+        
+        cambios["accion_usada"] = True
+        
+        return eventos, cambios
+
     def _ejecutar_conjuro(self, accion: AccionNormalizada, contexto: ContextoEscena) -> tuple:
         """Ejecuta un conjuro y genera eventos."""
         eventos = []

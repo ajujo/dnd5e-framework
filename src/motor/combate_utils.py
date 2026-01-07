@@ -217,6 +217,92 @@ def resolver_ataque(tirada_ataque: ResultadoTirada,
 # RESOLUCIÓN DE ATAQUE COMPLETO (para pipeline)
 # =============================================================================
 
+
+def _extraer_dados_expresion(expresion: str) -> str:
+    """
+    Extrae solo la parte de dados de una expresión de daño.
+    
+    Ejemplos:
+        "1d6+2" -> "1d6"
+        "2d6 + 3" -> "2d6"
+        "1d6-1" -> "1d6"
+        "1d8+1d6+3" -> "1d8+1d6"  # Múltiples dados
+    """
+    import re
+    # Buscar todos los patrones de dados (NdM)
+    dados = re.findall(r'\d+d\d+', expresion)
+    if dados:
+        return "+".join(dados)
+    return "1d4"  # Fallback
+
+
+
+
+def _tirar_expresion_daño(expresion: str):
+    """
+    Tira una expresión de daño completa, incluyendo múltiples dados y modificadores.
+    
+    Ejemplos:
+        "1d6+2" -> tira 1d6, suma 2
+        "1d8+1d6+3" -> tira 1d8, tira 1d6, suma 3
+        "2d6-1" -> tira 2d6, resta 1
+    
+    Returns:
+        tuple: (total, lista_dados)
+    """
+    import re
+    from .dados import tirar as tirar_dado
+    
+    # Buscar dados (NdM)
+    dados = re.findall(r'\d+d\d+', expresion)
+    
+    # Buscar modificador numérico al final (ej: +3, -1)
+    mod_match = re.search(r'[+-]\s*(\d+)\s*$', expresion)
+    modificador = 0
+    if mod_match:
+        mod_str = mod_match.group(0).replace(' ', '')
+        modificador = int(mod_str)
+    
+    # Tirar cada grupo de dados
+    total = 0
+    todos_dados = []
+    for dado in dados:
+        resultado = tirar_dado(dado)
+        total += resultado.total
+        todos_dados.extend(resultado.dados)
+    
+    total += modificador
+    
+    return total, todos_dados
+
+
+def _tirar_dados_expresion(expresion: str) -> int:
+    """
+    Tira solo los dados de una expresión (ignorando modificadores).
+    
+    Maneja expresiones con múltiples grupos de dados.
+    
+    Ejemplos:
+        "1d6+2" -> tira 1d6
+        "1d8+1d6+3" -> tira 1d8 + 1d6
+    """
+    import re
+    from .dados import tirar as tirar_dado
+    
+    # Buscar todos los patrones de dados (NdM)
+    dados = re.findall(r'\d+d\d+', expresion)
+    
+    if not dados:
+        return tirar_dado("1d4").total  # Fallback
+    
+    # Tirar cada grupo de dados y sumar
+    total = 0
+    for dado in dados:
+        total += tirar_dado(dado).total
+    
+    return total
+
+
 @dataclass
 class ResultadoAtaqueCompleto:
     """
@@ -344,3 +430,107 @@ def resolver_ataque_completo(
         resultado.daño_total = max(0, daño_total)  # Mínimo 0
     
     return resultado
+
+
+@dataclass
+class ResultadoAtaqueMonstruo:
+    """Resultado de un ataque usando acción de monstruo."""
+    tirada_ataque: ResultadoTirada
+    bonificador_ataque: int
+    total_ataque: int
+    es_critico: bool
+    es_pifia: bool
+    impacta: bool
+    tirada_daño: Optional[ResultadoTirada]
+    daño_total: int
+    tipo_daño: str
+    accion_nombre: str
+    expresion_daño: str
+    modo: str  # normal/ventaja/desventaja
+
+
+def resolver_ataque_monstruo(
+    accion: Dict[str, Any],
+    ca_objetivo: int,
+    modo: str = "normal"
+) -> ResultadoAtaqueMonstruo:
+    """
+    Resuelve un ataque usando una acción de monstruo.
+    
+    La acción ya incluye bonificador_ataque y daño, no necesita compendio de armas.
+    
+    Args:
+        accion: Dict con {nombre, bonificador_ataque, daño, tipo_daño}
+        ca_objetivo: CA del objetivo
+        modo: "normal", "ventaja", "desventaja"
+    
+    Returns:
+        ResultadoAtaqueMonstruo con toda la información
+    """
+    from .dados import tirar
+    
+    bonificador = accion.get("bonificador_ataque", 0)
+    expresion_daño = accion.get("daño", "1d4")
+    tipo_daño = accion.get("tipo_daño", "contundente")
+    nombre = accion.get("nombre", "Ataque")
+    
+    # Tirada de ataque
+    if modo == "ventaja":
+        tirada = tirar("2d20kh1")
+    elif modo == "desventaja":
+        tirada = tirar("2d20kl1")
+    else:
+        tirada = tirar("1d20")
+    
+    total_ataque = tirada.total + bonificador
+    
+    # Determinar crítico/pifia
+    valor_dado = tirada.dados[0] if tirada.dados else tirada.total
+    es_critico = valor_dado == 20
+    es_pifia = valor_dado == 1
+    
+    # Determinar impacto
+    if es_pifia:
+        impacta = False
+    elif es_critico:
+        impacta = True
+    else:
+        impacta = total_ataque >= ca_objetivo
+    
+    # Tirada de daño si impacta
+    tirada_daño = None
+    daño_total = 0
+    dados_tirados = []
+    
+    if impacta:
+        daño_total, dados_tirados = _tirar_expresion_daño(expresion_daño)
+        
+        # Crítico: doblar dados
+        if es_critico:
+            # Tirar dados extra (solo dados, no modificadores)
+            daño_extra = _tirar_dados_expresion(expresion_daño)
+            daño_total += daño_extra
+    
+    # Crear objeto ResultadoTirada para compatibilidad
+    from .dados import ResultadoTirada
+    tirada_daño_obj = ResultadoTirada(
+        dados=dados_tirados,
+        modificador=0,
+        total=daño_total,
+        expresion=expresion_daño
+    ) if impacta else None
+    
+    return ResultadoAtaqueMonstruo(
+        tirada_ataque=tirada,
+        bonificador_ataque=bonificador,
+        total_ataque=total_ataque,
+        es_critico=es_critico,
+        es_pifia=es_pifia,
+        impacta=impacta,
+        tirada_daño=tirada_daño_obj,
+        daño_total=daño_total,
+        tipo_daño=tipo_daño,
+        accion_nombre=nombre,
+        expresion_daño=expresion_daño,
+        modo=modo,
+    )

@@ -147,3 +147,19 @@ __all__ += [
     'RespuestaNarrador',
     'crear_contexto_narracion',
 ]
+
+# Ataque de monstruo
+from .combate_utils import (
+    ResultadoAtaqueMonstruo,
+    resolver_ataque_monstruo,
+)
+
+__all__ += [
+    'ResultadoAtaqueMonstruo',
+    'resolver_ataque_monstruo',
+]
+
+# Utilidades
+from .utils import normalizar_nombre
+
+__all__ += ['normalizar_nombre']

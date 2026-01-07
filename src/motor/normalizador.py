@@ -97,6 +97,9 @@ class ContextoEscena:
     enemigos_vivos: List[Dict[str, Any]] = field(default_factory=list)
     aliados: List[Dict[str, Any]] = field(default_factory=list)
     
+    # Acciones de monstruo (si es NPC)
+    acciones_monstruo: List[Dict[str, Any]] = field(default_factory=list)
+    
     movimiento_restante: int = 30
     accion_disponible: bool = True
     accion_bonus_disponible: bool = True

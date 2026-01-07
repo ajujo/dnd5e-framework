@@ -87,6 +87,10 @@ class Combatiente:
     conjuros_conocidos: List[str] = field(default_factory=list)
     ranuras_conjuro: Dict[int, int] = field(default_factory=dict)  # nivel: disponibles
     
+    # Acciones de monstruo (cargadas del compendio)
+    # Cada acción: {nombre, bonificador_ataque, daño, tipo_daño, alcance}
+    acciones: List[Dict[str, Any]] = field(default_factory=list)
+    
     # === ESTADO MUTABLE (cambia durante el combate) ===
     hp_actual: int = 0
     hp_temporal: int = 0
@@ -229,6 +233,19 @@ class GestorCombate:
                 contador += 1
             instancia_id = f"{base}_{contador}"
         
+        # Cargar acciones del monstruo
+        acciones_raw = datos.get("acciones", [])
+        acciones = []
+        for acc in acciones_raw:
+            if "bonificador_ataque" in acc:  # Es un ataque
+                acciones.append({
+                    "nombre": acc.get("nombre", "Ataque"),
+                    "bonificador_ataque": acc.get("bonificador_ataque", 0),
+                    "daño": acc.get("daño", "1d4"),
+                    "tipo_daño": acc.get("tipo_daño", "contundente"),
+                    "alcance": acc.get("alcance", "cuerpo a cuerpo"),
+                })
+        
         combatiente = Combatiente(
             id=instancia_id,
             nombre=nombre or datos.get("nombre", monstruo_id),
@@ -244,6 +261,7 @@ class GestorCombate:
             inteligencia=datos.get("atributos", {}).get("inteligencia", 10),
             sabiduria=datos.get("atributos", {}).get("sabiduria", 10),
             carisma=datos.get("atributos", {}).get("carisma", 10),
+            acciones=acciones,
         )
         
         self.agregar_combatiente(combatiente)
@@ -510,6 +528,7 @@ class GestorCombate:
                 "nombre": c.nombre,
                 "compendio_ref": c.compendio_ref,
                 "puntos_golpe_actual": c.hp_actual,
+                "clase_armadura": c.clase_armadura,
                 "estado_actual": {"muerto": c.muerto}
             }
             
@@ -545,6 +564,7 @@ class GestorCombate:
             ranuras_disponibles=combatiente.ranuras_conjuro.copy(),
             enemigos_vivos=enemigos,
             aliados=aliados,
+            acciones_monstruo=combatiente.acciones.copy() if combatiente.acciones else [],
             movimiento_restante=combatiente.movimiento_restante,
             accion_disponible=not combatiente.accion_usada,
             accion_bonus_disponible=not combatiente.accion_bonus_usada,
