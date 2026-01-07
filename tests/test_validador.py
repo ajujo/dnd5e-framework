@@ -407,6 +407,56 @@ def test_inyeccion_mock():
     return True
 
 
+
+def test_modo_estricto_equipamiento():
+    """Test del modo estricto de equipamiento."""
+    print("13. Modo estricto de equipamiento:")
+    
+    compendio = CompendioMotor()
+    
+    personaje = {
+        "nombre": "Thorin",
+        "fuente": {
+            "equipo_equipado": {
+                "arma_principal_id": "espada_larga",
+                "arma_secundaria_id": None
+            }
+        },
+        "estado_actual": {
+            "condiciones": [],
+            "inconsciente": False,
+            "muerto": False
+        }
+    }
+    
+    objetivo = {
+        "nombre": "Goblin",
+        "puntos_golpe_actual": 7,
+        "estado_actual": {"muerto": False}
+    }
+    
+    # Modo permisivo (default): arma no equipada = warning
+    validador_permisivo = ValidadorAcciones(compendio, strict_equipment=False)
+    resultado = validador_permisivo.validar_ataque(personaje, objetivo, "daga")
+    assert resultado.valido == True
+    assert len(resultado.advertencias) > 0
+    print(f"   Modo permisivo (daga no equipada): válido con warning ✓")
+    
+    # Modo estricto: arma no equipada = inválido
+    validador_estricto = ValidadorAcciones(compendio, strict_equipment=True)
+    resultado = validador_estricto.validar_ataque(personaje, objetivo, "daga")
+    assert resultado.valido == False
+    assert "estricto" in resultado.razon.lower()
+    print(f"   Modo estricto (daga no equipada): inválido ✓")
+    
+    # Arma equipada funciona en ambos modos
+    resultado = validador_estricto.validar_ataque(personaje, objetivo, "espada_larga")
+    assert resultado.valido == True
+    print(f"   Modo estricto (espada equipada): válido ✓")
+    
+    print("   ✓ Modo estricto correcto\n")
+    return True
+
 def main():
     """Ejecuta todos los tests."""
     print("\n" + "="*60)
@@ -426,6 +476,7 @@ def main():
         ("Acciones genéricas", test_acciones_genericas),
         ("Prueba habilidad", test_prueba_habilidad),
         ("Inyección mock", test_inyeccion_mock),
+        ("Modo estricto equipamiento", test_modo_estricto_equipamiento),
     ]
 
     resultados = []
@@ -463,3 +514,4 @@ def main():
 if __name__ == "__main__":
     success = main()
     sys.exit(0 if success else 1)
+
