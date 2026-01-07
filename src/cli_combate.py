@@ -24,6 +24,10 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
+# Variables globales
+_cliente_llm = None
+_modo_reglas = False  # Mostrar tiradas detalladas
+
 from motor import (
     GestorCombate,
     Combatiente,
@@ -34,6 +38,8 @@ from motor import (
     NarradorLLM,
     crear_contexto_narracion,
     rng,
+    crear_cliente_llm,
+    crear_callback_narrador,
 )
 
 
@@ -144,6 +150,53 @@ def imprimir_narracion(respuesta):
         print(color(f"  ℹ️  {respuesta.feedback_sistema}", "gris"))
 
 
+
+
+def imprimir_tiradas(resultado):
+    """Imprime las tiradas detalladas si el modo reglas está activo."""
+    global _modo_reglas
+    if not _modo_reglas:
+        return
+    
+    print(color("  ┌─ TIRADAS ─────────────────────────────", "gris"))
+    
+    for evento in resultado.eventos:
+        tipo = evento.tipo
+        datos = evento.datos
+        
+        if tipo == "ataque_realizado":
+            tirada = datos.get("tirada", {})
+            dados = tirada.get("dados", [])
+            mod = tirada.get("modificador", 0)
+            total = tirada.get("total", 0)
+            
+            dado_str = f"d20={dados[0]}" if dados else "d20=?"
+            impacta = "✓ IMPACTA" if datos.get("impacta") else "✗ FALLA"
+            
+            if datos.get("es_critico"):
+                impacta = "💥 CRÍTICO"
+            elif datos.get("es_pifia"):
+                impacta = "💀 PIFIA"
+            
+            objetivo = datos.get("objetivo_id", "?")
+            arma = datos.get("arma_nombre", "?")
+            
+            print(color(f"  │ Ataque con {arma} vs {objetivo}", "gris"))
+            print(color(f"  │   {dado_str} + {mod} = {total} → {impacta}", "gris"))
+        
+        elif tipo == "daño_calculado":
+            tirada = datos.get("tirada", {})
+            expresion = tirada.get("expresion", "?")
+            dados = tirada.get("dados", [])
+            total = datos.get("daño_total", 0)
+            tipo_daño = datos.get("tipo_daño", "?")
+            
+            dados_str = "+".join(str(d) for d in dados) if dados else "?"
+            
+            print(color(f"  │ Daño: {expresion} = [{dados_str}] = {total} ({tipo_daño})", "gris"))
+    
+    print(color("  └────────────────────────────────────────", "gris"))
+
 def imprimir_clarificacion(resultado, respuesta):
     """Imprime opciones de clarificación."""
     print()
@@ -201,6 +254,15 @@ def imprimir_ayuda():
     print("  /pasar   - Pasar turno sin hacer nada")
     print("  /salir   - Terminar combate")
     print("  /ayuda   - Ver esta ayuda")
+    print()
+    print(color("  DEBUG:", "gris"))
+    print("  /rules   - Mostrar tiradas detalladas")
+    print("  /no_rules - Ocultar tiradas")
+    print()
+    print(color("  COMANDOS LLM:", "gris"))
+    print("  /modelo  - Ver modelo actual")
+    print("  /modelo <id> - Cambiar modelo")
+    print("  /modelos - Listar modelos disponibles")
     print()
     print(color("  ACCIONES DE EJEMPLO:", "gris"))
     print("  'Ataco al goblin con mi espada'")
@@ -355,6 +417,7 @@ def turno_npc(gestor: GestorCombate, narrador: NarradorLLM):
     # Narrar
     ctx_narracion = crear_contexto_narracion(gestor, resultado)
     respuesta = narrador.narrar(ctx_narracion)
+    imprimir_tiradas(resultado)
     imprimir_narracion(respuesta)
     
     # NPC siempre consume su turno (IA simple no maneja clarificaciones)
@@ -429,6 +492,47 @@ def loop_combate(gestor: GestorCombate, narrador: NarradorLLM):
             elif cmd == "/ayuda":
                 imprimir_ayuda()
                 continue
+            elif cmd in ["/rules", "/reglas"]:
+                global _modo_reglas
+                _modo_reglas = True
+                print(color("  ✓ Modo reglas activado (verás tiradas detalladas)", "verde"))
+                continue
+            elif cmd in ["/no_rules", "/no_reglas"]:
+                _modo_reglas = False
+                print(color("  ✓ Modo reglas desactivado", "amarillo"))
+                continue
+            elif cmd == "/modelos":
+                if _cliente_llm:
+                    modelos = _cliente_llm.listar_modelos()
+                    print(color("\n📋 MODELOS DISPONIBLES:", "cyan"))
+                    for i, m in enumerate(modelos[:15]):  # Mostrar max 15
+                        marcador = "→" if m == _cliente_llm.modelo_efectivo else " "
+                        print(f"  {marcador} {m}")
+                    if len(modelos) > 15:
+                        print(f"  ... y {len(modelos) - 15} más")
+                else:
+                    print(color("  No hay LLM conectado", "amarillo"))
+                continue
+            elif cmd.startswith("/modelo"):
+                partes = texto.split(maxsplit=1)
+                if len(partes) == 1:
+                    # Solo /modelo: mostrar actual
+                    if _cliente_llm:
+                        print(f"  Modelo actual: {color(_cliente_llm.modelo_efectivo, 'cyan')}")
+                    else:
+                        print(color("  No hay LLM conectado", "amarillo"))
+                else:
+                    # /modelo <id>: cambiar
+                    nuevo_modelo = partes[1].strip()
+                    if _cliente_llm:
+                        if _cliente_llm.cambiar_modelo(nuevo_modelo):
+                            print(color(f"  ✓ Modelo cambiado a: {nuevo_modelo}", "verde"))
+                        else:
+                            print(color(f"  ✗ Modelo no encontrado: {nuevo_modelo}", "rojo"))
+                            print("  Usa /modelos para ver disponibles")
+                    else:
+                        print(color("  No hay LLM conectado", "amarillo"))
+                continue
             else:
                 print(color(f"  Comando desconocido: {texto}", "rojo"))
                 continue
@@ -456,6 +560,7 @@ def loop_combate(gestor: GestorCombate, narrador: NarradorLLM):
             }
             continue
         
+        imprimir_tiradas(resultado)
         imprimir_narracion(respuesta)
         
         if resultado.tipo == TipoResultado.ACCION_RECHAZADA:
@@ -478,10 +583,14 @@ def main():
     # Parsear argumentos
     usar_llm = "--llm" in sys.argv
     seed = None
+    modelo_preferido = None
     
     for arg in sys.argv[1:]:
         if arg.startswith("--seed="):
             seed = int(arg.split("=")[1])
+        elif arg.startswith("--model="):
+            modelo_preferido = arg.split("=")[1]
+            usar_llm = True  # --model implica --llm
     
     # Configurar seed si se especificó
     if seed is not None:
@@ -493,12 +602,29 @@ def main():
     gestor = crear_combate_ejemplo(compendio)
     
     # Narrador (con o sin LLM)
+    llm_callback = None
     if usar_llm:
-        # TODO: Conectar LLM real aquí
-        print(color("⚠️  Modo LLM no implementado aún, usando narrador genérico.", "amarillo"))
-        narrador = NarradorLLM(estilo="epico")
-    else:
-        narrador = NarradorLLM(estilo="epico")
+        print(color("🔍 Buscando LLM local...", "cyan"))
+        cliente = crear_cliente_llm()
+        
+        # Aplicar modelo preferido si se especificó
+        if cliente and modelo_preferido:
+            if cliente.cambiar_modelo(modelo_preferido):
+                print(color(f"  Usando modelo preferido: {modelo_preferido}", "gris"))
+            else:
+                print(color(f"  ⚠️  Modelo '{modelo_preferido}' no disponible, usando: {cliente.modelo_efectivo}", "amarillo"))
+        if cliente:
+            info = cliente.obtener_info()
+            print(color(f"✓ {info['tipo']} conectado", "verde"))
+            print(color(f"  Modelo: {info['modelo']}", "gris"))
+            global _cliente_llm
+            _cliente_llm = cliente
+            llm_callback = crear_callback_narrador(cliente)
+        else:
+            print(color("⚠️  No se encontró LLM (LM Studio/Ollama). Usando narrador genérico.", "amarillo"))
+            print(color("   Inicia LM Studio o Ollama para narración con IA.", "gris"))
+    
+    narrador = NarradorLLM(llm_callback=llm_callback, estilo="epico")
     
     # Ejecutar loop
     try:

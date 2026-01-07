@@ -163,3 +163,26 @@ __all__ += [
 from .utils import normalizar_nombre
 
 __all__ += ['normalizar_nombre']
+
+# Adaptador LLM
+from .llm_adapter import (
+    ClienteLLM,
+    ClienteOllama,
+    ConfigLLM,
+    crear_cliente_llm,
+    crear_callback_narrador,
+    crear_callback_normalizador,
+    detectar_llm_disponible,
+    SYSTEM_PROMPTS,
+)
+
+__all__ += [
+    'ClienteLLM',
+    'ClienteOllama', 
+    'ConfigLLM',
+    'crear_cliente_llm',
+    'crear_callback_narrador',
+    'crear_callback_normalizador',
+    'detectar_llm_disponible',
+    'SYSTEM_PROMPTS',
+]
