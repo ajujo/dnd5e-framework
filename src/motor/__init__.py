@@ -7,6 +7,7 @@ ESTRUCTURA:
 - dados.py: Sistema de tiradas genéricas
 - reglas_basicas.py: Modificadores, competencia, CA
 - combate_utils.py: Ataque, daño, iniciativa, salvaciones
+- compendio.py: Interfaz con el compendio de datos
 """
 
 # Desde dados.py
@@ -45,16 +46,23 @@ from .combate_utils import (
     resolver_ataque,
 )
 
+# Desde compendio.py
+from .compendio import (
+    CompendioMotor,
+    obtener_compendio_motor,
+    resetear_compendio_motor,
+)
+
 __all__ = [
     # Gestor de aleatoriedad
     'rng',
     'GestorAleatorio',
-
+    
     # Tipos
     'TipoTirada',
     'ResultadoTirada',
     'DADOS_VALIDOS',
-
+    
     # Tiradas genéricas
     'tirar',
     'tirar_dado',
@@ -62,7 +70,7 @@ __all__ = [
     'tirar_ventaja',
     'tirar_desventaja',
     'parsear_expresion',
-
+    
     # Reglas básicas
     'calcular_modificador',
     'obtener_bonificador_competencia',
@@ -70,7 +78,7 @@ __all__ = [
     'calcular_bonificador_ataque_conjuros',
     'calcular_ca_base',
     'calcular_carga_maxima',
-
+    
     # Combate
     'tirar_ataque',
     'tirar_daño',
@@ -79,4 +87,9 @@ __all__ = [
     'tirar_iniciativa',
     'tirar_atributos',
     'resolver_ataque',
+    
+    # Compendio
+    'CompendioMotor',
+    'obtener_compendio_motor',
+    'resetear_compendio_motor',
 ]
