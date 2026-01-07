@@ -100,3 +100,20 @@ __all__ += [
     'Evento',
     'OpcionClarificacion',
 ]
+
+# Gestor de combate
+from .gestor_combate import (
+    GestorCombate,
+    Combatiente,
+    TipoCombatiente,
+    EstadoCombate,
+    EstadoTurno,
+)
+
+__all__ += [
+    'GestorCombate',
+    'Combatiente',
+    'TipoCombatiente',
+    'EstadoCombate',
+    'EstadoTurno',
+]
