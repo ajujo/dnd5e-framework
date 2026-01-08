@@ -1,10 +1,9 @@
 {
   "version": "1.0.0",
   "fuente": "SRD 5.1",
-
   "armaduras": [
     {
-      "id": "acolchada",
+      "id": "armadura_acolchada",
       "nombre": "Armadura acolchada",
       "categoria": "Armadura ligera",
       "coste": "5 po",
@@ -17,7 +16,20 @@
       "is_magical": false
     },
     {
-      "id": "cuero",
+      "id": "armadura_anillas",
+      "nombre": "Armadura de anillas",
+      "categoria": "Armadura pesada",
+      "coste": "30 po",
+      "clase_armadura": "14",
+      "ca_base": 14,
+      "max_mod_destreza": 0,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": true,
+      "peso": 20,
+      "is_magical": false
+    },
+    {
+      "id": "armadura_cuero",
       "nombre": "Armadura de cuero",
       "categoria": "Armadura ligera",
       "coste": "10 po",
@@ -30,7 +42,7 @@
       "is_magical": false
     },
     {
-      "id": "cuero_tachonado",
+      "id": "armadura_cuero_tachonado",
       "nombre": "Armadura de cuero tachonado",
       "categoria": "Armadura ligera",
       "coste": "45 po",
@@ -43,7 +55,7 @@
       "is_magical": false
     },
     {
-      "id": "pieles",
+      "id": "armadura_pieles",
       "nombre": "Armadura de pieles",
       "categoria": "Armadura media",
       "coste": "10 po",
@@ -56,16 +68,42 @@
       "is_magical": false
     },
     {
-      "id": "cota_mallas",
-      "nombre": "Cota de mallas",
+      "id": "armadura_placas",
+      "nombre": "Armadura de placas",
+      "categoria": "Armadura pesada",
+      "coste": "1500 po",
+      "clase_armadura": "18",
+      "ca_base": 18,
+      "max_mod_destreza": 0,
+      "requisito_fuerza": 15,
+      "desventaja_sigilo": true,
+      "peso": 32.5,
+      "is_magical": false
+    },
+    {
+      "id": "coraza",
+      "nombre": "Coraza",
       "categoria": "Armadura media",
-      "coste": "50 po",
-      "clase_armadura": "13 + mod. Destreza (máx. 2)",
-      "ca_base": 13,
+      "coste": "400 po",
+      "clase_armadura": "14 + mod. Destreza (máx. 2)",
+      "ca_base": 14,
       "max_mod_destreza": 2,
       "requisito_fuerza": null,
       "desventaja_sigilo": false,
       "peso": 10,
+      "is_magical": false
+    },
+    {
+      "id": "cota_bandas",
+      "nombre": "Cota de bandas",
+      "categoria": "Armadura pesada",
+      "coste": "200 po",
+      "clase_armadura": "17",
+      "ca_base": 17,
+      "max_mod_destreza": 0,
+      "requisito_fuerza": 15,
+      "desventaja_sigilo": true,
+      "peso": 27.5,
       "is_magical": false
     },
     {
@@ -82,20 +120,20 @@
       "is_magical": false
     },
     {
-      "id": "anillas",
-      "nombre": "Armadura de anillas",
-      "categoria": "Armadura pesada",
-      "coste": "30 po",
-      "clase_armadura": "14",
-      "ca_base": 14,
-      "max_mod_destreza": 0,
+      "id": "cota_mallas",
+      "nombre": "Cota de mallas",
+      "categoria": "Armadura media",
+      "coste": "50 po",
+      "clase_armadura": "13 + mod. Destreza (máx. 2)",
+      "ca_base": 13,
+      "max_mod_destreza": 2,
       "requisito_fuerza": null,
-      "desventaja_sigilo": true,
-      "peso": 20,
+      "desventaja_sigilo": false,
+      "peso": 10,
       "is_magical": false
     },
     {
-      "id": "mallas",
+      "id": "cota_mallas_pesada",
       "nombre": "Cota de mallas (pesada)",
       "categoria": "Armadura pesada",
       "coste": "75 po",
@@ -106,9 +144,21 @@
       "desventaja_sigilo": true,
       "peso": 27.5,
       "is_magical": false
+    },
+    {
+      "id": "semiplacas",
+      "nombre": "Semiplacas",
+      "categoria": "Armadura media",
+      "coste": "750 po",
+      "clase_armadura": "15 + mod. Destreza (máx. 2)",
+      "ca_base": 15,
+      "max_mod_destreza": 2,
+      "requisito_fuerza": null,
+      "desventaja_sigilo": true,
+      "peso": 20,
+      "is_magical": false
     }
   ],
-
   "escudos": [
     {
       "id": "escudo",

@@ -1,0 +1,140 @@
+{
+  "pj": {
+    "id": "e3410ced",
+    "version": "1.0",
+    "info_basica": {
+      "nombre": "",
+      "raza": "elfo_bosque",
+      "subraza": "elfo_bosque",
+      "clase": "guerrero",
+      "nivel": 1,
+      "experiencia": 0,
+      "trasfondo": "",
+      "alineamiento": ""
+    },
+    "caracteristicas": {
+      "fuerza": 15,
+      "destreza": 16,
+      "constitucion": 13,
+      "inteligencia": 8,
+      "sabiduria": 13,
+      "carisma": 10
+    },
+    "competencias": {
+      "salvaciones": [
+        "fuerza",
+        "constitucion"
+      ],
+      "habilidades": [
+        "percepcion"
+      ],
+      "habilidades_origen": {
+        "percepcion": "raza"
+      },
+      "armaduras": [
+        "ligera",
+        "media",
+        "pesada",
+        "escudos"
+      ],
+      "armas": [
+        "espada_larga",
+        "espada_corta",
+        "arco_largo",
+        "arco_corto",
+        "armas_simples",
+        "armas_marciales"
+      ],
+      "herramientas": [],
+      "idiomas": [
+        "comun",
+        "elfico"
+      ]
+    },
+    "rasgos": {
+      "raciales": [
+        {
+          "id": "sentidos_agudos",
+          "nombre": "Sentidos Agudos",
+          "descripcion": "Competencia en Percepción."
+        },
+        {
+          "id": "ascendencia_feerica",
+          "nombre": "Ascendencia Feérica",
+          "descripcion": "Ventaja en salvaciones contra Encantamiento, inmune a sueño mágico."
+        },
+        {
+          "id": "trance",
+          "nombre": "Trance",
+          "descripcion": "4 horas de meditación equivalen a 8 horas de sueño."
+        },
+        {
+          "id": "entrenamiento_armas_elficas",
+          "nombre": "Entrenamiento con Armas Élficas",
+          "descripcion": "Competencia con espada larga, espada corta, arco largo y arco corto."
+        },
+        {
+          "id": "pies_rapidos",
+          "nombre": "Pies Rápidos",
+          "descripcion": "Velocidad base 35 pies."
+        },
+        {
+          "id": "mascara_salvaje",
+          "nombre": "Máscara de lo Salvaje",
+          "descripcion": "Puedes intentar esconderte incluso cuando solo estás ligeramente oculto por follaje, lluvia, nieve, niebla u otros fenómenos naturales."
+        }
+      ],
+      "clase": [],
+      "trasfondo": []
+    },
+    "equipo": {
+      "armas": [
+        {
+          "id": "espada_larga_1",
+          "compendio_ref": "espada_larga",
+          "nombre": "Espada larga",
+          "equipada": true
+        }
+      ],
+      "armadura": {
+        "id": "cota_mallas_pesada_1",
+        "compendio_ref": "cota_mallas_pesadas_pesada",
+        "nombre": "Cota de mallas",
+        "equipada": true
+      },
+      "escudo": {
+        "id": "escudo_1",
+        "compendio_ref": "escudo",
+        "nombre": "Escudo",
+        "equipada": true
+      },
+      "objetos": [],
+      "dinero": {
+        "po": 0,
+        "pp": 0,
+        "pe": 0,
+        "pc": 0
+      }
+    },
+    "personalidad": {
+      "rasgos": [],
+      "ideales": [],
+      "vinculos": [],
+      "defectos": []
+    },
+    "historia": {
+      "edad": null,
+      "altura": "",
+      "peso": "",
+      "ojos": "",
+      "cabello": "",
+      "piel": "",
+      "backstory": ""
+    },
+    "conjuros": null,
+    "derivados": {}
+  },
+  "paso_actual": "concepto",
+  "pasos_completados": [],
+  "fecha": "2026-01-08T12:30:08.520812"
+}

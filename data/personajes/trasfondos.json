@@ -1,0 +1,229 @@
+{
+  "noble": {
+    "nombre": "Noble",
+    "descripcion": "Naciste en una familia de riqueza, poder y privilegio. Tu familia posee tierras, recoge impuestos, y ejerce una influencia política significativa.",
+    "competencias_habilidades": ["historia", "persuasion"],
+    "competencias_herramientas": ["set_juego"],
+    "idiomas_extra": 1,
+    "equipo": [
+      {"ref": "ropa_fina", "cantidad": 1},
+      {"ref": "anillo_sello", "cantidad": 1},
+      {"ref": "pergamino_genealogia", "cantidad": 1},
+      {"ref": "bolsa_monedas", "po": 25}
+    ],
+    "rasgo": {
+      "id": "posicion_privilegiada",
+      "nombre": "Posición de Privilegio",
+      "descripcion": "La gente común hace todo lo posible para acomodarte. Eres bienvenido en la alta sociedad, y la gente asume que tienes derecho a estar donde quieras."
+    },
+    "rasgos_personalidad": [
+      "Mi elocuente adulación hace que todos con los que hablo se sientan como la persona más maravillosa e importante del mundo.",
+      "La gente común me ama por mi amabilidad y generosidad.",
+      "Nadie podría dudar de que yo soy de sangre noble por la forma en la que hablo.",
+      "Me esfuerzo mucho en parecer siempre lo mejor posible y sigo las últimas modas.",
+      "No me gusta ensuciarme las manos, y no moriré en una alcantarilla.",
+      "A pesar de mi noble nacimiento, no me considero por encima de los demás.",
+      "Una vez que me insultan, nunca olvido, y nunca perdono.",
+      "Si me haces daño, te aplastaré, arruinaré tu nombre, y saquearé tus campos."
+    ],
+    "ideales": [
+      {"texto": "Respeto. El respeto me es debido por mi posición, pero todas las personas merecen ser tratadas con dignidad.", "alineamiento": "bueno"},
+      {"texto": "Responsabilidad. Es mi deber respetar la autoridad de los que están por encima de mí, así como los que están por debajo de mí me deben respeto.", "alineamiento": "legal"},
+      {"texto": "Independencia. Debo demostrar que puedo valerme por mí mismo sin mimos de mi familia.", "alineamiento": "caotico"},
+      {"texto": "Poder. Si puedo alcanzar más poder, nadie me dirá lo que tengo que hacer.", "alineamiento": "malvado"},
+      {"texto": "Familia. La sangre es más espesa que el agua.", "alineamiento": "cualquiera"},
+      {"texto": "Obligación Noble. Es mi deber proteger y cuidar de la gente que está por debajo de mí.", "alineamiento": "bueno"}
+    ],
+    "vinculos": [
+      "Haré frente a cualquier reto para ganar la aprobación de mi familia.",
+      "La alianza de mi casa con otra familia noble debe mantenerse a toda costa.",
+      "Nada es más importante que los otros miembros de mi familia.",
+      "Estoy enamorado del heredero de una familia que mi familia desprecia.",
+      "Mi lealtad a mi soberano es inquebrantable.",
+      "La gente común debe verme como un héroe del pueblo."
+    ],
+    "defectos": [
+      "Secretamente creo que todo el mundo está por debajo de mí.",
+      "Escondo un secreto verdaderamente escandaloso que podría arruinar a mi familia para siempre.",
+      "Escucho insultos ocultos y burlas demasiado a menudo, y me enfurezco fácilmente.",
+      "Tengo un deseo insaciable de placeres carnales.",
+      "De hecho, el mundo gira a mi alrededor.",
+      "Por mis palabras y acciones, a menudo avergüenzo a mi familia."
+    ]
+  },
+
+  "soldado": {
+    "nombre": "Soldado",
+    "descripcion": "La guerra ha sido tu vida durante el tiempo que te hayas de acordar. Te entrenaste como joven, estudiaste el uso de armas y armaduras, y aprendiste técnicas básicas de supervivencia.",
+    "competencias_habilidades": ["atletismo", "intimidacion"],
+    "competencias_herramientas": ["set_juego", "vehiculos_tierra"],
+    "idiomas_extra": 0,
+    "equipo": [
+      {"ref": "insignia_rango", "cantidad": 1},
+      {"ref": "trofeo_enemigo", "cantidad": 1},
+      {"ref": "set_dados_hueso", "cantidad": 1},
+      {"ref": "ropa_comun", "cantidad": 1},
+      {"ref": "bolsa_monedas", "po": 10}
+    ],
+    "rasgo": {
+      "id": "rango_militar",
+      "nombre": "Rango Militar",
+      "descripcion": "Tienes un rango militar de tu carrera como soldado. Los soldados leales a tu antigua organización militar aún reconocen tu autoridad e influencia. Puedes invocar tu rango para ejercer influencia sobre otros soldados."
+    },
+    "especialidades": [
+      "Oficial", "Explorador", "Infantería", "Caballería", 
+      "Sanador", "Intendente", "Abanderado", "Apoyo de cocina"
+    ],
+    "rasgos_personalidad": [
+      "Siempre soy educado y respetuoso.",
+      "Los recuerdos de la guerra me persiguen. No puedo sacar las imágenes violentas de mi cabeza.",
+      "He perdido muchos amigos, y tardo mucho en hacer nuevos.",
+      "Estoy lleno de cuentos inspiradores y con moraleja de mi experiencia militar.",
+      "Puedo sostener la mirada a un perro infernal sin pestañear.",
+      "Disfruto siendo fuerte y me gusta romper cosas.",
+      "Tengo un vulgar sentido del humor.",
+      "Me enfrento a los problemas de frente. Una solución simple y directa es el mejor camino hacia el éxito."
+    ],
+    "ideales": [
+      {"texto": "Bien mayor. Nuestro destino es dar nuestra vida en defensa de los demás.", "alineamiento": "bueno"},
+      {"texto": "Responsabilidad. Hago lo que debo y obedezco a la autoridad justa.", "alineamiento": "legal"},
+      {"texto": "Independencia. Cuando las personas siguen las órdenes ciegamente, abrazan una especie de tiranía.", "alineamiento": "caotico"},
+      {"texto": "Poder. En la vida como en la guerra, los más fuertes ganan.", "alineamiento": "malvado"},
+      {"texto": "Vive y deja vivir. No vale la pena matar o ir a la guerra por los ideales.", "alineamiento": "neutral"},
+      {"texto": "Nación. Mi ciudad, mi nación o mi gente son todo lo que importa.", "alineamiento": "cualquiera"}
+    ],
+    "vinculos": [
+      "Aún daría mi vida por las personas con las que serví.",
+      "Alguien me salvó la vida en el campo de batalla. Hasta la fecha, nunca dejaré atrás a un amigo.",
+      "Mi honor es mi vida.",
+      "Nunca olvidaré la derrota aplastante que sufrió mi compañía o a los enemigos que la causaron.",
+      "Los que luchan junto a mí son por los que vale la pena morir.",
+      "Yo lucho por los que no pueden luchar por sí mismos."
+    ],
+    "defectos": [
+      "El monstruoso enemigo que nos enfrentamos en batalla todavía me deja temblando de miedo.",
+      "Tengo poco respeto por cualquiera que no sea un guerrero probado en batalla.",
+      "Cometí un error terrible en batalla que costó muchas vidas y haría cualquier cosa para mantener ese error en secreto.",
+      "Mi odio hacia mis enemigos es ciego e irracional.",
+      "Yo obedezco la ley, aunque la ley genere miseria.",
+      "Preferiría comerme mi armadura antes que admitir mis errores."
+    ]
+  },
+
+  "criminal": {
+    "nombre": "Criminal",
+    "descripcion": "Eres un criminal experimentado con un historial delictivo. Has pasado mucho tiempo entre criminales y todavía tienes contactos dentro del mundo criminal.",
+    "competencias_habilidades": ["engano", "sigilo"],
+    "competencias_herramientas": ["set_juego", "herramientas_ladron"],
+    "idiomas_extra": 0,
+    "equipo": [
+      {"ref": "barreta", "cantidad": 1},
+      {"ref": "ropa_comun_oscura", "cantidad": 1},
+      {"ref": "bolsa_monedas", "po": 15}
+    ],
+    "rasgo": {
+      "id": "contacto_criminal",
+      "nombre": "Contacto Criminal",
+      "descripcion": "Tienes un contacto de confianza que actúa como enlace con una red de delincuentes. Sabes cómo hacerles llegar mensajes y te los envíen, incluso a grandes distancias."
+    },
+    "especialidades": [
+      "Chantajista", "Ladrón", "Sicario", "Matón",
+      "Asaltador de caminos", "Asesino a sueldo", "Carterista", "Contrabandista"
+    ],
+    "rasgos_personalidad": [
+      "Siempre tengo un plan sobre qué hacer cuando las cosas van mal.",
+      "Siempre estoy tranquilo, no importa cuál sea la situación. Nunca levanto la voz o dejo que mis emociones me controlen.",
+      "La primera cosa que hago en un lugar nuevo es tomar nota de todo lo valioso, o dónde podrían estar ocultas dichas cosas.",
+      "Prefiero hacer un nuevo amigo que un nuevo enemigo.",
+      "Soy increíblemente lento en fiarme de alguien.",
+      "No presto atención a los riesgos de una situación.",
+      "La mejor manera de que llegue a hacer algo es decirme que no puedo hacerlo.",
+      "Golpeo al menor insulto."
+    ],
+    "ideales": [
+      {"texto": "Honor. No robo a otros del oficio.", "alineamiento": "legal"},
+      {"texto": "Libertad. Las cadenas están hechas para romperse, al igual que los que las forjarían.", "alineamiento": "caotico"},
+      {"texto": "Caridad. Robo a los ricos para poder ayudar a la gente necesitada.", "alineamiento": "bueno"},
+      {"texto": "Codicia. Haré lo que sea necesario para hacerme rico.", "alineamiento": "malvado"},
+      {"texto": "Gente. Soy leal a mis amigos, no a ningún ideal.", "alineamiento": "neutral"},
+      {"texto": "Redención. Hay una chispa de bien en todos.", "alineamiento": "bueno"}
+    ],
+    "vinculos": [
+      "Estoy tratando de pagar una vieja deuda que debo a un generoso benefactor.",
+      "Mis ganancias ilícitas van a mantener a mi familia.",
+      "Algo importante me fue arrebatado, y tengo la intención de robarlo de nuevo.",
+      "Me convertiré en el ladrón más grande que jamás haya existido.",
+      "Soy culpable de un crimen terrible. Espero poder redimirme por ello.",
+      "Alguien a quien amaba murió por culpa de un error que cometí. Eso nunca volverá a pasar."
+    ],
+    "defectos": [
+      "Cuando veo algo valioso, no puedo pensar en nada más que en cómo robarlo.",
+      "Cuando me enfrento a una elección entre dinero y mis amigos, generalmente elijo el dinero.",
+      "Si hay un plan, lo olvidaré. Si no lo olvido, lo ignoraré.",
+      "Tengo un 'tic' que revela mis mentiras.",
+      "Doy la espalda y huyo cuando las cosas se ven mal.",
+      "Un inocente está en prisión por un crimen que yo cometí. Estoy de acuerdo con eso."
+    ]
+  },
+
+  "ermitano": {
+    "nombre": "Ermitaño",
+    "descripcion": "Viviste en reclusión, ya sea en una comunidad aislada, o completamente solo, durante un período formativo de tu vida. Lejos del bullicio de la sociedad, encontraste la tranquilidad, la soledad, y quizás algunas respuestas.",
+    "competencias_habilidades": ["medicina", "religion"],
+    "competencias_herramientas": ["kit_herbolario"],
+    "idiomas_extra": 1,
+    "equipo": [
+      {"ref": "estuche_pergaminos", "cantidad": 1},
+      {"ref": "manta_invierno", "cantidad": 1},
+      {"ref": "ropa_comun", "cantidad": 1},
+      {"ref": "kit_herbolario", "cantidad": 1},
+      {"ref": "bolsa_monedas", "po": 5}
+    ],
+    "rasgo": {
+      "id": "descubrimiento",
+      "nombre": "Descubrimiento",
+      "descripcion": "La reclusión de tu ermita te dio acceso a un descubrimiento único y poderoso. Trabajar con tu DM para determinar la naturaleza de esta revelación y su impacto en la campaña."
+    },
+    "motivos_reclusión": [
+      "Buscaba iluminación espiritual", "Vivía de acuerdo con los dictados de un orden religioso",
+      "Fui exiliado por un crimen que no cometí", "Me retiré de la sociedad después de un evento que cambió mi vida",
+      "Necesitaba un lugar tranquilo para trabajar en mi arte, literatura, música o manifiesto",
+      "Necesitaba comunión con la naturaleza, lejos de la civilización",
+      "Era el guardián de una antigua ruina o reliquia", "Era un peregrino en busca de una persona, lugar o reliquia de significado espiritual"
+    ],
+    "rasgos_personalidad": [
+      "He estado aislado durante tanto tiempo que rara vez hablo, prefiriendo gestos y gruñidos ocasionales.",
+      "Soy completamente sereno, incluso ante el desastre.",
+      "El líder de mi comunidad tenía algo sabio que decir sobre cada tema, y estoy ansioso por compartir esa sabiduría.",
+      "Siento una tremenda empatía por todos los que sufren.",
+      "Soy ajeno a la etiqueta y las expectativas sociales.",
+      "Conecto todo lo que sucede conmigo a un gran plan cósmico.",
+      "A menudo me pierdo en mis propios pensamientos y contemplación, ajeno a mi entorno.",
+      "Estoy trabajando en una gran teoría filosófica y me encanta compartir mis ideas."
+    ],
+    "ideales": [
+      {"texto": "Bien mayor. Mis dones están destinados a ser compartidos con todos, no utilizados para mi propio beneficio.", "alineamiento": "bueno"},
+      {"texto": "Lógica. Las emociones no deben nublar nuestro sentido de lo que es correcto y verdadero.", "alineamiento": "legal"},
+      {"texto": "Libre pensamiento. La investigación y la curiosidad son los pilares del progreso.", "alineamiento": "caotico"},
+      {"texto": "Poder. La soledad y la contemplación son caminos hacia el poder místico o mágico.", "alineamiento": "malvado"},
+      {"texto": "Vivir y dejar vivir. Entrometerse en los asuntos de otros solo trae problemas.", "alineamiento": "neutral"},
+      {"texto": "Autoconocimiento. Si te conoces a ti mismo, no necesitas saber nada más.", "alineamiento": "cualquiera"}
+    ],
+    "vinculos": [
+      "Nada es más importante que los otros miembros de mi ermita, orden o asociación.",
+      "Entré en reclusión para esconderme de los que aún podrían estar buscándome.",
+      "Todavía estoy buscando la iluminación que perseguí en mi reclusión, y todavía me elude.",
+      "Entré en reclusión porque amaba a alguien que no podía tener.",
+      "Si mi descubrimiento sale a la luz, podría traer la ruina al mundo.",
+      "Mi aislamiento me dio una gran perspicacia sobre un gran mal que solo yo puedo destruir."
+    ],
+    "defectos": [
+      "Ahora que he vuelto al mundo, disfruto un poco demasiado de sus placeres.",
+      "Albergo pensamientos oscuros y sanguinarios que mi aislamiento y meditación no lograron erradicar.",
+      "Soy dogmático en mis pensamientos y filosofía.",
+      "Dejo que mi necesidad de ganar argumentos supere a la amistad y la armonía.",
+      "Me arriesgaría demasiado para descubrir un poco de conocimiento perdido.",
+      "Me gusta guardar secretos y no los comparto con nadie."
+    ]
+  }
+}

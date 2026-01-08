@@ -1,0 +1,354 @@
+{
+  "guerrero": {
+    "nombre": "Guerrero",
+    "descripcion": "Maestro del combate, competente con todas las armas y armaduras. Los guerreros aprenden los fundamentos de todos los estilos de combate.",
+    "dado_golpe": "d10",
+    "hp_nivel_1": 10,
+    "caracteristica_principal": ["fuerza", "destreza"],
+    "salvaciones": ["fuerza", "constitucion"],
+    "competencias": {
+      "armaduras": ["ligera", "media", "pesada", "escudos"],
+      "armas": ["armas_simples", "armas_marciales"],
+      "herramientas": []
+    },
+    "habilidades_elegir": {
+      "cantidad": 2,
+      "opciones": ["acrobacias", "atletismo", "averiguar_intenciones", "historia", "intimidacion", "percepcion", "supervivencia", "trato_animales"]
+    },
+    "rasgos_nivel_1": [
+      {
+        "id": "estilo_combate",
+        "nombre": "Estilo de Combate",
+        "descripcion": "Adoptas un estilo particular de combate como especialidad.",
+        "elegir": true,
+        "opciones": [
+          {"id": "defensa", "nombre": "Defensa", "descripcion": "+1 CA mientras lleves armadura."},
+          {"id": "duelo", "nombre": "Duelo", "descripcion": "+2 daño con arma cuerpo a cuerpo en una mano y sin otra arma."},
+          {"id": "combate_dos_armas", "nombre": "Combate con Dos Armas", "descripcion": "Añades modificador de característica al daño del segundo ataque."},
+          {"id": "armas_grandes", "nombre": "Armas Grandes", "descripcion": "Vuelves a tirar 1s y 2s en dados de daño con armas a dos manos."},
+          {"id": "proteccion", "nombre": "Protección", "descripcion": "Con escudo, impones desventaja a ataques contra aliados adyacentes."},
+          {"id": "distancia", "nombre": "A Distancia", "descripcion": "+2 a tiradas de ataque con armas a distancia."}
+        ]
+      },
+      {
+        "id": "nuevas_energias",
+        "nombre": "Nuevas Energías",
+        "descripcion": "Puedes usar una acción adicional para recuperar todos tus HP (1 uso por descanso corto o largo).",
+        "usos_por_descanso": 1
+      }
+    ],
+    "equipo_inicial": {
+      "opciones": [
+        {
+          "grupo": "armadura",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "cota_de_malla", "cantidad": 1}],
+            [{"ref": "armadura_cuero", "cantidad": 1}, {"ref": "arco_largo", "cantidad": 1}, {"ref": "flechas", "cantidad": 20}]
+          ]
+        },
+        {
+          "grupo": "armas_principales",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "arma_marcial", "cantidad": 1}, {"ref": "escudo", "cantidad": 1}],
+            [{"ref": "arma_marcial", "cantidad": 2}]
+          ]
+        },
+        {
+          "grupo": "armas_secundarias",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "ballesta_ligera", "cantidad": 1}, {"ref": "virotes", "cantidad": 20}],
+            [{"ref": "hacha_mano", "cantidad": 2}]
+          ]
+        },
+        {
+          "grupo": "equipo",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "equipo_dungeon", "cantidad": 1}],
+            [{"ref": "equipo_explorador", "cantidad": 1}]
+          ]
+        }
+      ]
+    },
+    "sugerencia_atributos": ["fuerza", "constitucion", "destreza", "sabiduria", "carisma", "inteligencia"]
+  },
+
+  "mago": {
+    "nombre": "Mago",
+    "descripcion": "Estudioso de la magia arcana que usa conjuros poderosos. Los magos viven y mueren por sus conjuros.",
+    "dado_golpe": "d6",
+    "hp_nivel_1": 6,
+    "caracteristica_principal": ["inteligencia"],
+    "salvaciones": ["inteligencia", "sabiduria"],
+    "competencias": {
+      "armaduras": [],
+      "armas": ["dagas", "dardos", "hondas", "bastones", "ballestas_ligeras"],
+      "herramientas": []
+    },
+    "habilidades_elegir": {
+      "cantidad": 2,
+      "opciones": ["arcano", "averiguar_intenciones", "historia", "investigacion", "medicina", "religion"]
+    },
+    "rasgos_nivel_1": [
+      {
+        "id": "lanzamiento_conjuros",
+        "nombre": "Lanzamiento de Conjuros",
+        "descripcion": "Puedes lanzar conjuros arcanos usando Inteligencia.",
+        "caracteristica": "inteligencia",
+        "ranuras": {"1": 2}
+      },
+      {
+        "id": "recuperacion_arcana",
+        "nombre": "Recuperación Arcana",
+        "descripcion": "Una vez al día durante un descanso corto, recuperas ranuras de conjuro (nivel/2 redondeado arriba)."
+      },
+      {
+        "id": "libro_conjuros",
+        "nombre": "Libro de Conjuros",
+        "descripcion": "Tu libro contiene los conjuros que conoces. Empiezas con 6 conjuros de nivel 1.",
+        "conjuros_iniciales": 6,
+        "trucos_conocidos": 3
+      }
+    ],
+    "conjuros": {
+      "trucos": ["luz", "mano_de_mago", "rayo_de_escarcha", "prestidigitacion", "chispa_de_fuego", "mensaje", "amigos", "descarga_sonica"],
+      "nivel_1": ["proyectil_magico", "armadura_de_mago", "dormir", "hechizar_persona", "detectar_magia", "manos_ardientes", "escudo", "identificar", "caida_de_pluma", "comprension_idiomas"]
+    },
+    "equipo_inicial": {
+      "opciones": [
+        {
+          "grupo": "arma",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "baston", "cantidad": 1}],
+            [{"ref": "daga", "cantidad": 1}]
+          ]
+        },
+        {
+          "grupo": "foco",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "bolsa_componentes", "cantidad": 1}],
+            [{"ref": "foco_arcano", "cantidad": 1}]
+          ]
+        },
+        {
+          "grupo": "equipo",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "equipo_erudito", "cantidad": 1}],
+            [{"ref": "equipo_explorador", "cantidad": 1}]
+          ]
+        }
+      ],
+      "fijo": [
+        {"ref": "libro_conjuros", "cantidad": 1}
+      ]
+    },
+    "sugerencia_atributos": ["inteligencia", "constitucion", "destreza", "sabiduria", "carisma", "fuerza"]
+  },
+
+  "picaro": {
+    "nombre": "Pícaro",
+    "descripcion": "Especialista en sigilo, engaño y ataques precisos. Los pícaros confían en la habilidad, el sigilo y las debilidades de sus enemigos.",
+    "dado_golpe": "d8",
+    "hp_nivel_1": 8,
+    "caracteristica_principal": ["destreza"],
+    "salvaciones": ["destreza", "inteligencia"],
+    "competencias": {
+      "armaduras": ["ligera"],
+      "armas": ["armas_simples", "ballesta_mano", "espada_larga", "estoque", "espada_corta"],
+      "herramientas": ["herramientas_ladron"]
+    },
+    "habilidades_elegir": {
+      "cantidad": 4,
+      "opciones": ["acrobacias", "atletismo", "averiguar_intenciones", "engano", "interpretacion", "intimidacion", "investigacion", "juego_manos", "percepcion", "persuasion", "sigilo"]
+    },
+    "rasgos_nivel_1": [
+      {
+        "id": "experto",
+        "nombre": "Experto",
+        "descripcion": "Elige 2 competencias de habilidad o herramientas de ladrón. Tu bonificador de competencia se duplica para ellas.",
+        "elegir_competencias": 2
+      },
+      {
+        "id": "ataque_furtivo",
+        "nombre": "Ataque Furtivo",
+        "descripcion": "Una vez por turno, infliges 1d6 de daño extra si tienes ventaja o un aliado está a 5 pies del objetivo.",
+        "dado_extra": "1d6"
+      },
+      {
+        "id": "jerga_ladrones",
+        "nombre": "Jerga de Ladrones",
+        "descripcion": "Conoces el lenguaje secreto de los ladrones, una mezcla de dialecto, jerga y código."
+      }
+    ],
+    "equipo_inicial": {
+      "opciones": [
+        {
+          "grupo": "arma_principal",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "estoque", "cantidad": 1}],
+            [{"ref": "espada_corta", "cantidad": 1}]
+          ]
+        },
+        {
+          "grupo": "arma_secundaria",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "arco_corto", "cantidad": 1}, {"ref": "flechas", "cantidad": 20}],
+            [{"ref": "espada_corta", "cantidad": 1}]
+          ]
+        },
+        {
+          "grupo": "equipo",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "equipo_ladron", "cantidad": 1}],
+            [{"ref": "equipo_dungeon", "cantidad": 1}],
+            [{"ref": "equipo_explorador", "cantidad": 1}]
+          ]
+        }
+      ],
+      "fijo": [
+        {"ref": "armadura_cuero", "cantidad": 1},
+        {"ref": "daga", "cantidad": 2},
+        {"ref": "herramientas_ladron", "cantidad": 1}
+      ]
+    },
+    "sugerencia_atributos": ["destreza", "inteligencia", "constitucion", "carisma", "sabiduria", "fuerza"]
+  },
+
+  "clerigo": {
+    "nombre": "Clérigo",
+    "descripcion": "Campeón sacerdotal que canaliza el poder divino. Los clérigos son intermediarios entre el mundo mortal y los planos distantes de los dioses.",
+    "dado_golpe": "d8",
+    "hp_nivel_1": 8,
+    "caracteristica_principal": ["sabiduria"],
+    "salvaciones": ["sabiduria", "carisma"],
+    "competencias": {
+      "armaduras": ["ligera", "media", "escudos"],
+      "armas": ["armas_simples"],
+      "herramientas": []
+    },
+    "habilidades_elegir": {
+      "cantidad": 2,
+      "opciones": ["averiguar_intenciones", "historia", "medicina", "persuasion", "religion"]
+    },
+    "rasgos_nivel_1": [
+      {
+        "id": "lanzamiento_conjuros",
+        "nombre": "Lanzamiento de Conjuros",
+        "descripcion": "Puedes lanzar conjuros divinos usando Sabiduría.",
+        "caracteristica": "sabiduria",
+        "ranuras": {"1": 2},
+        "preparados": "nivel + mod_sabiduria"
+      },
+      {
+        "id": "dominio_divino",
+        "nombre": "Dominio Divino",
+        "descripcion": "Elige un dominio relacionado con tu deidad. Otorga conjuros y habilidades adicionales.",
+        "elegir": true,
+        "opciones": [
+          {"id": "vida", "nombre": "Dominio de la Vida", "descripcion": "Enfocado en curación. Otorga armadura pesada y mejora conjuros de curación."},
+          {"id": "guerra", "nombre": "Dominio de la Guerra", "descripcion": "Enfocado en combate. Otorga armas marciales y armadura pesada."},
+          {"id": "luz", "nombre": "Dominio de la Luz", "descripcion": "Enfocado en fuego y luz. Trucos de fuego y habilidades defensivas."},
+          {"id": "conocimiento", "nombre": "Dominio del Conocimiento", "descripcion": "Enfocado en saber. Idiomas extra y competencias adicionales."}
+        ]
+      }
+    ],
+    "dominios": {
+      "vida": {
+        "nombre": "Dominio de la Vida",
+        "competencias_extra": {"armaduras": ["pesada"]},
+        "conjuros_dominio": ["bendecir", "curar_heridas"],
+        "rasgo": {
+          "id": "discipulo_vida",
+          "nombre": "Discípulo de la Vida",
+          "descripcion": "Tus conjuros de curación son más efectivos. Curan 2 + nivel del conjuro HP adicionales."
+        }
+      },
+      "guerra": {
+        "nombre": "Dominio de la Guerra",
+        "competencias_extra": {"armaduras": ["pesada"], "armas": ["armas_marciales"]},
+        "conjuros_dominio": ["escudo_de_la_fe", "favor_divino"],
+        "rasgo": {
+          "id": "sacerdote_guerra",
+          "nombre": "Sacerdote de Guerra",
+          "descripcion": "Puedes hacer un ataque con arma como acción adicional (usos = mod SAB por descanso largo)."
+        }
+      },
+      "luz": {
+        "nombre": "Dominio de la Luz",
+        "competencias_extra": {},
+        "conjuros_dominio": ["manos_ardientes", "luz_cegadora"],
+        "truco_extra": "luz",
+        "rasgo": {
+          "id": "resplandor_guardian",
+          "nombre": "Resplandor Guardián",
+          "descripcion": "Puedes interponer luz divina entre ti y un atacante, imponiendo desventaja a su ataque."
+        }
+      },
+      "conocimiento": {
+        "nombre": "Dominio del Conocimiento",
+        "competencias_extra": {"idiomas": 2, "habilidades": ["arcano", "historia", "naturaleza", "religion"]},
+        "conjuros_dominio": ["detectar_magia", "identificar"],
+        "rasgo": {
+          "id": "bendiciones_conocimiento",
+          "nombre": "Bendiciones del Conocimiento",
+          "descripcion": "Competencia en 2 habilidades de conocimiento con bonificador duplicado."
+        }
+      }
+    },
+    "conjuros": {
+      "trucos": ["luz", "llama_sagrada", "remendar", "guia", "resistencia", "taumaturgia", "palabra_virtuosa"],
+      "nivel_1": ["bendecir", "curar_heridas", "detectar_magia", "escudo_de_la_fe", "palabra_de_curacion", "proteccion_bien_mal", "detectar_veneno", "crear_agua", "santuario"]
+    },
+    "equipo_inicial": {
+      "opciones": [
+        {
+          "grupo": "arma",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "maza", "cantidad": 1}],
+            [{"ref": "martillo_guerra", "cantidad": 1, "condicion": "competencia"}]
+          ]
+        },
+        {
+          "grupo": "armadura",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "cota_escamas", "cantidad": 1}],
+            [{"ref": "armadura_cuero", "cantidad": 1}],
+            [{"ref": "cota_de_malla", "cantidad": 1, "condicion": "competencia"}]
+          ]
+        },
+        {
+          "grupo": "arma_secundaria",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "ballesta_ligera", "cantidad": 1}, {"ref": "virotes", "cantidad": 20}],
+            [{"ref": "arma_simple", "cantidad": 1}]
+          ]
+        },
+        {
+          "grupo": "equipo",
+          "elegir": 1,
+          "opciones": [
+            [{"ref": "equipo_sacerdote", "cantidad": 1}],
+            [{"ref": "equipo_explorador", "cantidad": 1}]
+          ]
+        }
+      ],
+      "fijo": [
+        {"ref": "escudo", "cantidad": 1},
+        {"ref": "simbolo_sagrado", "cantidad": 1}
+      ]
+    },
+    "sugerencia_atributos": ["sabiduria", "constitucion", "fuerza", "carisma", "destreza", "inteligencia"]
+  }
+}

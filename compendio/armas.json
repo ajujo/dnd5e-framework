@@ -1,8 +1,64 @@
 {
   "version": "1.0.0",
   "fuente": "SRD 5.1",
-
   "armas": [
+    {
+      "id": "arco_corto",
+      "nombre": "Arco corto",
+      "categoria": "Arma a distancia simple",
+      "coste": "25 po",
+      "daño": "1d6",
+      "tipo_daño": "perforante",
+      "peso": 1,
+      "propiedades": [
+        "Munición (alcance 80/320)",
+        "Dos manos"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "arco_largo",
+      "nombre": "Arco largo",
+      "categoria": "Arma a distancia marcial",
+      "coste": "50 po",
+      "daño": "1d8",
+      "tipo_daño": "perforante",
+      "peso": 1,
+      "propiedades": [
+        "Munición (alcance 150/600)",
+        "Dos manos",
+        "Pesada"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "ballesta_ligera",
+      "nombre": "Ballesta ligera",
+      "categoria": "Arma a distancia simple",
+      "coste": "25 po",
+      "daño": "1d8",
+      "tipo_daño": "perforante",
+      "peso": 2.5,
+      "propiedades": [
+        "Munición (alcance 80/320)",
+        "Recarga",
+        "Dos manos"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "baston",
+      "nombre": "Bastón",
+      "categoria": "Arma cuerpo a cuerpo simple",
+      "coste": "2 pp",
+      "daño": "1d6",
+      "tipo_daño": "contundente",
+      "peso": 2,
+      "propiedades": [
+        "Versátil (1d8)"
+      ],
+      "is_magical": false
+    },
     {
       "id": "daga",
       "nombre": "Daga",
@@ -11,7 +67,11 @@
       "daño": "1d4",
       "tipo_daño": "perforante",
       "peso": 0.5,
-      "propiedades": ["Arrojadiza (alcance 20/60)", "Ligera", "Sutil"],
+      "propiedades": [
+        "Arrojadiza (alcance 20/60)",
+        "Ligera",
+        "Sutil"
+      ],
       "is_magical": false
     },
     {
@@ -22,7 +82,10 @@
       "daño": "1d6",
       "tipo_daño": "perforante",
       "peso": 1,
-      "propiedades": ["Ligera", "Sutil"],
+      "propiedades": [
+        "Ligera",
+        "Sutil"
+      ],
       "is_magical": false
     },
     {
@@ -33,7 +96,49 @@
       "daño": "1d8",
       "tipo_daño": "cortante",
       "peso": 1.5,
-      "propiedades": ["Versátil (1d10)"],
+      "propiedades": [
+        "Versátil (1d10)"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "estoque",
+      "nombre": "Estoque",
+      "categoria": "Arma cuerpo a cuerpo marcial",
+      "coste": "25 po",
+      "daño": "1d8",
+      "tipo_daño": "perforante",
+      "peso": 1,
+      "propiedades": [
+        "Sutil"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "hacha_mano",
+      "nombre": "Hacha de mano",
+      "categoria": "Arma cuerpo a cuerpo simple",
+      "coste": "5 po",
+      "daño": "1d6",
+      "tipo_daño": "cortante",
+      "peso": 1,
+      "propiedades": [
+        "Arrojadiza (alcance 20/60)",
+        "Ligera"
+      ],
+      "is_magical": false
+    },
+    {
+      "id": "martillo_guerra",
+      "nombre": "Martillo de guerra",
+      "categoria": "Arma cuerpo a cuerpo marcial",
+      "coste": "15 po",
+      "daño": "1d8",
+      "tipo_daño": "contundente",
+      "peso": 1,
+      "propiedades": [
+        "Versátil (1d10)"
+      ],
       "is_magical": false
     },
     {
@@ -45,50 +150,6 @@
       "tipo_daño": "contundente",
       "peso": 2,
       "propiedades": [],
-      "is_magical": false
-    },
-    {
-      "id": "arco_corto",
-      "nombre": "Arco corto",
-      "categoria": "Arma a distancia simple",
-      "coste": "25 po",
-      "daño": "1d6",
-      "tipo_daño": "perforante",
-      "peso": 1,
-      "propiedades": ["Munición (alcance 80/320)", "Dos manos"],
-      "is_magical": false
-    },
-    {
-      "id": "ballesta_ligera",
-      "nombre": "Ballesta ligera",
-      "categoria": "Arma a distancia simple",
-      "coste": "25 po",
-      "daño": "1d8",
-      "tipo_daño": "perforante",
-      "peso": 2.5,
-      "propiedades": ["Munición (alcance 80/320)", "Recarga", "Dos manos"],
-      "is_magical": false
-    },
-    {
-      "id": "hacha_mano",
-      "nombre": "Hacha de mano",
-      "categoria": "Arma cuerpo a cuerpo simple",
-      "coste": "5 po",
-      "daño": "1d6",
-      "tipo_daño": "cortante",
-      "peso": 1,
-      "propiedades": ["Arrojadiza (alcance 20/60)", "Ligera"],
-      "is_magical": false
-    },
-    {
-      "id": "baston",
-      "nombre": "Bastón",
-      "categoria": "Arma cuerpo a cuerpo simple",
-      "coste": "2 pp",
-      "daño": "1d6",
-      "tipo_daño": "contundente",
-      "peso": 2,
-      "propiedades": ["Versátil (1d8)"],
       "is_magical": false
     }
   ]

@@ -1,0 +1,188 @@
+{
+  "enano_colinas": {
+    "nombre": "Enano de las Colinas",
+    "raza_base": "enano",
+    "descripcion": "Enanos con profunda intuición y notable resistencia. Los Enanos dorados de Faerûn son enanos de las colinas.",
+    "bonificadores": {"constitucion": 2, "sabiduria": 1},
+    "velocidad": 25,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "resistencia_enana", "nombre": "Resistencia Enana", "descripcion": "Ventaja en salvaciones contra veneno, resistencia a daño por veneno."},
+      {"id": "entrenamiento_combate_enano", "nombre": "Entrenamiento de Combate Enano", "descripcion": "Competencia con hacha de batalla, hacha de mano, martillo arrojadizo y martillo de guerra."},
+      {"id": "afinidad_piedra", "nombre": "Afinidad con la Piedra", "descripcion": "Doble competencia en Historia relacionada con piedra."},
+      {"id": "dureza_enana", "nombre": "Dureza Enana", "descripcion": "HP máximo +1 por nivel."}
+    ],
+    "idiomas": ["comun", "enano"],
+    "competencias_armas": ["hacha_batalla", "hacha_mano", "martillo_arrojadizo", "martillo_guerra"],
+    "nombres_masculinos": ["Adrik", "Baern", "Bruenor", "Dain", "Darrak", "Eberk", "Flint", "Gardain", "Harbek", "Kildrak", "Morgran", "Orsik", "Oskar", "Thoradin", "Thorin", "Tordek", "Traubon", "Ulfgar", "Veit", "Vondal"],
+    "nombres_femeninos": ["Amber", "Artin", "Audhild", "Dagnal", "Diesa", "Eldeth", "Falkrunn", "Gunnloda", "Gurdis", "Helja", "Kathra", "Kristryd", "Mardred", "Riswynn", "Torbera", "Vistra"],
+    "nombres_clan": ["Balderk", "Battlehammer", "Brawnanvil", "Dankil", "Fireforge", "Frostbeard", "Gorunn", "Holderhek", "Ironfist", "Loderr", "Rumnaheim", "Strakeln", "Torunn", "Ungart"]
+  },
+
+  "enano_montanas": {
+    "nombre": "Enano de las Montañas",
+    "raza_base": "enano",
+    "descripcion": "Enanos fuertes y duros, acostumbrados a terreno áspero. Los enanos escudo del norte de Faerûn son enanos de las montañas.",
+    "bonificadores": {"constitucion": 2, "fuerza": 2},
+    "velocidad": 25,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "resistencia_enana", "nombre": "Resistencia Enana", "descripcion": "Ventaja en salvaciones contra veneno, resistencia a daño por veneno."},
+      {"id": "entrenamiento_combate_enano", "nombre": "Entrenamiento de Combate Enano", "descripcion": "Competencia con hacha de batalla, hacha de mano, martillo arrojadizo y martillo de guerra."},
+      {"id": "afinidad_piedra", "nombre": "Afinidad con la Piedra", "descripcion": "Doble competencia en Historia relacionada con piedra."},
+      {"id": "entrenamiento_armadura_enana", "nombre": "Entrenamiento con Armadura Enana", "descripcion": "Competencia con armaduras ligeras y medias."}
+    ],
+    "idiomas": ["comun", "enano"],
+    "competencias_armas": ["hacha_batalla", "hacha_mano", "martillo_arrojadizo", "martillo_guerra"],
+    "competencias_armaduras": ["ligera", "media"],
+    "nombres_masculinos": ["Adrik", "Baern", "Bruenor", "Dain", "Darrak", "Eberk", "Flint", "Thorin", "Tordek"],
+    "nombres_femeninos": ["Amber", "Diesa", "Eldeth", "Kathra", "Mardred", "Vistra"],
+    "nombres_clan": ["Battlehammer", "Dankil", "Fireforge", "Gorunn", "Holderhek", "Ironfist"]
+  },
+
+  "elfo_alto": {
+    "nombre": "Alto Elfo",
+    "raza_base": "elfo",
+    "descripcion": "Elfos con mente aguda y dominio de la magia básica. Tienden a ser poderosos magos.",
+    "bonificadores": {"destreza": 2, "inteligencia": 1},
+    "velocidad": 30,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "sentidos_agudos", "nombre": "Sentidos Agudos", "descripcion": "Competencia en Percepción."},
+      {"id": "ascendencia_feerica", "nombre": "Ascendencia Feérica", "descripcion": "Ventaja en salvaciones contra Encantamiento, inmune a sueño mágico."},
+      {"id": "trance", "nombre": "Trance", "descripcion": "4 horas de meditación equivalen a 8 horas de sueño."},
+      {"id": "entrenamiento_armas_elficas", "nombre": "Entrenamiento con Armas Élficas", "descripcion": "Competencia con espada larga, espada corta, arco largo y arco corto."},
+      {"id": "truco_mago", "nombre": "Truco de Mago", "descripcion": "Conoces un truco de la lista de mago (Inteligencia)."}
+    ],
+    "idiomas": ["comun", "elfico"],
+    "idiomas_extra": 1,
+    "competencias_armas": ["espada_larga", "espada_corta", "arco_largo", "arco_corto"],
+    "competencias_habilidades": ["percepcion"],
+    "nombres_masculinos": ["Aramil", "Berrian", "Carric", "Enialis", "Galinndan", "Hadarai", "Heian", "Immeral", "Ivellios", "Laucian", "Quarion", "Thamior", "Tharivol"],
+    "nombres_femeninos": ["Adrie", "Althaea", "Anastrianna", "Andraste", "Caelynn", "Drusilia", "Enna", "Felosial", "Ielenia", "Keyleth", "Lia", "Mialee", "Silaqui", "Vadania"],
+    "nombres_familia": ["Amakiir", "Amastacia", "Galanodel", "Holimion", "Liadon", "Meliamne", "Nailo", "Siannodel", "Xiloscient"]
+  },
+
+  "elfo_bosque": {
+    "nombre": "Elfo de los Bosques",
+    "raza_base": "elfo",
+    "descripcion": "Elfos con sentidos afilados e intuición, capaces de moverse rápida y sigilosamente por los bosques.",
+    "bonificadores": {"destreza": 2, "sabiduria": 1},
+    "velocidad": 35,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "sentidos_agudos", "nombre": "Sentidos Agudos", "descripcion": "Competencia en Percepción."},
+      {"id": "ascendencia_feerica", "nombre": "Ascendencia Feérica", "descripcion": "Ventaja en salvaciones contra Encantamiento, inmune a sueño mágico."},
+      {"id": "trance", "nombre": "Trance", "descripcion": "4 horas de meditación equivalen a 8 horas de sueño."},
+      {"id": "entrenamiento_armas_elficas", "nombre": "Entrenamiento con Armas Élficas", "descripcion": "Competencia con espada larga, espada corta, arco largo y arco corto."},
+      {"id": "pies_rapidos", "nombre": "Pies Rápidos", "descripcion": "Velocidad base 35 pies."},
+      {"id": "mascara_salvaje", "nombre": "Máscara de lo Salvaje", "descripcion": "Puedes intentar esconderte incluso cuando solo estás ligeramente oculto por follaje, lluvia, nieve, niebla u otros fenómenos naturales."}
+    ],
+    "idiomas": ["comun", "elfico"],
+    "competencias_armas": ["espada_larga", "espada_corta", "arco_largo", "arco_corto"],
+    "competencias_habilidades": ["percepcion"],
+    "nombres_masculinos": ["Aramil", "Carric", "Galinndan", "Heian", "Quarion", "Thamior"],
+    "nombres_femeninos": ["Adrie", "Caelynn", "Enna", "Keyleth", "Lia", "Vadania"],
+    "nombres_familia": ["Galanodel", "Liadon", "Nailo", "Siannodel"]
+  },
+
+  "humano": {
+    "nombre": "Humano",
+    "raza_base": "humano",
+    "descripcion": "Los más adaptables y ambiciosos de las razas comunes. Varían mucho en apariencia según su herencia.",
+    "bonificadores": {"fuerza": 1, "destreza": 1, "constitucion": 1, "inteligencia": 1, "sabiduria": 1, "carisma": 1},
+    "velocidad": 30,
+    "tamanio": "mediano",
+    "vision_oscuridad": 0,
+    "rasgos": [],
+    "idiomas": ["comun"],
+    "idiomas_extra": 1,
+    "nombres_masculinos": ["Anton", "Diero", "Marcon", "Pieron", "Rimardo", "Romero", "Salazar", "Umbero"],
+    "nombres_femeninos": ["Balama", "Dona", "Faila", "Jalana", "Luisa", "Mara", "Quara", "Selise", "Vonda"],
+    "nombres_familia": ["Agosto", "Astorio", "Calabra", "Domine", "Falone", "Marivaldi", "Pisacar", "Ramondo"]
+  },
+
+  "mediano_piesligeros": {
+    "nombre": "Mediano Piesligeros",
+    "raza_base": "mediano",
+    "descripcion": "Medianos que pueden esconderse fácilmente, incluso usando a otras criaturas como cobertura. Hacen excepcionales pícaros.",
+    "bonificadores": {"destreza": 2, "carisma": 1},
+    "velocidad": 25,
+    "tamanio": "pequenio",
+    "vision_oscuridad": 0,
+    "rasgos": [
+      {"id": "suerte", "nombre": "Suerte", "descripcion": "Cuando sacas un 1 en un d20, puedes volver a tirar y usar el nuevo resultado."},
+      {"id": "valiente", "nombre": "Valiente", "descripcion": "Ventaja en salvaciones contra ser asustado."},
+      {"id": "agilidad_mediana", "nombre": "Agilidad Mediana", "descripcion": "Puedes moverte a través del espacio de cualquier criatura de tamaño mayor que el tuyo."},
+      {"id": "sigiloso_natural", "nombre": "Sigiloso Natural", "descripcion": "Puedes intentar esconderte incluso cuando solo estás oculto por una criatura de tamaño al menos Mediano."}
+    ],
+    "idiomas": ["comun", "mediano"],
+    "nombres_masculinos": ["Alton", "Ander", "Cade", "Corrin", "Eldon", "Errich", "Finnan", "Garret", "Lindal", "Lyle", "Merric", "Milo", "Osborn", "Perrin", "Reed", "Roscoe", "Wellby"],
+    "nombres_femeninos": ["Andry", "Bree", "Callie", "Cora", "Euphemia", "Jillian", "Kithri", "Lavinia", "Lidda", "Merla", "Nedda", "Paela", "Portia", "Seraphina", "Shaena", "Vani", "Verna"],
+    "nombres_familia": ["Brushgather", "Goodbarrel", "Greenbottle", "Highhill", "Hilltopple", "Leagallow", "Tealeaf", "Thorngage", "Tosscobble", "Underbough"]
+  },
+
+  "mediano_fornido": {
+    "nombre": "Mediano Fornido",
+    "raza_base": "mediano",
+    "descripcion": "Medianos más resistentes que sus primos piesligeros, con algo de sangre enana según algunos.",
+    "bonificadores": {"destreza": 2, "constitucion": 1},
+    "velocidad": 25,
+    "tamanio": "pequenio",
+    "vision_oscuridad": 0,
+    "rasgos": [
+      {"id": "suerte", "nombre": "Suerte", "descripcion": "Cuando sacas un 1 en un d20, puedes volver a tirar y usar el nuevo resultado."},
+      {"id": "valiente", "nombre": "Valiente", "descripcion": "Ventaja en salvaciones contra ser asustado."},
+      {"id": "agilidad_mediana", "nombre": "Agilidad Mediana", "descripcion": "Puedes moverte a través del espacio de cualquier criatura de tamaño mayor que el tuyo."},
+      {"id": "resistencia_fornida", "nombre": "Resistencia Fornida", "descripcion": "Ventaja en salvaciones contra veneno, resistencia a daño por veneno."}
+    ],
+    "idiomas": ["comun", "mediano"],
+    "nombres_masculinos": ["Alton", "Cade", "Corrin", "Garret", "Milo", "Osborn", "Roscoe"],
+    "nombres_femeninos": ["Andry", "Cora", "Kithri", "Lidda", "Nedda", "Vani"],
+    "nombres_familia": ["Goodbarrel", "Highhill", "Thorngage", "Underbough"]
+  },
+
+  "semielfo": {
+    "nombre": "Semielfo",
+    "raza_base": "semielfo",
+    "descripcion": "Combinan lo mejor de humanos y elfos. Caminan entre dos mundos sin pertenecer realmente a ninguno.",
+    "bonificadores": {"carisma": 2},
+    "bonificadores_elegir": {"cantidad": 2, "valor": 1, "excluir": ["carisma"]},
+    "velocidad": 30,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "ascendencia_feerica", "nombre": "Ascendencia Feérica", "descripcion": "Ventaja en salvaciones contra Encantamiento, inmune a sueño mágico."},
+      {"id": "versatilidad_habilidades", "nombre": "Versatilidad en Habilidades", "descripcion": "Competencia en dos habilidades a elegir."}
+    ],
+    "idiomas": ["comun", "elfico"],
+    "idiomas_extra": 1,
+    "competencias_habilidades_elegir": 2,
+    "nombres_masculinos": ["Theron", "Kaelen", "Valandor", "Arlen", "Daren", "Eryn", "Galen", "Hadrian", "Kael", "Lorien", "Nolan", "Rolan", "Talion"],
+    "nombres_femeninos": ["Aelindra", "Caelynn", "Elara", "Lyra", "Seraphina", "Arwen", "Brynn", "Eirlys", "Isolde", "Nerys", "Rhiannon", "Seren", "Talia"],
+    "nombres_familia": ["Duskbane", "Brightblade", "Nightfall", "Valadris", "Moonshadow", "Starweaver", "Sunstrider", "Windwalker", "Dawnbreaker", "Stormborn"]
+  },
+
+  "semiorco": {
+    "nombre": "Semiorco",
+    "raza_base": "semiorco",
+    "descripcion": "Combinan la resistencia humana con el vigor orco. Marcados por su herencia, deben probarse constantemente.",
+    "bonificadores": {"fuerza": 2, "constitucion": 1},
+    "velocidad": 30,
+    "tamanio": "mediano",
+    "vision_oscuridad": 60,
+    "rasgos": [
+      {"id": "amenazador", "nombre": "Amenazador", "descripcion": "Competencia en Intimidación."},
+      {"id": "aguante_implacable", "nombre": "Aguante Implacable", "descripcion": "Al caer a 0 HP, caes a 1 HP en su lugar (1/descanso largo)."},
+      {"id": "ataques_salvajes", "nombre": "Ataques Salvajes", "descripcion": "Dado de daño extra en críticos con armas cuerpo a cuerpo."}
+    ],
+    "idiomas": ["comun", "orco"],
+    "competencias_habilidades": ["intimidacion"],
+    "nombres_masculinos": ["Dench", "Feng", "Gell", "Henk", "Holg", "Imsh", "Keth", "Krusk", "Mhurren", "Ront", "Shump", "Thokk"],
+    "nombres_femeninos": ["Baggi", "Emen", "Engong", "Kansif", "Myev", "Neega", "Ovak", "Ownka", "Shautha", "Sutha", "Vola", "Volen", "Yevelda"]
+  }
+}
