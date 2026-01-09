@@ -7,7 +7,7 @@ para crear una experiencia de juego coherente.
 
 import json
 from typing import Any, Dict, List, Optional, Callable
-from generador import obtener_prompt_tono, obtener_balance_solitario
+from generador import obtener_prompt_tono, obtener_balance_solitario, obtener_bible_manager
 
 from .contexto import GestorContexto
 from .parser_respuesta import parsear_respuesta, RespuestaLLM, validar_respuesta
@@ -195,6 +195,105 @@ class DMCerebro:
         """Añade un NPC a la escena."""
         self.contexto.añadir_npc(**kwargs)
     
+
+    def _obtener_contexto_bible(self) -> str:
+        """Obtiene el contexto de la Adventure Bible para el prompt."""
+        pj_id = self.contexto.pj.get("id", "") if self.contexto.pj else ""
+        if not pj_id:
+            return ""
+        
+        try:
+            bm = obtener_bible_manager()
+            bible = bm.cargar_bible_full(pj_id)
+            if not bible:
+                return ""
+            
+            # Generar vista DM (filtrada, sin spoilers)
+            vista = bm.generar_vista_dm(bible)
+            
+            partes = []
+            partes.append("═══════════════════════════════════════════════════════════════════════")
+            partes.append("ADVENTURE BIBLE (GUÍA INTERNA - NO REVELAR DIRECTAMENTE)")
+            partes.append("═══════════════════════════════════════════════════════════════════════")
+            partes.append("")
+            
+            # Situación actual
+            sit = vista.get("situacion_actual", {})
+            partes.append(f"OBJETIVO ACTUAL: {sit.get('objetivo_inmediato', 'Explorar')}")
+            partes.append(f"TENSIÓN: {sit.get('tension_actual', 'media')}")
+            partes.append("")
+            
+            # Acto actual
+            acto = vista.get("acto_actual_info", {})
+            if acto:
+                partes.append(f"ACTO {acto.get('numero', 1)}: {acto.get('nombre', '')}")
+                partes.append(f"Objetivo del acto: {acto.get('objetivo', '')}")
+                
+                escenas = acto.get("escenas_disponibles", [])
+                if escenas:
+                    partes.append("Escenas sugeridas:")
+                    for e in escenas[:3]:
+                        estado = "✓" if e.get("completada") else "○"
+                        partes.append(f"  {estado} [{e.get('tipo', '?')}] {e.get('descripcion', '')[:50]}")
+                partes.append("")
+            
+            # Antagonista (sombra)
+            ant = vista.get("antagonista_sombra", {})
+            if ant:
+                if ant.get("revelacion_disponible"):
+                    partes.append(f"ANTAGONISTA: {ant.get('identidad_real', 'Desconocido')}")
+                    partes.append(f"Motivación: {ant.get('motivacion', '')}")
+                    partes.append(f"Debilidad: {ant.get('debilidad', '')}")
+                else:
+                    partes.append(f"ANTAGONISTA (OCULTO): {ant.get('descripcion_vaga', 'Una fuerza misteriosa')}")
+                    pistas = ant.get("pistas_para_sembrar", [])
+                    if pistas:
+                        partes.append("Pistas de foreshadowing que puedes sembrar:")
+                        for p in pistas[:2]:
+                            partes.append(f"  - {p}")
+                partes.append("")
+            
+            # NPCs relevantes
+            npcs = vista.get("pnj_en_escena", [])
+            if npcs:
+                partes.append("NPCs RELEVANTES:")
+                for npc in npcs[:4]:
+                    hint = f" ({npc.get('secreto_hint', '')})" if npc.get('secreto_hint') else ""
+                    partes.append(f"  - {npc.get('nombre')}: {npc.get('actitud_actual', 'neutral')}{hint}")
+                partes.append("")
+            
+            # Revelaciones pendientes
+            revs = vista.get("revelaciones_pendientes", [])
+            if revs:
+                partes.append("REVELACIONES PENDIENTES (entregar al menos la pista garantizada):")
+                for rev in revs[:2]:
+                    partes.append(f"  → GARANTIZADA: {rev.get('pista_garantizada', 'N/A')}")
+                partes.append("")
+            
+            # Relojes
+            relojes = vista.get("relojes_visibles", [])
+            if relojes:
+                partes.append("RELOJES DE TENSIÓN:")
+                for r in relojes:
+                    partes.append(f"  ⏱ {r.get('nombre')}: {r.get('segmentos')} [{r.get('urgencia', 'media').upper()}]")
+                    partes.append(f"    Avanza cuando: {r.get('que_avanza', '')[:50]}")
+                partes.append("")
+            
+            # Canon
+            canon = vista.get("canon_activo", [])
+            if canon:
+                partes.append("CANON (NO CONTRADECIR):")
+                for c in canon[:4]:
+                    partes.append(f"  • {c}")
+                partes.append("")
+            
+            return "\n".join(partes)
+            
+        except Exception as e:
+            if hasattr(self, 'debug_mode') and self.debug_mode:
+                print(f"[DEBUG] Error cargando bible: {e}")
+            return ""
+
     def _construir_system_prompt(self) -> str:
         """Construye el system prompt completo para el DM."""
         # Obtener documentación de herramientas
@@ -221,6 +320,11 @@ class DMCerebro:
                 else:
                     # Si no encuentra el marcador, añadir al final
                     prompt = prompt + "\n\n" + prompt_tono
+        
+        # Obtener e inyectar contexto de la Adventure Bible
+        contexto_bible = self._obtener_contexto_bible()
+        if contexto_bible:
+            prompt = prompt + "\n\n" + contexto_bible
         
         return prompt
 

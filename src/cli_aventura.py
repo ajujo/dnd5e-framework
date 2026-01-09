@@ -14,7 +14,7 @@ from typing import Optional
 # Imports del proyecto
 from personaje import load_character, save_character, recalcular_derivados, list_characters
 from llm import obtener_cliente_llm, verificar_conexion, set_perfil, get_perfil
-from generador import listar_tonos, cargar_tono
+from generador import listar_tonos, cargar_tono, listar_regiones, obtener_info_region, crear_bible_generator, obtener_bible_manager
 from orquestador import DMCerebro
 
 
@@ -417,6 +417,61 @@ def generar_resumen_sesion(dm: DMCerebro) -> dict:
     
     return resumen
 
+
+
+def seleccionar_region() -> dict:
+    """Permite al usuario seleccionar la región de Faerûn."""
+    regiones = listar_regiones()
+    
+    print("\n  ═══ REGIÓN DE FAERÛN ═══\n")
+    
+    for i, region in enumerate(regiones, 1):
+        print(f"  {i}. {region['nombre']}")
+        print(f"     {region['descripcion'][:60]}...\n")
+    
+    while True:
+        try:
+            opcion = input(f"  Elige (1-{len(regiones)}): ").strip()
+            idx = int(opcion) - 1
+            if 0 <= idx < len(regiones):
+                region_sel = regiones[idx]
+                region_completa = obtener_info_region(region_sel['id'])
+                
+                print(f"\n  ✓ Región: {region_sel['nombre']}")
+                print(f"    Ciudades: {', '.join(region_completa.get('ciudades', [])[:3])}")
+                
+                return {
+                    "id": region_sel['id'],
+                    "nombre": region_sel['nombre'],
+                    "datos": region_completa
+                }
+        except ValueError:
+            pass
+        print("  Opción no válida.")
+
+
+def generar_aventura_bible(pj: dict, tipo_aventura: dict, region: dict, llm_callback) -> bool:
+    """Genera la Adventure Bible usando el LLM."""
+    print("\n  ═══ GENERANDO AVENTURA ═══")
+    print("  Esto puede tardar un momento...\n")
+    
+    generator = crear_bible_generator(llm_callback)
+    
+    exito, mensaje = generator.generar_y_guardar(
+        pj=pj,
+        tipo_aventura_id=tipo_aventura['id'],
+        region_id=region['id']
+    )
+    
+    if exito:
+        print(f"  ✓ {mensaje}")
+        return True
+    else:
+        print(f"  ✗ Error: {mensaje}")
+        print("  Se continuará sin Adventure Bible (modo improvisación)")
+        return False
+
+
 def jugar(dm: DMCerebro, es_continuacion: bool = False):
     """Bucle principal del juego."""
     limpiar_pantalla()
@@ -613,10 +668,30 @@ def main():
     if not es_continuacion:
         # Nueva aventura
         tipo_aventura = seleccionar_tipo_aventura()
+        region = seleccionar_region()
         
-        # Guardar tipo en el contexto del DM
+        # Guardar tipo y región en el contexto del DM
         dm.contexto.flags["tipo_aventura"] = tipo_aventura
+        dm.contexto.flags["region"] = region
         dm.contexto.notas_dm = f"TONO DE LA AVENTURA: {tipo_aventura['tono']}"
+        
+        # Generar Adventure Bible con LLM
+        bible_generada = False
+        if llm_callback:
+            bible_generada = generar_aventura_bible(
+                pj=dm.contexto.pj,
+                tipo_aventura=tipo_aventura,
+                region=region,
+                llm_callback=llm_callback
+            )
+        
+        # Cargar la biblia si se generó
+        if bible_generada:
+            bm = obtener_bible_manager()
+            bible = bm.cargar_bible_full(dm.contexto.pj.get("id", ""))
+            if bible:
+                dm.contexto.flags["bible_id"] = bible.get("meta", {}).get("id")
+                print(f"  📖 Aventura: {bible.get('logline', '')[:60]}...")
         
         # Crear escena inicial
         ubicacion, npcs = crear_escena_demo()
