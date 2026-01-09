@@ -162,7 +162,7 @@
   "derivados": {
     "bonificador_competencia": 2,
     "puntos_golpe_maximo": 12,
-    "puntos_golpe_actual": 6,
+    "puntos_golpe_actual": 12,
     "dado_golpe": "d10",
     "clase_armadura": 18,
     "velocidad": 35,
@@ -187,6 +187,119 @@
   "meta": {
     "concepto": "Guerrero vengativo"
   },
-  "fecha_modificacion": "2026-01-08T18:31:48.579623",
-  "fecha_creacion": "2026-01-08T12:35:09.367554"
+  "fecha_modificacion": "2026-01-09T07:34:47.962868",
+  "fecha_creacion": "2026-01-08T12:35:09.367554",
+  "estado_aventura": {
+    "turno": 6,
+    "modo_juego": "exploracion",
+    "ubicacion": {
+      "id": "taberna_ciervo",
+      "nombre": "Taberna del Ciervo Dorado",
+      "descripcion": "Una taberna acogedora con vigas de roble oscurecidas por el humo. El fuego crepita en la chimenea mientras parroquianos murmuran sobre sus jarras de cerveza.",
+      "tipo": "interior",
+      "conexiones": []
+    },
+    "npcs_activos": [
+      {
+        "id": "tabernera",
+        "nombre": "Marta la Tabernera",
+        "descripcion": "Una mujer robusta de mediana edad con delantal manchado y sonrisa fácil.",
+        "actitud": "amistoso",
+        "hp": null,
+        "hp_max": null,
+        "ca": null,
+        "es_enemigo": false,
+        "datos_extra": {}
+      }
+    ],
+    "historial": [
+      {
+        "turno": 0,
+        "tipo": "accion_jugador",
+        "contenido": "echo un vistazo por la taberna",
+        "timestamp": "2026-01-09T07:24:53.023107"
+      },
+      {
+        "turno": 0,
+        "tipo": "respuesta_dm",
+        "contenido": "El DM no está disponible.",
+        "timestamp": "2026-01-09T07:24:53.023241"
+      },
+      {
+        "turno": 1,
+        "tipo": "accion_jugador",
+        "contenido": "echo un vistazo por la taberma",
+        "timestamp": "2026-01-09T07:27:12.757795"
+      },
+      {
+        "turno": 1,
+        "tipo": "respuesta_dm",
+        "contenido": "El DM no está disponible.",
+        "timestamp": "2026-01-09T07:27:12.757855"
+      },
+      {
+        "turno": 2,
+        "tipo": "accion_jugador",
+        "contenido": "echo un ojo a las personas que hay en la taberna",
+        "timestamp": "2026-01-09T07:32:26.663805"
+      },
+      {
+        "turno": 2,
+        "tipo": "respuesta_dm",
+        "contenido": "Observas atentamente a los parroquianos. En una mesa junto a la chimenea, un bardo con una capa roja desafina mientras toca su lira. Cerca de la barra, un grupo de mercenarios ríen estruendosamente mientras beben cerveza oscura. Al fondo, una figura solitaria envuelta en una capa negra observa todo con ojos cautelosos.",
+        "timestamp": "2026-01-09T07:32:30.233202"
+      },
+      {
+        "turno": 3,
+        "tipo": "accion_jugador",
+        "contenido": "me acerco a la digura solitaria con la capa negra. le digo si puedo sentarme y me presento",
+        "timestamp": "2026-01-09T07:33:20.136208"
+      },
+      {
+        "turno": 3,
+        "tipo": "respuesta_dm",
+        "contenido": "Te acercas a la figura solitaria envuelta en una capa negra y te inclinas ligeramente. 'Buenas noches, soy Kaelen Hoja Lunar, ¿me permites sentarme?' La figura levanta la mirada, revelando ojos oscuros que parecen estudiar tu rostro.",
+        "timestamp": "2026-01-09T07:33:22.566339"
+      },
+      {
+        "turno": 4,
+        "tipo": "accion_jugador",
+        "contenido": "¿eso es un si?",
+        "timestamp": "2026-01-09T07:33:42.899246"
+      },
+      {
+        "turno": 4,
+        "tipo": "resultado_mecanico",
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 17, \"modificador\": 0, \"total\": 17, \"cd\": 15, \"margen\": 2, \"tipo_tirada\": \"normal\", \"detalle\": \"17\", \"competente\": false, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"17 + 0 (CAR) + 0 (comp) = 17 vs CD 15\"}",
+        "timestamp": "2026-01-09T07:33:45.786532"
+      },
+      {
+        "turno": 4,
+        "tipo": "respuesta_dm",
+        "contenido": "La figura en la capa negra asiente con un gesto cortés y hace un espacio para ti, indicando silenciosamente una silla vacía. 'Adelante', dice su voz suave pero penetrante, mientras sigue observándote con sus ojos oscuros.",
+        "timestamp": "2026-01-09T07:33:48.139741"
+      },
+      {
+        "turno": 5,
+        "tipo": "accion_jugador",
+        "contenido": "Quien eres? que te trae por el ciervo dorado",
+        "timestamp": "2026-01-09T07:34:20.318596"
+      },
+      {
+        "turno": 5,
+        "tipo": "respuesta_dm",
+        "contenido": "Te miras a la figura, quien se presenta con una voz que suena como el susurro del viento entre los árboles. 'Mi nombre es Thalorien Sombraescarcha', dice. 'Vengo en busca de información sobre un artefacto perdido... y tal vez encuentre aliados para mi búsqueda.' Sus ojos oscuros parecen brillar con una luz interna mientras te observa, como si estuviera evaluando tu valía.",
+        "timestamp": "2026-01-09T07:34:23.206751"
+      }
+    ],
+    "estado_combate": null,
+    "flags": {
+      "tipo_aventura": {
+        "nombre": "Épica Heroica",
+        "descripcion": "Héroes contra el mal, batallas épicas, salvar el mundo",
+        "tono": "heroico, épico, buenos vs malos claros, acción y gloria"
+      }
+    },
+    "notas_dm": "TONO DE LA AVENTURA: heroico, épico, buenos vs malos claros, acción y gloria"
+  }
 }
