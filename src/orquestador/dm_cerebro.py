@@ -77,8 +77,20 @@ Debes generar desafíos regularmente:
 
 1. COMBATES (cada 3-5 escenas de exploración):
    - Emboscadas, cacerías, enfrentamientos
-   - USA SIEMPRE "iniciar_combate" con monstruos del compendio
-   - Usa "listar_monstruos" para ver disponibles
+   
+   ⚠️ REGLA OBLIGATORIA DE COMBATE:
+   Cuando aparezcan enemigos hostiles, DEBES seguir este orden EXACTO:
+   
+   PASO 1: Usa "listar_monstruos" para ver monstruos disponibles
+   PASO 2: Usa "iniciar_combate" con los IDs de monstruos del compendio
+           Ejemplo: {{"herramienta": "iniciar_combate", "parametros": {{"enemigos": ["bandido", "bandido"]}}}}
+   PASO 3: El sistema calculará iniciativa y gestionará turnos
+   PASO 4: En cada turno de combate, usa "tirar_ataque" o "dañar_enemigo"
+   
+   ❌ PROHIBIDO: Narrar ataques o daño SIN haber llamado a "iniciar_combate" primero
+   ❌ PROHIBIDO: Inventar monstruos que no estén en el compendio
+   ❌ PROHIBIDO: Resolver combates narrativamente sin usar las herramientas
+   
    - Ajusta cantidad de enemigos para UN SOLO PJ (1-3 enemigos débiles o 1 fuerte)
 
 2. OBSTÁCULOS CON ALTERNATIVAS:
@@ -96,7 +108,9 @@ MODOS DE JUEGO
 
 EXPLORACIÓN: Viajes, búsqueda, investigación. Pocas tiradas salvo peligro.
 SOCIAL: Diálogos importantes. Tiradas solo si hay resistencia real.
-COMBATE: Usa "iniciar_combate". Turnos estructurados por iniciativa.
+COMBATE: OBLIGATORIO llamar "iniciar_combate" ANTES de cualquier ataque.
+         El sistema gestiona turnos e iniciativa automáticamente.
+         NO narres ataques sin haber iniciado combate formalmente.
 
 Indica SIEMPRE "cambio_modo" cuando la situación cambie.
 
@@ -388,6 +402,19 @@ class DMCerebro:
         # ¿Hay herramienta que ejecutar?
         if respuesta.herramienta:
             resultado_turno["herramienta_usada"] = respuesta.herramienta
+            
+            # VALIDACIÓN: tirar_ataque y dañar_enemigo requieren combate activo
+            herramientas_combate = ["tirar_ataque", "dañar_enemigo"]
+            if respuesta.herramienta in herramientas_combate:
+                if not self.contexto.estado_combate:
+                    # No hay combate activo, forzar al LLM a iniciarlo
+                    resultado_turno["resultado_mecanico"] = {
+                        "error": "NO HAY COMBATE ACTIVO",
+                        "mensaje": "Debes usar 'iniciar_combate' antes de atacar",
+                        "accion_requerida": "Usa iniciar_combate con los enemigos apropiados"
+                    }
+                    resultado_turno["narrativa"] = "⚠️ [Sistema: Se requiere iniciar combate formalmente antes de atacar]"
+                    return resultado_turno
             
             # Ejecutar herramienta
             contexto_herramienta = self.contexto.generar_diccionario_contexto()
