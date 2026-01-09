@@ -1,0 +1,62 @@
+{
+  "id": "comedia_caos",
+  "nombre": "Comedia y Caos",
+  "descripcion_corta": "Situaciones absurdas, humor, nada sale según el plan",
+  "descripcion_larga": "Aventuras donde el absurdo es la norma, los planes salen espectacularmente mal, y reírse de las desgracias es parte de la diversión. No te tomes nada demasiado en serio.",
+  
+  "tono_narrativo": "Ligero, absurdo, lleno de giros inesperados. Los NPCs son excéntricos. Las situaciones escalan de forma ridícula. El humor puede ser slapstick, ingenioso, o ambos.",
+  
+  "frecuencias": {
+    "combate": "media",
+    "social": "alta",
+    "exploracion": "media",
+    "misterio": "baja"
+  },
+  
+  "como_resolver_fallos": "Los fallos son oportunidades cómicas. Algo sale mal de forma espectacular pero divertida. Las consecuencias son inconvenientes absurdos más que peligros reales. La historia continúa con un nuevo problema ridículo.",
+  
+  "letalidad": "muy_baja",
+  "moral": "irrelevante",
+  
+  "arquetipos_npc": [
+    "Mago incompetente pero entusiasta",
+    "Noble pomposo y ridículo",
+    "Tabernero que ha visto de todo",
+    "Villano con plan absurdamente complicado",
+    "Secuaz más competente que su jefe",
+    "Bestia que resulta ser amigable (o cobarde)"
+  ],
+  
+  "tipos_antagonista": [
+    "Villano con plan absurdo",
+    "Burócrata obsesivo",
+    "Rival torpe pero persistente",
+    "Maldición con efectos ridículos",
+    "Malentendido que escala sin control"
+  ],
+  
+  "tipos_quest": [
+    "Recuperar un objeto robado (que nadie quiere realmente)",
+    "Limpiar el desastre que causaste accidentalmente",
+    "Escoltar a alguien increíblemente difícil",
+    "Ganar un concurso absurdo",
+    "Detener una boda (o celebrarla a toda costa)"
+  ],
+  
+  "escenarios_tipicos": [
+    "Tabernas con clientela extraña",
+    "Ferias y festivales",
+    "Palacios de nobles excéntricos",
+    "Mazmorras con trampas absurdas",
+    "Gremios con reglas ridículas"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "variable (a veces mucho, a veces nada)",
+    "items_magicos": "con efectos secundarios divertidos",
+    "reconocimiento": "dudoso",
+    "aliados": "excéntricos pero leales"
+  },
+  
+  "prompt_extra": "El humor está en los detalles absurdos. Los NPCs tienen peculiaridades exageradas. Los planes nunca salen como se esperan. Escala las situaciones de forma ridícula. Los fallos son oportunidades para comedia física o de situación. Los combates incluyen elementos absurdos (enemigos torpes, armas improvisadas, malentendidos). Nada es demasiado serio. La muerte es extremadamente rara y generalmente fingida."
+}

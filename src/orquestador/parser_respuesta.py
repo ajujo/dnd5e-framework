@@ -14,17 +14,19 @@ from dataclasses import dataclass
 @dataclass
 class RespuestaLLM:
     """Estructura de una respuesta parseada del LLM."""
-    pensamiento: str = ""  # Razonamiento interno del LLM
     herramienta: Optional[str] = None  # Nombre de herramienta a ejecutar
     parametros: Dict[str, Any] = None  # Parámetros de la herramienta
     narrativa: str = ""  # Texto narrativo para el jugador
-    accion_dm: Optional[str] = None  # Acción especial del DM
     cambio_modo: Optional[str] = None  # Cambio de modo: exploracion/social/combate
+    memoria: Dict[str, Any] = None  # Actualización de memoria narrativa
+    accion_dm: Optional[str] = None  # Acción especial del DM (legacy)
     error: Optional[str] = None  # Error de parsing si lo hay
     
     def __post_init__(self):
         if self.parametros is None:
             self.parametros = {}
+        if self.memoria is None:
+            self.memoria = {}
 
 
 def parsear_respuesta_json(texto: str) -> RespuestaLLM:
@@ -56,12 +58,12 @@ def parsear_respuesta_json(texto: str) -> RespuestaLLM:
     try:
         datos = json.loads(json_match.group())
         
-        respuesta.pensamiento = datos.get("pensamiento", "")
         respuesta.herramienta = datos.get("herramienta")
         respuesta.parametros = datos.get("parametros", {})
         respuesta.narrativa = datos.get("narrativa", "")
-        respuesta.accion_dm = datos.get("accion_dm")
         respuesta.cambio_modo = datos.get("cambio_modo")
+        respuesta.memoria = datos.get("memoria", {})
+        respuesta.accion_dm = datos.get("accion_dm")
         
         # Si hay herramienta pero es null o "ninguna", limpiar
         if respuesta.herramienta in (None, "null", "ninguna", "none", ""):

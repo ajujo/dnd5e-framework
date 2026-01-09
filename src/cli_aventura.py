@@ -14,6 +14,7 @@ from typing import Optional
 # Imports del proyecto
 from personaje import load_character, save_character, recalcular_derivados, list_characters
 from llm import obtener_cliente_llm, verificar_conexion, set_perfil, get_perfil
+from generador import listar_tonos, cargar_tono
 from orquestador import DMCerebro
 
 
@@ -159,7 +160,15 @@ def mostrar_sistema(dm: DMCerebro):
     tipo_av = flags.get("tipo_aventura", {})
     if tipo_av:
         print(f"\n  📖 TIPO DE AVENTURA: {tipo_av.get('nombre', 'No definido')}")
-        print(f"     Tono: {tipo_av.get('tono', 'N/A')}")
+        datos = tipo_av.get('datos_completos', {})
+        if datos:
+            print(f"     Letalidad: {datos.get('letalidad', 'N/A')}")
+            print(f"     Moral: {datos.get('moral', 'N/A')}")
+            freq = datos.get('frecuencias', {})
+            if freq:
+                print(f"     Combate: {freq.get('combate', '?')} | Social: {freq.get('social', '?')} | Misterio: {freq.get('misterio', '?')}")
+        else:
+            print(f"     Tono: {tipo_av.get('tono', 'N/A')}")
     
     # Modo de juego actual
     print(f"\n  🎮 MODO ACTUAL: {dm.contexto.modo_juego.upper()}")
@@ -313,22 +322,35 @@ def seleccionar_personaje() -> Optional[dict]:
 
 
 def seleccionar_tipo_aventura() -> dict:
-    """Permite al usuario seleccionar el tipo de aventura."""
-    print("\n  ═══ TIPO DE AVENTURA ═══")
-    print()
+    """Permite al usuario seleccionar el tipo de aventura usando módulos de tono."""
+    tonos = listar_tonos()
     
-    for key, tipo in TIPOS_AVENTURA.items():
-        print(f"    {key}. {tipo['nombre']}")
-        print(f"       {tipo['descripcion']}")
-        print()
+    print("\n  ═══ TIPO DE AVENTURA ═══\n")
+    
+    for i, tono in enumerate(tonos, 1):
+        print(f"  {i}. {tono['nombre']}")
+        print(f"     {tono['descripcion']}\n")
     
     while True:
-        opcion = input("  Elige tipo (0-5): ").strip()
-        if opcion in TIPOS_AVENTURA:
-            tipo = TIPOS_AVENTURA[opcion]
-            print(f"\n  ✓ Aventura: {tipo['nombre']}")
-            return tipo
+        try:
+            opcion = input("  Elige (1-{0}): ".format(len(tonos))).strip()
+            idx = int(opcion) - 1
+            if 0 <= idx < len(tonos):
+                tono_seleccionado = tonos[idx]
+                tono_completo = cargar_tono(tono_seleccionado['id'])
+                
+                print(f"\n  ✓ Aventura: {tono_seleccionado['nombre']}")
+                
+                return {
+                    "id": tono_seleccionado['id'],
+                    "nombre": tono_seleccionado['nombre'],
+                    "tono": tono_completo.get('tono_narrativo', ''),
+                    "datos_completos": tono_completo
+                }
+        except ValueError:
+            pass
         print("  Opción no válida.")
+
 
 def crear_escena_demo() -> tuple:
     """Crea una escena de demostración."""

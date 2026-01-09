@@ -58,6 +58,19 @@ class GestorContexto:
         self.estado_combate: Optional[Dict[str, Any]] = None
         self.flags: Dict[str, Any] = {}  # Flags de la aventura (misiones, eventos, etc.)
         self.notas_dm: str = ""  # Notas para el DM sobre la situación actual
+        
+        # Memoria narrativa estructurada
+        self.memoria_narrativa: Dict[str, Any] = {
+            "main_quest": {
+                "fase": "inicio",
+                "objetivo": "",
+                "revelaciones": []
+            },
+            "side_quests": [],
+            "pnj_relevantes": {},
+            "amenazas_activas": [],
+            "resumen_historia": ""
+        }
     
     def cargar_pj(self, pj: Dict[str, Any]) -> None:
         """Carga el personaje jugador."""
@@ -123,6 +136,45 @@ class GestorContexto:
         if nuevo_modo in ("exploracion", "social", "combate"):
             self.modo_juego = nuevo_modo
     
+
+    def actualizar_memoria(self, memoria_update: Dict[str, Any]) -> None:
+        """Actualiza la memoria narrativa con los datos del LLM."""
+        if not memoria_update:
+            return
+        
+        # Actualizar main_quest
+        if "main_quest" in memoria_update:
+            mq = memoria_update["main_quest"]
+            if mq.get("fase"):
+                self.memoria_narrativa["main_quest"]["fase"] = mq["fase"]
+            if mq.get("objetivo"):
+                self.memoria_narrativa["main_quest"]["objetivo"] = mq["objetivo"]
+            if mq.get("revelacion"):
+                self.memoria_narrativa["main_quest"]["revelaciones"].append(mq["revelacion"])
+        
+        # Actualizar PNJ
+        if "pnj" in memoria_update:
+            pnj = memoria_update["pnj"]
+            if pnj.get("nombre"):
+                nombre = pnj["nombre"]
+                if nombre not in self.memoria_narrativa["pnj_relevantes"]:
+                    self.memoria_narrativa["pnj_relevantes"][nombre] = {}
+                if pnj.get("actitud"):
+                    self.memoria_narrativa["pnj_relevantes"][nombre]["actitud"] = pnj["actitud"]
+                if pnj.get("nota"):
+                    self.memoria_narrativa["pnj_relevantes"][nombre]["ultima_nota"] = pnj["nota"]
+        
+        # Actualizar amenazas
+        if "amenaza" in memoria_update and memoria_update["amenaza"]:
+            amenaza = memoria_update["amenaza"]
+            if amenaza not in self.memoria_narrativa["amenazas_activas"]:
+                self.memoria_narrativa["amenazas_activas"].append(amenaza)
+        
+        # Actualizar side_quest si viene
+        if "side_quest" in memoria_update:
+            sq = memoria_update["side_quest"]
+            self.memoria_narrativa["side_quests"].append(sq)
+
     def generar_contexto_llm(self) -> str:
         """
         Genera el contexto completo para el prompt del LLM.
@@ -185,6 +237,37 @@ class GestorContexto:
             partes.append(self.notas_dm)
             partes.append("")
         
+        # Memoria narrativa
+        partes.append("=== MEMORIA NARRATIVA ===")
+        mn = self.memoria_narrativa
+        
+        # Main Quest
+        mq = mn.get("main_quest", {})
+        if mq.get("fase") or mq.get("objetivo"):
+            partes.append(f"Main Quest: Fase '{mq.get('fase', '?')}' - Objetivo: {mq.get('objetivo', 'indefinido')}")
+            if mq.get("revelaciones"):
+                partes.append(f"  Revelaciones: {', '.join(mq['revelaciones'][-3:])}")
+        
+        # PNJs relevantes
+        pnjs = mn.get("pnj_relevantes", {})
+        if pnjs:
+            partes.append("PNJs conocidos:")
+            for nombre, datos in list(pnjs.items())[-5:]:
+                actitud = datos.get("actitud", "?")
+                partes.append(f"  - {nombre}: {actitud}")
+        
+        # Amenazas
+        amenazas = mn.get("amenazas_activas", [])
+        if amenazas:
+            partes.append(f"Amenazas activas: {', '.join(amenazas[-3:])}")
+        
+        # Side quests
+        sqs = mn.get("side_quests", [])
+        if sqs:
+            partes.append(f"Misiones secundarias: {len(sqs)}")
+        
+        partes.append("")
+        
         return "\n".join(partes)
     
     def generar_diccionario_contexto(self) -> Dict[str, Any]:
@@ -212,7 +295,8 @@ class GestorContexto:
             ],
             "estado_combate": self.estado_combate,
             "flags": self.flags,
-            "notas_dm": self.notas_dm
+            "notas_dm": self.notas_dm,
+            "memoria_narrativa": self.memoria_narrativa
         }
     
     def deserializar(self, datos: Dict[str, Any]) -> None:
@@ -243,3 +327,7 @@ class GestorContexto:
         self.estado_combate = datos.get("estado_combate")
         self.flags = datos.get("flags", {})
         self.notas_dm = datos.get("notas_dm", "")
+        
+        # Cargar memoria narrativa
+        if datos.get("memoria_narrativa"):
+            self.memoria_narrativa = datos["memoria_narrativa"]

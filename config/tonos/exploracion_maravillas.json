@@ -1,0 +1,63 @@
+{
+  "id": "exploracion_maravillas",
+  "nombre": "Exploración y Maravillas",
+  "descripcion_corta": "Descubrir tierras ignotas, ruinas antiguas, tesoros olvidados",
+  "descripcion_larga": "Aventuras centradas en el viaje, el descubrimiento y la maravilla. Lugares nunca vistos, civilizaciones perdidas, y la emoción de ser el primero en pisar tierras desconocidas.",
+  
+  "tono_narrativo": "Asombro, curiosidad, aventura. El mundo está lleno de maravillas esperando ser descubiertas. Los peligros son obstáculos a superar, no amenazas existenciales.",
+  
+  "frecuencias": {
+    "combate": "media",
+    "social": "baja",
+    "exploracion": "muy_alta",
+    "misterio": "media"
+  },
+  
+  "como_resolver_fallos": "Los fallos significan rodeos, pérdida de tiempo, o perder un descubrimiento opcional. El camino siempre continúa, aunque sea más difícil. Los obstáculos tienen múltiples soluciones creativas.",
+  
+  "letalidad": "media",
+  "moral": "clara",
+  
+  "arquetipos_npc": [
+    "Guía local con conocimiento ancestral",
+    "Explorador rival que busca lo mismo",
+    "Guardián antiguo que protege secretos",
+    "Ermitaño que vive en tierras salvajes",
+    "Espíritu del lugar que prueba al viajero",
+    "Mercader de rarezas y mapas"
+  ],
+  
+  "tipos_antagonista": [
+    "Guardián de ruinas antiguas",
+    "Bestia territorial",
+    "Explorador rival sin escrúpulos",
+    "Trampa o maldición del lugar",
+    "La propia naturaleza salvaje"
+  ],
+  
+  "tipos_quest": [
+    "Encontrar una ciudad perdida",
+    "Cartografiar territorio inexplorado",
+    "Recuperar reliquia de ruinas peligrosas",
+    "Seguir el mapa del tesoro",
+    "Descubrir qué pasó con una expedición perdida"
+  ],
+  
+  "escenarios_tipicos": [
+    "Ruinas de civilizaciones olvidadas",
+    "Junglas inexploradas",
+    "Montañas que nadie ha escalado",
+    "Cavernas con ecosistemas únicos",
+    "Islas misteriosas",
+    "Desiertos con secretos enterrados"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "tesoros antiguos",
+    "items_magicos": "artefactos únicos",
+    "reconocimiento": "fama como explorador",
+    "aliados": "conocimiento y mapas"
+  },
+  
+  "prompt_extra": "Describe los lugares con asombro y detalle sensorial. Cada ruina tiene historia que contar. Los obstáculos son puzzles tanto como peligros. La naturaleza es bella y peligrosa a partes iguales. Recompensa la curiosidad y la creatividad. Los tesoros más valiosos no siempre son oro: conocimiento, artefactos únicos, vistas que nadie más ha visto."
+}

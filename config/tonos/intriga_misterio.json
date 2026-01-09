@@ -1,0 +1,69 @@
+{
+  "id": "intriga_misterio",
+  "nombre": "Intriga y Misterio",
+  "descripcion_corta": "Secretos, conspiraciones, nada es lo que parece",
+  "descripcion_larga": "Aventuras donde la información es poder, los aliados pueden ser enemigos disfrazados, y resolver el misterio es tan importante como sobrevivir a él.",
+  
+  "tono_narrativo": "Tenso, cerebral, lleno de giros. Cada NPC tiene secretos. Las pistas están ocultas en los detalles. La paranoia está justificada.",
+  
+  "frecuencias": {
+    "combate": "baja",
+    "social": "alta",
+    "exploracion": "media",
+    "misterio": "muy_alta"
+  },
+  
+  "como_resolver_fallos": "Los fallos revelan información al enemigo, cierran vías de investigación, o hacen que el tiempo avance (relojes). Pero siempre hay pistas alternativas (Regla de Tres). Nunca se bloquea el misterio por un fallo.",
+  
+  "letalidad": "baja",
+  "moral": "gris",
+  
+  "arquetipos_npc": [
+    "Informante que sabe más de lo que dice",
+    "Noble con secretos que proteger",
+    "Investigador rival con sus propios métodos",
+    "Testigo que tiene miedo de hablar",
+    "Aliado que resulta ser el villano",
+    "Villano que parece aliado"
+  ],
+  
+  "tipos_antagonista": [
+    "Conspiración de nobles",
+    "Asesino con patrón oculto",
+    "Espía de facción enemiga",
+    "Culto secreto infiltrado",
+    "Alguien cercano al jugador"
+  ],
+  
+  "tipos_quest": [
+    "Descubrir quién cometió un crimen",
+    "Desenmascarar una conspiración",
+    "Encontrar a alguien desaparecido",
+    "Descifrar un mensaje o profecía",
+    "Infiltrarse en una organización"
+  ],
+  
+  "escenarios_tipicos": [
+    "Mansiones con secretos",
+    "Callejones oscuros de la ciudad",
+    "Salones de baile donde todos mienten",
+    "Archivos y bibliotecas polvorientas",
+    "Escenas del crimen"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "moderado",
+    "items_magicos": "raros",
+    "reconocimiento": "discreto",
+    "aliados": "información valiosa, contactos"
+  },
+  
+  "reglas_especiales": {
+    "pistas_por_revelacion": 3,
+    "pista_garantizada": true,
+    "relojes_activos": true,
+    "foreshadowing_obligatorio": true
+  },
+  
+  "prompt_extra": "La información es el recurso más valioso. Cada NPC tiene al menos un secreto. Las pistas están en los detalles: descripciones, diálogos, objetos. Usa la Regla de Tres Pistas: cada revelación importante tiene 3 vías para descubrirla. El foreshadowing es obligatorio: siembra pistas antes de las revelaciones. Los combates son raros pero significativos. La tensión viene de no saber en quién confiar."
+}

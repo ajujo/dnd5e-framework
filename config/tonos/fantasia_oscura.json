@@ -1,0 +1,62 @@
+{
+  "id": "fantasia_oscura",
+  "nombre": "Fantasía Oscura",
+  "descripcion_corta": "Mundo hostil, moral gris, supervivencia ante todo",
+  "descripcion_larga": "Un mundo donde la esperanza es escasa, los aliados pueden traicionar, y sobrevivir ya es una victoria. Las decisiones difíciles no tienen respuestas correctas.",
+  
+  "tono_narrativo": "Sombrío, tenso, opresivo. Destellos de esperanza son raros y preciosos. La belleza existe pero está manchada por la oscuridad. La muerte acecha constantemente.",
+  
+  "frecuencias": {
+    "combate": "alta",
+    "social": "media",
+    "exploracion": "media",
+    "misterio": "media"
+  },
+  
+  "como_resolver_fallos": "Los fallos tienen costes duros: heridas permanentes, pérdida de recursos valiosos, aliados heridos o muertos, enemigos alertados. Cada error se paga. Pero siempre hay una salida, aunque sea dolorosa.",
+  
+  "letalidad": "alta",
+  "moral": "gris",
+  
+  "arquetipos_npc": [
+    "Superviviente endurecido que desconfía de todos",
+    "Líder corrupto que hace lo necesario",
+    "Fanático religioso convencido de su causa",
+    "Mercenario sin escrúpulos pero profesional",
+    "Víctima que se convirtió en verdugo",
+    "Aliado que oculta sus propios planes"
+  ],
+  
+  "tipos_antagonista": [
+    "Señor de la guerra despiadado",
+    "Culto a entidad lovecraftiana",
+    "Plaga o maldición sin cura conocida",
+    "Tirano paranoico",
+    "La propia naturaleza corrupta del mundo"
+  ],
+  
+  "tipos_quest": [
+    "Sobrevivir a una persecución implacable",
+    "Encontrar recursos escasos (comida, refugio, cura)",
+    "Elegir entre dos males",
+    "Descubrir la verdad aunque duela",
+    "Escapar de un lugar maldito"
+  ],
+  
+  "escenarios_tipicos": [
+    "Ruinas de civilizaciones caídas",
+    "Bosques retorcidos y corrompidos",
+    "Ciudades en decadencia",
+    "Páramos desolados",
+    "Mazmorras donde nadie debería entrar"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "escaso",
+    "items_magicos": "raros y con coste",
+    "reconocimiento": "bajo",
+    "aliados": "raros y poco fiables"
+  },
+  
+  "prompt_extra": "El mundo es hostil e indiferente. Los aliados son escasos y la traición es común. Cada victoria tiene un precio. La muerte es una posibilidad real y presente. Los NPCs tienen sus propias agendas y raramente ayudan sin esperar algo a cambio. Lo sobrenatural es terrorífico, no maravilloso. Las decisiones morales no tienen respuestas fáciles."
+}

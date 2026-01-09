@@ -1,0 +1,62 @@
+{
+  "id": "epica_heroica",
+  "nombre": "Épica Heroica",
+  "descripcion_corta": "Héroes contra el mal, batallas épicas, el bien triunfa",
+  "descripcion_larga": "Aventuras donde los héroes enfrentan grandes males y tienen la oportunidad de cambiar el destino del mundo. El sacrificio tiene significado y la esperanza prevalece.",
+  
+  "tono_narrativo": "Grandioso, inspirador, con momentos de tensión pero confianza en que el bien puede triunfar. Los héroes son admirados y sus acciones tienen peso.",
+  
+  "frecuencias": {
+    "combate": "alta",
+    "social": "media",
+    "exploracion": "media",
+    "misterio": "baja"
+  },
+  
+  "como_resolver_fallos": "Los fallos son contratiempos temporales, no derrotas definitivas. Siempre hay una segunda oportunidad o un aliado que puede ayudar. Las consecuencias son duras pero superables.",
+  
+  "letalidad": "media",
+  "moral": "clara",
+  
+  "arquetipos_npc": [
+    "Mentor sabio que guía al héroe",
+    "Compañero leal que ofrece apoyo",
+    "Villano carismático con plan grandioso",
+    "Pueblo oprimido que necesita salvación",
+    "Noble justo que recompensa el heroísmo",
+    "Rival honorable que se convierte en aliado"
+  ],
+  
+  "tipos_antagonista": [
+    "Señor oscuro que busca conquistar",
+    "Dragón antiguo despertado",
+    "Culto que invoca entidad maligna",
+    "Tirano que oprime al pueblo",
+    "Horda de monstruos liderada por un caudillo"
+  ],
+  
+  "tipos_quest": [
+    "Rescatar a alguien importante",
+    "Detener un ritual oscuro",
+    "Recuperar un artefacto legendario",
+    "Defender una ciudad del asedio",
+    "Derrotar al mal en su guarida"
+  ],
+  
+  "escenarios_tipicos": [
+    "Fortalezas en montañas",
+    "Templos antiguos",
+    "Campos de batalla",
+    "Ciudades asediadas",
+    "Tierras corrompidas que sanar"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "generoso",
+    "items_magicos": "frecuentes",
+    "reconocimiento": "alto",
+    "aliados": "comunes"
+  },
+  
+  "prompt_extra": "Narra con grandeza y emoción. Los héroes son capaces de hazañas extraordinarias. El sacrificio tiene significado. Los NPCs reconocen y admiran los actos heroicos. Hay esperanza incluso en los momentos más oscuros. Los villanos son poderosos pero pueden ser derrotados. Las batallas son épicas y memorables."
+}

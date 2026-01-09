@@ -1,0 +1,53 @@
+{
+  "id": "dm_elige",
+  "nombre": "Elección del DM",
+  "descripcion_corta": "El DM adapta el tono según la situación",
+  "descripcion_larga": "Un modo flexible donde el tono puede cambiar según la escena. El DM tiene libertad para mezclar elementos de todos los estilos según lo que la narrativa necesite.",
+  
+  "tono_narrativo": "Variable y adaptativo. Puede ser épico en un momento, misterioso al siguiente, y tener toques de humor cuando encaje. La coherencia viene de la historia, no del tono fijo.",
+  
+  "frecuencias": {
+    "combate": "variable",
+    "social": "variable",
+    "exploracion": "variable",
+    "misterio": "variable"
+  },
+  
+  "como_resolver_fallos": "Adaptativo según el contexto de la escena. En momentos tensos, los fallos tienen consecuencias serias. En momentos ligeros, pueden ser cómicos. Siempre hay continuidad.",
+  
+  "letalidad": "variable",
+  "moral": "variable",
+  
+  "arquetipos_npc": [
+    "Cualquier arquetipo según la escena"
+  ],
+  
+  "tipos_antagonista": [
+    "Cualquier tipo según la historia"
+  ],
+  
+  "tipos_quest": [
+    "Cualquier tipo según lo que emerja"
+  ],
+  
+  "escenarios_tipicos": [
+    "Cualquier escenario de Faerûn"
+  ],
+  
+  "recompensas_tipicas": {
+    "oro": "apropiado al desafío",
+    "items_magicos": "según la historia",
+    "reconocimiento": "según acciones",
+    "aliados": "según relaciones"
+  },
+  
+  "tonos_disponibles": [
+    "epica_heroica",
+    "fantasia_oscura", 
+    "intriga_misterio",
+    "exploracion_maravillas",
+    "comedia_caos"
+  ],
+  
+  "prompt_extra": "Tienes libertad para adaptar el tono según la escena. Puedes mezclar elementos: una mazmorra sombría puede tener un NPC cómico, una aventura épica puede tener momentos de misterio. La clave es la coherencia interna de la historia, no la adhesión rígida a un tono. Lee la situación y adapta. Si el jugador busca humor, permítelo. Si busca tensión, créala."
+}
