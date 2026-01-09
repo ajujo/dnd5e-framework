@@ -210,6 +210,46 @@ class DMCerebro:
         self.contexto.añadir_npc(**kwargs)
     
 
+
+    def _inferir_enemigos_de_contexto(self) -> list:
+        """Infiere qué enemigos usar basándose en el historial reciente."""
+        # Buscar menciones de enemigos en el historial
+        historial = self.contexto.historial[-10:] if self.contexto.historial else []
+        texto_historial = " ".join(str(h) for h in historial).lower()
+        
+        # Mapeo de palabras clave a monstruos del compendio
+        mapeo_enemigos = {
+            "esqueleto": "esqueleto",
+            "skeleton": "esqueleto",
+            "hueso": "esqueleto",
+            "muerto": "esqueleto",
+            "no-muerto": "esqueleto",
+            "goblin": "goblin",
+            "trasgo": "goblin",
+            "lobo": "lobo",
+            "wolf": "lobo",
+            "bandido": "bandido",
+            "ladrón": "bandido",
+            "asaltante": "bandido",
+            "orco": "orco",
+            "orc": "orco",
+            "sombra": "esqueleto",  # Las sombras se representan como esqueletos
+        }
+        
+        enemigos_encontrados = []
+        for palabra, monstruo in mapeo_enemigos.items():
+            if palabra in texto_historial:
+                if monstruo not in enemigos_encontrados:
+                    enemigos_encontrados.append(monstruo)
+        
+        # Si encontramos enemigos, usar esos
+        if enemigos_encontrados:
+            # Limitar a 2-3 enemigos para un PJ solitario
+            return enemigos_encontrados[:2] * 1  # Al menos 1 de cada tipo
+        
+        # Por defecto, usar bandidos (enemigos genéricos)
+        return ["bandido", "bandido"]
+
     def _obtener_contexto_bible(self) -> str:
         """Obtiene el contexto de la Adventure Bible para el prompt."""
         pj_id = self.contexto.pj.get("id", "") if self.contexto.pj else ""
@@ -407,14 +447,38 @@ class DMCerebro:
             herramientas_combate = ["tirar_ataque", "dañar_enemigo"]
             if respuesta.herramienta in herramientas_combate:
                 if not self.contexto.estado_combate:
-                    # No hay combate activo, forzar al LLM a iniciarlo
-                    resultado_turno["resultado_mecanico"] = {
-                        "error": "NO HAY COMBATE ACTIVO",
-                        "mensaje": "Debes usar 'iniciar_combate' antes de atacar",
-                        "accion_requerida": "Usa iniciar_combate con los enemigos apropiados"
-                    }
-                    resultado_turno["narrativa"] = "⚠️ [Sistema: Se requiere iniciar combate formalmente antes de atacar]"
-                    return resultado_turno
+                    # No hay combate activo - INICIAR AUTOMÁTICAMENTE
+                    # Inferir enemigos del historial o usar esqueletos por defecto
+                    enemigos_auto = self._inferir_enemigos_de_contexto()
+                    
+                    if self.debug_mode:
+                        print(f"[DEBUG] Auto-iniciando combate con: {enemigos_auto}")
+                    
+                    # Ejecutar iniciar_combate automáticamente
+                    contexto_herramienta = self.contexto.generar_diccionario_contexto()
+                    resultado_inicio = ejecutar_herramienta(
+                        "iniciar_combate",
+                        contexto_herramienta,
+                        enemigos=enemigos_auto
+                    )
+                    
+                    # CRÍTICO: Guardar el estado de combate en el contexto
+                    if resultado_inicio.get("estado_combate"):
+                        self.contexto.estado_combate = resultado_inicio["estado_combate"]
+                        if self.debug_mode:
+                            print(f"[DEBUG] estado_combate guardado: {self.contexto.estado_combate.get('activo')}")
+                    
+                    # Procesar cambio de modo
+                    self.contexto.cambiar_modo("combate")
+                    
+                    # Mostrar info de inicio de combate
+                    orden = resultado_inicio.get("orden_iniciativa", [])
+                    print(f"\n  ⚔️ ¡COMBATE INICIADO!")
+                    print(f"  Orden de iniciativa: {', '.join(orden)}")
+                    print(f"  Primer turno: {resultado_inicio.get('primer_turno', '?')}")
+                    print()
+                    
+                    # NO hacer return - continuar para ejecutar el ataque del jugador
             
             # Ejecutar herramienta
             contexto_herramienta = self.contexto.generar_diccionario_contexto()
@@ -426,6 +490,12 @@ class DMCerebro:
             
             resultado_turno["resultado_mecanico"] = resultado_herramienta
             self.ultimo_resultado_herramienta = resultado_herramienta
+            
+            # CRÍTICO: Si es iniciar_combate, guardar el estado en el contexto
+            if respuesta.herramienta == "iniciar_combate" and resultado_herramienta.get("estado_combate"):
+                self.contexto.estado_combate = resultado_herramienta["estado_combate"]
+                if self.debug_mode:
+                    print(f"[DEBUG] estado_combate guardado desde LLM")
             
             if self.debug_mode:
                 print(f"\n[DEBUG] Tool result: {resultado_herramienta}")

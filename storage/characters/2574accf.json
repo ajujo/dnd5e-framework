@@ -188,10 +188,10 @@
   "meta": {
     "concepto": "Guerrero vengativo"
   },
-  "fecha_modificacion": "2026-01-09T22:33:30.851938",
+  "fecha_modificacion": "2026-01-09T23:25:35.436151",
   "fecha_creacion": "2026-01-08T12:35:09.367554",
   "estado_aventura": {
-    "turno": 11,
+    "turno": 8,
     "modo_juego": "combate",
     "ubicacion": {
       "id": "taberna_ciervo",
@@ -217,200 +217,164 @@
       {
         "turno": 0,
         "tipo": "accion_jugador",
-        "contenido": "Me acerco, miro a los lados a ver si veo quien la ha dejado y luego la abro y la leo",
-        "timestamp": "2026-01-09T18:01:58.410413"
-      },
-      {
-        "turno": 0,
-        "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 14, \"modificador\": 3, \"total\": 17, \"cd\": 12, \"margen\": 5, \"tipo_tirada\": \"normal\", \"detalle\": \"14\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"14 + 1 (SAB) + 2 (comp) = 17 vs CD 12\"}",
-        "timestamp": "2026-01-09T18:02:09.973899"
+        "contenido": "Echo una mirada a los parroquianos mientras me acerco a la barra y pido una hidromiel",
+        "timestamp": "2026-01-09T22:45:27.590727"
       },
       {
         "turno": 0,
         "tipo": "respuesta_dm",
-        "contenido": "Al desdoblar el pergamino, la tinta carmesí parece brillar con una tenue luz lunar, como si la propia Selûne hubiera guiado tu mirada. Las palabras, trazadas con urgencia, hablan de un ritual oscuro en las ruinas de Caer Darrow, donde los seguidores de Shar planean desatar una maldición sobre Aguas Profundas. Al levantar la vista, notas que Marta te observa con una expresión que va más allá del miedo... es reconocimiento.",
-        "timestamp": "2026-01-09T18:02:21.635355"
+        "contenido": "El humo de la chimenea baila con la luz de las velas mientras tus pasos resonaban suavemente sobre el suelo de madera pulida. Marta, la tabernera, te sonríe con los ojos de quien ha visto héroes pasar y sabe reconocerlos antes de que hablen. La hidromiel que te sirve brilla como miel líquida bajo la luz de la luna, aún ausente fuera, pero presente en tu alma.",
+        "timestamp": "2026-01-09T22:45:40.710472"
       },
       {
         "turno": 1,
         "tipo": "accion_jugador",
-        "contenido": "Marta...sabes quien ha dejado esta carta aquí? pareces impresionada",
-        "timestamp": "2026-01-09T18:06:22.960402"
+        "contenido": "Que tal Marta? que hay de nuevo esta noche?",
+        "timestamp": "2026-01-09T22:46:34.179357"
       },
       {
         "turno": 1,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 16, \"modificador\": 3, \"total\": 19, \"cd\": 13, \"margen\": 6, \"tipo_tirada\": \"ventaja\", \"detalle\": \"(16, 1) → 16\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"(16, 1) → 16 + 1 (SAB) + 2 (comp) = 19 vs CD 13\"}",
-        "timestamp": "2026-01-09T18:06:37.727979"
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 15, \"modificador\": 3, \"total\": 18, \"cd\": 12, \"margen\": 6, \"tipo_tirada\": \"normal\", \"detalle\": \"15\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"15 + 1 (SAB) + 2 (comp) = 18 vs CD 12\"}",
+        "timestamp": "2026-01-09T22:46:47.306319"
       },
       {
         "turno": 1,
         "tipo": "respuesta_dm",
-        "contenido": "Marta se acerca en silencio, sus ojos brillan con lágrimas contenidas. 'Ese sello... lo vi en la capa de un hombre que murió defendiendo a niños en las calles de Puerta de Baldur. Dijo que si algo le pasaba, la carta llegaría a quien pudiera verla con el alma.' Señala tu pecho. 'Tú eres ese alguien, hijo de la luna.'",
-        "timestamp": "2026-01-09T18:06:49.499570"
+        "contenido": "Marta se inclina hacia ti, su sonrisa se vuelve más profunda, casi misteriosa. 'Has venido en el momento justo, Hoja Lunar — hoy llegó un mensajero con la capa manchada de sangre y un anillo que nadie reconoce... pero todos temen. Dijo que el Guardián de Luskan no está muerto... sino encadenado.' Su voz baja hasta un susurro, como si la sombra de la verdad ya acechara entre las vigas.",
+        "timestamp": "2026-01-09T22:46:59.742615"
       },
       {
         "turno": 2,
         "tipo": "accion_jugador",
-        "contenido": "Habla de un terrible ritual.Parece que he sido elegido sin previo aviso",
-        "timestamp": "2026-01-09T18:08:46.420984"
+        "contenido": "y donde está ese mensajero y ese anillo? Marta",
+        "timestamp": "2026-01-09T22:52:05.780773"
       },
       {
         "turno": 2,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 18, \"modificador\": 3, \"total\": 21, \"cd\": 15, \"margen\": 6, \"tipo_tirada\": \"normal\", \"detalle\": \"18\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"18 + 1 (SAB) + 2 (comp) = 21 vs CD 15\"}",
-        "timestamp": "2026-01-09T18:09:03.761716"
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 15, \"modificador\": 3, \"total\": 18, \"cd\": 13, \"margen\": 5, \"tipo_tirada\": \"normal\", \"detalle\": \"15\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"15 + 1 (SAB) + 2 (comp) = 18 vs CD 13\"}",
+        "timestamp": "2026-01-09T22:52:20.832412"
       },
       {
         "turno": 2,
         "tipo": "respuesta_dm",
-        "contenido": "Marta coloca una mano sobre tu pecho, donde la luz lunar del pergamino aún palpa como un latido. 'No fuiste elegido por azar, Kaelen... fuiste llamado por la misma luna que ilumina tus pasos. Ese hombre —el mensajero— llevaba tu mismo sello en el pecho. Y ahora, tú eres su heredero.' Fuera, la luna se desvela entre las nubes, como si el cielo mismo asintiera.",
-        "timestamp": "2026-01-09T18:09:16.577479"
+        "contenido": "Marta desliza una mano bajo la barra y saca un pequeño llavero de bronce, con una clave tallada en forma de luna menguante. 'El mensajero duerme en el sótano — pero no por elección. El anillo lo lleva atado al cuello, como un collar de condenado. No lo toques si no quieres que las sombras te sigan... pero si eres quien dicen que eres, tal vez puedas liberarlo antes de que la Noche Sin Estrellas lo lleve consigo.'",
+        "timestamp": "2026-01-09T22:52:33.841216"
       },
       {
         "turno": 3,
         "tipo": "accion_jugador",
-        "contenido": "esta bien Marta si es mi destino lo aceptaré",
-        "timestamp": "2026-01-09T18:10:10.787810"
+        "contenido": "Gracias Marta. Me dirijo al sotano",
+        "timestamp": "2026-01-09T22:53:29.013215"
       },
       {
         "turno": 3,
         "tipo": "resultado_mecanico",
-        "contenido": "dar_objeto: {\"exito\": false, \"error\": \"Objeto 'sello_lunar_arpista' no encontrado en compendio\"}",
-        "timestamp": "2026-01-09T18:10:27.602409"
+        "contenido": "cambio_modo: {\"exito\": false, \"error\": \"Herramienta 'cambio_modo' no encontrada\", \"herramientas_disponibles\": [\"consultar_ficha\", \"consultar_monstruo\", \"consultar_objeto\", \"tirar_habilidad\", \"tirar_salvacion\", \"tirar_ataque\", \"modificar_hp\", \"dar_objeto\", \"quitar_objeto\", \"modificar_oro\", \"iniciar_combate\", \"listar_monstruos\", \"dañar_enemigo\"]}",
+        "timestamp": "2026-01-09T22:53:44.887342"
       },
       {
         "turno": 3,
         "tipo": "respuesta_dm",
-        "contenido": "Marta levanta tu mano y la coloca sobre tu pecho, donde el pergamino aún emite su tenue resplandor. 'No es un objeto lo que te entregan, hijo de la luna... es tu propia sangre. El sello no está en el papel —está en ti.' Fuera, la luna se alza completa entre las nubes, y por un instante, el humo de la taberna se convierte en plata líquida, danzando alrededor de ti como un homenaje antiguo.",
-        "timestamp": "2026-01-09T18:10:40.659539"
+        "contenido": "Bajando los escalones de madera chirriante, el aire se vuelve frío como la tumba y huele a humedad, sangre seca y metal oxidado. Una luz tenue proveniente de una lámpara de aceite ilumina al mensajero, atrapado en cadenas de bronce que brillan con runas negras. El anillo, colgando de su cuello, palpita como un corazón dormido... y te observa antes de que tú lo veas.",
+        "timestamp": "2026-01-09T22:53:58.367375"
       },
       {
         "turno": 4,
         "tipo": "accion_jugador",
-        "contenido": "Es hora de partir entonces...",
-        "timestamp": "2026-01-09T18:11:18.611814"
+        "contenido": "Hola, soy Kaelen Hoja Lunar. quien eres tú?, de donde vienes?",
+        "timestamp": "2026-01-09T22:57:05.404943"
       },
       {
         "turno": 4,
         "tipo": "resultado_mecanico",
-        "contenido": "modificar_oro: {\"exito\": true, \"oro_anterior\": 0, \"cambio\": 15, \"oro_actual\": 15, \"motivo\": \"Marta le entrega oro para el viaje como gesto de agradecimiento y fe en su misión\", \"mensaje\": \"Ganaste 15 po. Total: 15 po\"}",
-        "timestamp": "2026-01-09T18:11:36.599005"
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 20, \"modificador\": 3, \"total\": 23, \"cd\": 14, \"margen\": 9, \"tipo_tirada\": \"normal\", \"detalle\": \"20\", \"competente\": true, \"critico_natural\": true, \"pifia_natural\": false, \"desglose\": \"20 + 1 (SAB) + 2 (comp) = 23 vs CD 14\"}",
+        "timestamp": "2026-01-09T22:57:22.045807"
       },
       {
         "turno": 4,
         "tipo": "respuesta_dm",
-        "contenido": "Marta te entrega una bolsa de cuero con 15 monedas de plata, sus ojos brillan con una fe que no puede explicar. 'La luna te guiará, pero las sombras ya te han visto.' Al cruzar el umbral, el viento de la noche susurra con voces antiguas. Tres figuras envueltas en capas de telaraña negra se deslizan entre las sombras del puerto, y una de ellas levanta la mano —un dedo apuntando directamente a ti.",
-        "timestamp": "2026-01-09T18:11:49.963997"
+        "contenido": "El mensajero levanta la cabeza lentamente, sus ojos — blancos como cenizas pero brillantes con un fuego antiguo — se clavan en los tuyos. 'Kaelen Hoja Lunar... el nombre es un canto que las sombras temen. Soy Thalorien, el último Guardián de Luskan... y este anillo no es mío. Es la llave que abrió mi prisión, y ahora... espera a quien pueda cerrarla.' El metal del collar se calienta al hablar, y por un instante, las runas brillan con una luz plateada que reconoce tu sangre élfica.",
+        "timestamp": "2026-01-09T22:57:36.200234"
       },
       {
         "turno": 5,
         "tipo": "accion_jugador",
-        "contenido": "me pongo en guardia y pregunto...¿quién va?",
-        "timestamp": "2026-01-09T18:12:43.278535"
+        "contenido": "¿Qué prisión? y quien te ha hecho eso¿?",
+        "timestamp": "2026-01-09T23:01:28.740393"
       },
       {
         "turno": 5,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 1, \"modificador\": 2, \"total\": 3, \"cd\": 13, \"margen\": -10, \"tipo_tirada\": \"normal\", \"detalle\": \"1\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": true, \"desglose\": \"1 + 0 (CAR) + 2 (comp) = 3 vs CD 13\"}",
-        "timestamp": "2026-01-09T18:12:57.446383"
+        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 1, \"modificador\": 3, \"total\": 4, \"cd\": 16, \"margen\": -12, \"tipo_tirada\": \"normal\", \"detalle\": \"1\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": true, \"desglose\": \"1 + 1 (SAB) + 2 (comp) = 4 vs CD 16\"}",
+        "timestamp": "2026-01-09T23:01:46.303721"
       },
       {
         "turno": 5,
         "tipo": "respuesta_dm",
-        "contenido": "Tu voz se quiebra en la noche, y las tres figuras se deslizan como sombras vivas. Una de ellas ríe, un sonido seco como telarañas rasgadas. Antes de que puedas reaccionar, tres cuchillas de obsidiana brillan en la luz lunar, y el aire se llena del susurro de oraciones a Shar. No hay diálogo ahora... solo el silbido de la muerte que viene por ti.",
-        "timestamp": "2026-01-09T18:13:11.596791"
+        "contenido": "El momento en que hablas es el momento en que el anillo se despierta. Las runas se vuelven carmesí, y un susurro helado te invade la mente: *'Tú también llevas la marca... la sangre que abre puertas, pero no sabe cerrarlas.'* Las cadenas tiemblan, y una sombra alargada se desliza desde el suelo, sin origen ni forma, pero con hambre. El Guardián gime: '¡Corre! ¡No le des tu nombre otra vez!' La luz de la lámpara se apaga... y algo está empezando a arrastrarse desde las tinieblas bajo la escalera.",
+        "timestamp": "2026-01-09T23:02:01.419785"
       },
       {
         "turno": 6,
         "tipo": "accion_jugador",
-        "contenido": "saco mi espada larga y ataco a una de las figuras",
-        "timestamp": "2026-01-09T18:14:12.002384"
+        "contenido": "me pongo en alerta y retrocedo hasta la puerta",
+        "timestamp": "2026-01-09T23:03:21.911748"
       },
       {
         "turno": 6,
         "tipo": "resultado_mecanico",
-        "contenido": "iniciar_combate: {\"exito\": false, \"error\": \"Monstruos no encontrados en compendio: ['asaltante_shar', 'asaltante_shar', 'asaltante_shar']\", \"monstruos_disponibles\": [\"goblin\", \"lobo\", \"bandido\", \"esqueleto\", \"orco\"], \"mensaje\": \"Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles.\"}",
-        "timestamp": "2026-01-09T18:14:30.458637"
+        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 4, \"modificador\": 4, \"total\": 8, \"cd\": 13, \"margen\": -5, \"tipo_tirada\": \"desventaja\", \"detalle\": \"(16, 4) → 4\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"(16, 4) → 4 + 2 (FUE) + 2 (comp) = 8 vs CD 13\"}",
+        "timestamp": "2026-01-09T23:03:39.125525"
       },
       {
         "turno": 6,
         "tipo": "respuesta_dm",
-        "contenido": "Las tres figuras se despliegan como sombras que respiran, sus capas de telaraña negra ondeando sin viento. Una de ellas adelanta un cuchillo de obsidiana, pero en el instante en que atacas, la luna ilumina sus rostros: no son criaturas de otro mundo... son bandidos de Luskan, con tatuajes de la luna menguante y ojos vacíos como los de los muertos que no descansan. Su líder gruñe: 'El sello es nuestro. Tú no eres el elegido... solo un instrumento que se romperá.'",
-        "timestamp": "2026-01-09T18:14:44.278954"
+        "contenido": "Tus pasos retroceden con tensión, pero las sombras bajo la escalera se deslizan como aceite vivo, atravesando el suelo de madera como si fuera niebla. Una garra fría rasga tu capa mientras te alejas — no muy lejos. La puerta está a solo tres pasos... pero algo ya te ha tocado. El anillo en el cuello de Thalorien emite un grito silencioso, y las runas se encienden como ojos hambrientos.",
+        "timestamp": "2026-01-09T23:03:53.025284"
       },
       {
         "turno": 7,
         "tipo": "accion_jugador",
-        "contenido": "ataco al lider",
-        "timestamp": "2026-01-09T18:15:12.611802"
+        "contenido": "saco mi espada larga y le ataco",
+        "timestamp": "2026-01-09T23:04:22.290475"
       },
       {
         "turno": 7,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_ataque: {\"impacta\": false, \"tirada\": 6, \"modificador\": 4, \"total\": 10, \"ca_objetivo\": 14, \"critico\": false, \"pifia\": false, \"daño\": null, \"daño_detalle\": null, \"desglose\": \"6 + 2 (FUE) + 2 (comp) = 10 vs CA 14\"}",
-        "timestamp": "2026-01-09T18:15:29.497669"
+        "contenido": "iniciar_combate: {\"exito\": false, \"error\": \"Monstruos no encontrados en compendio: ['sombra_de_la_cámara_del_vacío', 'sombra_de_la_cámara_del_vacío']\", \"monstruos_disponibles\": [\"goblin\", \"lobo\", \"bandido\", \"esqueleto\", \"orco\"], \"mensaje\": \"Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles.\"}",
+        "timestamp": "2026-01-09T23:04:40.107371"
       },
       {
         "turno": 7,
         "tipo": "respuesta_dm",
-        "contenido": "Tu espada silba por el aire, pero el líder de los asesinos se inclina con una agilidad sobrenatural, esquivando el golpe por milímetros. La hoja rasga su capa de telaraña, dejando un pedazo negro flotando como una bandera derrotada. Sus ojos vacíos se clavan en los tuyos, y con voz ronca como piedras frotadas, murmura: 'Tú no eres el elegido... pero sí el primero que caerá esta noche.' Sus cómplices se acercan, formando un círculo de sombra que se cierra sobre ti.",
-        "timestamp": "2026-01-09T18:15:43.424807"
+        "contenido": "Antes de que tu espada baje, las sombras bajo la escalera se retuercen y se elevan como humo con huesos, adoptando formas grotescas de guerreros caídos: dos esqueletos cubiertos de telas desgarradas y cadenas oxidadas, sus ojos brillan con una luz púrpura que chispea como el Vacío Negro. El anillo en el cuello de Thalorien grita en silencio, y uno de ellos se lanza hacia ti con un crujido de dientes rotos.",
+        "timestamp": "2026-01-09T23:04:54.406440"
       },
       {
         "turno": 8,
         "tipo": "accion_jugador",
-        "contenido": "ataco con mi espada larga",
-        "timestamp": "2026-01-09T18:16:00.907705"
+        "contenido": "ataco al esqueleto que se abalanza sobre mi",
+        "timestamp": "2026-01-09T23:05:57.956082"
       },
       {
         "turno": 8,
-        "tipo": "resultado_mecanico",
-        "contenido": "tirar_ataque: {\"impacta\": true, \"tirada\": 13, \"modificador\": 4, \"total\": 17, \"ca_objetivo\": 14, \"critico\": false, \"pifia\": false, \"daño\": 12, \"daño_detalle\": \"1d8=8 + 4 = 12\", \"desglose\": \"13 + 2 (FUE) + 2 (comp) = 17 vs CA 14\"}",
-        "timestamp": "2026-01-09T18:16:17.393624"
+        "tipo": "accion_jugador",
+        "contenido": "ataco al esqueleto",
+        "timestamp": "2026-01-09T23:08:35.663561"
       },
       {
         "turno": 8,
-        "tipo": "respuesta_dm",
-        "contenido": "Tu espada larga atraviesa la capa de telaraña como un relámpago de plata, clavándose en el pecho del líder con un crujido sordo. Un grito ahogado se escapa de sus labios, y su cuerpo se desploma sobre las tablas empapadas de cerveza, dejando un rastro oscuro que se extiende como una flor de sombra. Los dos asesinos restantes retroceden un paso, sus ojos vacíos titilando con una inquietud que jamás pensaron sentir: miedo. La luna, ahora plena tras las ventanas rotas, ilumina tu figura como un jinete de leyenda — no un instrumento de Shar... sino su contrapartida.",
-        "timestamp": "2026-01-09T18:16:32.323126"
-      },
-      {
-        "turno": 9,
         "tipo": "accion_jugador",
-        "contenido": "ataco a otro",
-        "timestamp": "2026-01-09T18:18:28.548985"
+        "contenido": "ataco al esqueleto",
+        "timestamp": "2026-01-09T23:09:19.406744"
       },
       {
-        "turno": 9,
-        "tipo": "resultado_mecanico",
-        "contenido": "tirar_ataque: {\"impacta\": false, \"tirada\": 1, \"modificador\": 4, \"total\": 5, \"ca_objetivo\": 13, \"critico\": false, \"pifia\": true, \"daño\": null, \"daño_detalle\": null, \"desglose\": \"1 + 2 (FUE) + 2 (comp) = 5 vs CA 13\"}",
-        "timestamp": "2026-01-09T18:18:46.782963"
-      },
-      {
-        "turno": 9,
-        "tipo": "respuesta_dm",
-        "contenido": "Tu espada se desliza hacia el segundo asesino... pero tu pie resbala sobre la sangre y la cerveza derramada. Con un grito ahogado, pierdes el equilibrio y caes de rodillas, tu hoja clavándose en la madera con un estruendo que hace temblar las copas. El asesino se lanza sobre ti, su cuchillo de obsidiana reluciendo bajo la luz lunar... pero justo antes de que se hunda, una sombra arroja un jarro de cerámica desde el balcón: es Marta. El impacto lo desvía un instante — y en ese instante, la luna brilla con fuerza sobre tu pecho. El sello arde como una estrella caída, y un eco antiguo resuena en la taberna: '¡No es tu hora, sombra!' El asesino retrocede, temblando. La puerta trasera se abre con un crujido... y el viento del norte trae el olor a nieve y muerte.",
-        "timestamp": "2026-01-09T18:19:03.200919"
-      },
-      {
-        "turno": 10,
+        "turno": 8,
         "tipo": "accion_jugador",
-        "contenido": "entro en la puerta y cierro",
-        "timestamp": "2026-01-09T18:19:45.051204"
-      },
-      {
-        "turno": 10,
-        "tipo": "resultado_mecanico",
-        "contenido": "iniciar_combate: {\"exito\": false, \"error\": \"Monstruos no encontrados en compendio: ['asesino_de_shar']\", \"monstruos_disponibles\": [\"goblin\", \"lobo\", \"bandido\", \"esqueleto\", \"orco\"], \"mensaje\": \"Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles.\"}",
-        "timestamp": "2026-01-09T18:20:04.418119"
-      },
-      {
-        "turno": 10,
-        "tipo": "respuesta_dm",
-        "contenido": "La puerta se cierra tras de ti con un golpe sordo, pero el asesino ya no está. Solo queda una huella de sangre fría en la madera, y clavada en el marco, una placa de plata con un símbolo lunar roto… y bajo él, unas palabras grabadas en élfico antiguo: 'Busca a Elindra en el Santuario de Lathander, antes que la luna negra devore tu alma.' El viento del norte susurra en el pasillo oscuro: no hay más enemigos… pero la cacería apenas comienza.",
-        "timestamp": "2026-01-09T18:20:19.106900"
+        "contenido": "ataco al esqueleto",
+        "timestamp": "2026-01-09T23:13:00.762869"
       }
     ],
     "estado_combate": null,
@@ -471,69 +435,77 @@
           },
           "prompt_extra": "Narra con grandeza y emoción. Los héroes son capaces de hazañas extraordinarias. El sacrificio tiene significado. Los NPCs reconocen y admiran los actos heroicos. Hay esperanza incluso en los momentos más oscuros. Los villanos son poderosos pero pueden ser derrotados. Las batallas son épicas y memorables."
         }
+      },
+      "region": {
+        "id": "tierras_valles",
+        "nombre": "Tierras de los Valles",
+        "datos": {
+          "nombre": "Tierras de los Valles",
+          "descripcion": "Valles semi-independientes entre grandes poderes. Tierra de aventureros.",
+          "ciudades": [
+            "Arroyo de la Sombra",
+            "Valle de la Daga",
+            "Tantras"
+          ],
+          "facciones": [
+            "Arpistas",
+            "Zhentarim",
+            "Culto del Dragón"
+          ],
+          "amenazas_tipicas": [
+            "Zhentarim",
+            "Drow",
+            "Culto del Dragón",
+            "Bandidos"
+          ]
+        }
       }
     },
     "notas_dm": "TONO DE LA AVENTURA: Grandioso, inspirador, con momentos de tensión pero confianza en que el bien puede triunfar. Los héroes son admirados y sus acciones tienen peso.",
     "memoria_narrativa": {
       "main_quest": {
-        "fase": "inicio",
-        "objetivo": "Detener el ritual de Shar en Caer Darrow antes de la luna negra",
+        "fase": "confrontar_al_mensajero",
+        "objetivo": "Derrotar las sombras y escapar del sótano antes de que el portal se abra por completo.",
         "revelaciones": [
-          "La carta está sellada con un sello que parece una luna creciente rodeada por espinas — un símbolo antiguo de los Arpistas.",
-          "La carta lleva el sello de la luna creciente y espinas, símbolo antiguo de los Arpistas. Marta reconoce el sello y teme por lo que significa.",
-          "La carta está sellada con un sello que parece una luna creciente rodeada por espinas — un símbolo antiguo de los Arpistas. Marta reconoce el sello y teme por lo que significa. La luna creciente con espinas solo se activa ante un elfo de sangre lunar, como tú.",
-          "El sello lunar con espinas solo responde a sangre de elfo lunar, y ahora está activo en tu pecho. Los Arpistas aún viven... pero están siendo cazados.",
-          "La carta lleva el sello de la luna creciente y espinas, símbolo antiguo de los Arpistas. Marta reconoce el sello y teme por lo que significa. El sello lunar con espinas solo responde a sangre de elfo lunar, y ahora está activo en tu pecho. Los Arpistas aún viven... pero están siendo cazados.",
-          "La carta está sellada con un sello que parece una luna creciente rodeada por espinas — un símbolo antiguo de los Arpistas. Marta reconoce el sello y teme por lo que significa. El sello lunar con espinas solo responde a sangre de elfo lunar, y ahora está activo en tu pecho. Los Arpistas aún viven... pero están siendo cazados.",
-          "El sello lunar en tu pecho es una llave, no una maldición. Los Arpistas lo forjaron para que un elfo lunar lo activara... pero los seguidores de Shar creen que puedes ser su herramienta para romper el sello definitivamente.",
-          "El sello lunar en tu pecho es una llave, no una maldición. Los Arpistas lo forjaron para que un elfo lunar lo activara... pero los seguidores de Shar creen que puedes ser su herramienta para romper el sello definitivamente.",
-          "El sello lunar en tu pecho es una llave, no una maldición. Los Arpistas lo forjaron para que un elfo lunar lo activara... pero los seguidores de Shar creen que puedes ser su herramienta para romper el sello definitivamente. Ahora, solo queda un asesino vivo, y su mirada dice que sabe más de lo que revela.",
-          "El sello lunar en tu pecho es una llave, no una maldición. Los Arpistas lo forjaron para que un elfo lunar lo activara... pero los seguidores de Shar creen que puedes ser su herramienta para romper el sello definitivamente. Ahora, solo queda un asesino vivo, y su mirada dice que sabe más de lo que revela."
+          "Ninguna aún",
+          "El Guardián de Luskan no está muerto, sino encadenado. Un anillo desconocido fue traído por un mensajero moribundo.",
+          "El Guardián de Luskan no está muerto, sino encadenado. El anillo que lleva es un artefacto maldito, vinculado a una antigua marea de oscuridad.",
+          "El mensajero es Garion Vey, el último Guardián de Luskan; el anillo es una llave maldita que abre un portal al Vacío Negro.",
+          "La Orden del Guantelete, corrompida por Shar, encadenó a Thalorien para usar el anillo como llave del Vacío Negro. El portal se abrirá en tres noches, durante la luna negra.",
+          "El anillo responde a la sangre élfica lunar y se activa con el nombre del portador. Solo un elfo de sangre pura puede cerrarlo... pero solo si sabe cómo.",
+          "Las sombras son criaturas del Vacío Negro, alimentadas por el anillo maldito. Solo un elfo de sangre lunar puede cerrar la puerta... pero debe hacerlo con conocimiento, no solo con fuerza."
         ]
       },
       "side_quests": [],
       "pnj_relevantes": {
         "Marta la Tabernera": {
-          "actitud": "reverente y esperanzada",
-          "ultima_nota": "Te entregó 15 gp y un colgante de plata con la luna creciente. Ahora te ve como el último faro de los Arpistas."
+          "actitud": "amistoso",
+          "ultima_nota": "Sabe más de lo que dice. El anillo la perturba, pero teme intervenir directamente."
         },
-        "Asesino de Shar": {
-          "actitud": "hostil",
-          "ultima_nota": "Líder del trío: ojos sin pupilas, habla con voz de telaraña. Saben que Kaelen es el portador del sello lunar."
+        "Garion Vey": {
+          "actitud": "desconfiado pero desesperado",
+          "ultima_nota": "Ha estado atrapado tres días. Sus palabras son coherentes, pero cada vez que habla del anillo, las sombras se alargan más."
         },
-        "asaltante_shar": {
-          "actitud": "hostil",
-          "ultima_nota": "Tres asesinos de Shar han detectado el sello lunar en Kaelen y atacan sin piedad. Uno de ellos lleva un colgante con una luna menguante invertida — símbolo del culto que busca corromper el sello en tu pecho."
-        },
-        "líder de los asesinos": {
-          "actitud": "hostil",
-          "ultima_nota": "Ha esquivado dos ataques, pero ahora está en desventaja. Su capa está rasgada y su postura se tensa con el miedo oculto de ser derrotado por un elfo lunar."
-        },
-        "asesino de Shar": {
-          "actitud": "desesperado y temeroso",
-          "ultima_nota": "El último asesino se ha detenido, con las manos levantadas. No ataca. Sus ojos no miran tu espada... sino el sello en tu pecho."
-        },
-        "asesino_de_shar": {
-          "actitud": "desesperado y temeroso",
-          "ultima_nota": "Ha detectado la activación del sello lunar. No huye: ha decidido que tu muerte es el precio de su propia salvación."
+        "Thalorien": {
+          "actitud": "desesperado pero confiando",
+          "ultima_nota": "Observa desde el suelo, inmóvil, con las cadenas temblando. Sus ojos brillan con una luz tenue: está rezando en silencio."
         }
       },
       "amenazas_activas": [
-        "Los seguidores de Shar planean un ritual en Caer Darrow. Los Arpistas están en peligro, y alguien los está avisando.",
-        "Los seguidores de Shar planean un ritual en Caer Darrow. Los Arpistas están en peligro, y alguien los está avisando. Alguien te ha marcado como el instrumento para detenerlo — o para completarlo.",
-        "Los seguidores de Shar han detectado la activación del sello lunar. En las sombras, tres asesinos con capas de telaraña negra ya han salido en tu persecución.",
-        "Los seguidores de Shar han detectado la activación del sello lunar. En las sombras, tres asesinos con capas de telaraña negra ya han salido en tu persecución. Si no los derrotas o huyes, alertarán al culto en Caer Darrow antes de que puedas llegar.",
-        "Los seguidores de Shar han detectado la activación del sello lunar. Si no los derrotas o huyes, alertarán al culto en Caer Darrow antes de que puedas llegar.",
-        "Los seguidores de Shar han detectado la activación del sello lunar. Si no los derrotas o huyes, alertarán al culto en Caer Darrow antes de que puedas llegar. Ahora, solo uno queda vivo — y parece dispuesto a hablar.",
-        "Los seguidores de Shar han detectado la activación del sello lunar. Si no los derrotas o huyes, alertarán al culto en Caer Darrow antes de que puedas llegar. El asesino restante es el último enemigo directo antes de la huida hacia el norte."
+        "El anillo tiene una energía maligna latente, y su presencia atrae atención no deseada.",
+        "El anillo emana una energía corruptora que atrae sombras. Cada minuto en su proximidad aumenta el riesgo de que algo despierte.",
+        "El anillo responde a la presencia de un elfo con sangre lunar; su energía se intensifica al oír tu nombre.",
+        "La energía del anillo se intensifica cada vez que se menciona a Shar o la Orden del Guantelete. Las sombras en las esquinas se mueven con vida propia.",
+        "Las sombras bajo la escalera cobran forma: 2 Sombras de la Cámara del Vacío (criaturas corruptas alimentadas por el anillo). El portal se acerca a abrirse.",
+        "Las sombras se fortalecen con cada segundo que pasa. Si no se sella el anillo antes de la Noche Sin Estrellas, el Vacío Negro invadirá Faerûn."
       ],
       "resumen_historia": ""
     },
     "resumen": {
       "ubicacion_actual": "Taberna del Ciervo Dorado",
-      "que_estaba_haciendo": "entro en la puerta y cierro",
-      "resumen_sesion": "Tu espada alcanza al líder de los asesinos, pero tu segundo ataque falla por resbalar sobre la arena. Al cerrar la puerta, descubres que el enemigo ha desaparecido.",
-      "turnos_jugados": 11
+      "que_estaba_haciendo": "ataco al esqueleto",
+      "resumen_sesion": "Al intentar retroceder, fallas tu pericia y desencadenas una amenaza oculta: sombras se transforman en esqueletos.  \nSin tiempo para reaccionar, te lanzas al ataque con tu espada larga, pero el sistem",
+      "turnos_jugados": 8
     }
   }
 }
