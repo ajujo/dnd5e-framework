@@ -1,0 +1,252 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Adventure Bible Full",
+  "description": "Estructura completa de la biblia de aventura con todos los spoilers. Solo para uso interno del sistema.",
+  "type": "object",
+  "required": ["meta", "logline", "main_quest", "antagonista", "actos"],
+  
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Metadatos de la aventura",
+      "required": ["id", "generada", "tipo_aventura", "pj_nombre", "nivel_pj"],
+      "properties": {
+        "id": { "type": "string", "description": "UUID único de la aventura" },
+        "generada": { "type": "string", "format": "date-time" },
+        "tipo_aventura": { "type": "string", "description": "ID del tono (fantasia_oscura, intriga_misterio, etc.)" },
+        "pj_nombre": { "type": "string" },
+        "pj_id": { "type": "string" },
+        "nivel_pj": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "ambientacion": { "type": "string", "default": "Reinos Olvidados - Faerûn" },
+        "region_inicial": { "type": "string", "description": "Costa de la Espada, El Norte, etc." }
+      }
+    },
+    
+    "balance_solitario": {
+      "type": "object",
+      "description": "Reglas de balance para partida en solitario",
+      "properties": {
+        "dificultad_objetivo": { "type": "string", "enum": ["facil", "media", "dificil"] },
+        "letalidad": { "type": "string", "enum": ["muy_baja", "baja", "media", "alta"] },
+        "combate": {
+          "type": "object",
+          "properties": {
+            "encuentros_por_acto": { "type": "string" },
+            "enemigos_max_por_encuentro": { "type": "integer", "maximum": 5 },
+            "cr_max_individual": { "type": "integer" },
+            "descansos_entre_encuentros": { "type": "boolean" }
+          }
+        },
+        "obstaculos": {
+          "type": "object",
+          "properties": {
+            "cd_tipica": { "type": "string" },
+            "cd_maxima": { "type": "integer", "maximum": 20 },
+            "siempre_alternativa": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    
+    "logline": {
+      "type": "string",
+      "description": "Resumen de la aventura en 1-2 frases",
+      "maxLength": 300
+    },
+    
+    "main_quest": {
+      "type": "object",
+      "description": "La misión principal",
+      "required": ["objetivo_final", "por_que_importa"],
+      "properties": {
+        "objetivo_final": { "type": "string", "description": "Qué debe lograr el PJ" },
+        "por_que_importa": { "type": "string", "description": "Stakes - qué pasa si falla" },
+        "estado": { "type": "string", "enum": ["no_iniciada", "acto_1", "acto_2", "acto_3", "acto_4", "acto_5", "completada", "fallida"] },
+        "gancho_inicial": { "type": "string", "description": "Cómo se presenta al PJ (NO requiere tirada)" }
+      }
+    },
+    
+    "antagonista": {
+      "type": "object",
+      "description": "El villano principal - SPOILER COMPLETO",
+      "required": ["identidad_real", "motivacion"],
+      "properties": {
+        "identidad_real": { "type": "string", "description": "Nombre real del antagonista" },
+        "fachada": { "type": "string", "description": "Cómo se presenta públicamente (si aplica)" },
+        "motivacion": { "type": "string", "description": "Por qué hace lo que hace" },
+        "objetivo": { "type": "string", "description": "Qué quiere lograr" },
+        "recursos": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Qué tiene a su disposición"
+        },
+        "debilidad": { "type": "string", "description": "Cómo puede ser derrotado" },
+        "revelacion_prevista": { "type": "string", "description": "En qué acto se revela su identidad" },
+        "pistas_foreshadowing": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Pistas que el DM puede sembrar antes de la revelación"
+        }
+      }
+    },
+    
+    "actos": {
+      "type": "array",
+      "description": "Los actos/capítulos de la aventura",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["numero", "nombre", "objetivo"],
+        "properties": {
+          "numero": { "type": "integer", "minimum": 1 },
+          "nombre": { "type": "string" },
+          "objetivo": { "type": "string", "description": "Qué debe lograr el PJ en este acto" },
+          "estado": { "type": "string", "enum": ["pendiente", "activo", "completado", "saltado"] },
+          "escenas_semilla": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "tipo": { "type": "string", "enum": ["combate", "social", "exploracion", "misterio"] },
+                "descripcion": { "type": "string" },
+                "obligatoria": { "type": "boolean", "default": false },
+                "flexible": { "type": "boolean", "default": true }
+              }
+            }
+          },
+          "climax": { "type": "string", "description": "Cómo termina el acto" },
+          "transicion_siguiente": { "type": "string", "description": "Cómo lleva al siguiente acto" }
+        }
+      }
+    },
+    
+    "revelaciones": {
+      "type": "array",
+      "description": "Información importante a descubrir (Three Clue Rule)",
+      "items": {
+        "type": "object",
+        "required": ["id", "contenido", "importancia", "pistas"],
+        "properties": {
+          "id": { "type": "string" },
+          "contenido": { "type": "string", "description": "Qué se revela" },
+          "importancia": { "type": "string", "enum": ["critica", "importante", "menor"] },
+          "acto": { "type": "integer", "description": "En qué acto debe descubrirse" },
+          "descubierta": { "type": "boolean", "default": false },
+          "pistas": {
+            "type": "array",
+            "minItems": 3,
+            "description": "Three Clue Rule: mínimo 3 vías para descubrirla",
+            "items": {
+              "type": "object",
+              "required": ["id", "tipo", "descripcion"],
+              "properties": {
+                "id": { "type": "string" },
+                "tipo": { "type": "string", "enum": ["social", "fisica", "documental", "magica"] },
+                "descripcion": { "type": "string" },
+                "donde": { "type": "string", "description": "Escena o lugar donde se encuentra" },
+                "cd_obtener": { "type": ["integer", "null"], "description": "CD de la tirada, null si es automática" },
+                "garantizada": { "type": "boolean", "description": "Si es la pista que siempre se entrega" },
+                "encontrada": { "type": "boolean", "default": false }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "pnj_clave": {
+      "type": "array",
+      "description": "NPCs importantes para la aventura",
+      "items": {
+        "type": "object",
+        "required": ["nombre", "rol"],
+        "properties": {
+          "nombre": { "type": "string" },
+          "rol": { "type": "string", "description": "Aliado, enemigo, neutral, informante, etc." },
+          "descripcion_breve": { "type": "string" },
+          "secreto": { "type": "string", "description": "Algo que oculta - SPOILER" },
+          "actitud_inicial": { "type": "string", "enum": ["amistoso", "neutral", "desconfiado", "hostil"] },
+          "actitud_actual": { "type": "string" },
+          "ubicacion": { "type": "string" },
+          "estado": { "type": "string", "enum": ["vivo", "muerto", "desaparecido", "transformado"] },
+          "conocido_por_pj": { "type": "boolean", "default": false },
+          "interacciones": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    
+    "relojes": {
+      "type": "array",
+      "description": "Amenazas con cuenta regresiva",
+      "items": {
+        "type": "object",
+        "required": ["nombre", "segmentos_total"],
+        "properties": {
+          "nombre": { "type": "string" },
+          "descripcion": { "type": "string" },
+          "segmentos_total": { "type": "integer", "minimum": 4, "maximum": 12 },
+          "segmentos_actual": { "type": "integer", "default": 0 },
+          "que_avanza": { "type": "string", "description": "Qué hace que avance el reloj" },
+          "que_pasa_al_completar": { "type": "string", "description": "Consecuencia al llegar al final" },
+          "visible_al_jugador": { "type": "boolean", "default": false },
+          "activo": { "type": "boolean", "default": true }
+        }
+      }
+    },
+    
+    "side_quests": {
+      "type": "array",
+      "description": "Misiones secundarias con potencial de escalar",
+      "items": {
+        "type": "object",
+        "required": ["id", "gancho"],
+        "properties": {
+          "id": { "type": "string" },
+          "gancho": { "type": "string", "description": "Cómo se presenta al jugador" },
+          "que_revela": { "type": "string", "description": "Información útil que da" },
+          "como_escala": { "type": "string", "description": "Cómo puede convertirse en main" },
+          "potencial_main": { "type": "boolean", "description": "Si puede reemplazar la main quest" },
+          "estado": { "type": "string", "enum": ["no_descubierta", "descubierta", "activa", "completada", "fallida", "escalada_a_main"] },
+          "recompensa": { "type": "string" }
+        }
+      }
+    },
+    
+    "recompensas_previstas": {
+      "type": "array",
+      "description": "Tesoros y recompensas planificadas",
+      "items": {
+        "type": "object",
+        "properties": {
+          "que": { "type": "string" },
+          "cuando": { "type": "string", "description": "Acto o evento que la desbloquea" },
+          "entregada": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    
+    "contrato_consistencia": {
+      "type": "object",
+      "description": "Qué es CANON, FLEXIBLE e IMPRO",
+      "properties": {
+        "canon": {
+          "type": "array",
+          "description": "NUNCA se contradice",
+          "items": { "type": "string" }
+        },
+        "flexible": {
+          "type": "array",
+          "description": "Puede adaptarse según el jugador",
+          "items": { "type": "string" }
+        },
+        "impro": {
+          "type": "array",
+          "description": "Libertad total",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

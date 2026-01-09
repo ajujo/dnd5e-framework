@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Adventure Patch",
+  "description": "Registro de cambios a la biblia de aventura",
+  "type": "object",
+  
+  "required": ["version", "patches"],
+  
+  "properties": {
+    "version": { "type": "integer", "default": 1 },
+    "bible_id": { "type": "string" },
+    "created": { "type": "string", "format": "date-time" },
+    "last_updated": { "type": "string", "format": "date-time" },
+    
+    "patch_policy": {
+      "type": "object",
+      "description": "Reglas de cómo aplicar cambios",
+      "properties": {
+        "append_only": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [
+            "revelaciones[].pistas[].encontrada",
+            "pnj_clave[].interacciones",
+            "side_quests",
+            "canon_activo"
+          ]
+        },
+        "replace": {
+          "type": "array", 
+          "items": { "type": "string" },
+          "default": [
+            "main_quest.estado",
+            "actos[].estado",
+            "situacion_actual",
+            "relojes[].segmentos_actual"
+          ]
+        },
+        "tombstone": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [
+            "pnj_clave",
+            "side_quests",
+            "relojes"
+          ],
+          "description": "Elementos que se marcan como inactivos, no se borran"
+        }
+      }
+    },
+    
+    "patches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["turno", "timestamp", "tipo", "path"],
+        "properties": {
+          "turno": { "type": "integer", "description": "Turno de juego en que ocurrió" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "tipo": { 
+            "type": "string", 
+            "enum": ["append", "replace", "tombstone", "merge"],
+            "description": "Tipo de operación"
+          },
+          "path": { "type": "string", "description": "Ruta al elemento (ej: pnj_clave.capitan_darvin)" },
+          "valor_anterior": { "description": "Valor antes del cambio (para auditoría)" },
+          "valor_nuevo": { "description": "Nuevo valor" },
+          "razon": { "type": "string", "description": "Por qué se hizo el cambio" }
+        }
+      }
+    },
+    
+    "resumen_cambios": {
+      "type": "object",
+      "description": "Resumen de cambios importantes",
+      "properties": {
+        "pnj_muertos": { "type": "array", "items": { "type": "string" } },
+        "revelaciones_descubiertas": { "type": "array", "items": { "type": "string" } },
+        "side_quests_completadas": { "type": "array", "items": { "type": "string" } },
+        "relojes_completados": { "type": "array", "items": { "type": "string" } },
+        "cambios_main_quest": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

@@ -8,5 +8,13 @@ Incluye:
 """
 
 from .tonos import cargar_tono, listar_tonos, obtener_prompt_tono, obtener_balance_solitario
+from .bible_manager import BibleManager, obtener_bible_manager
 
-__all__ = ['cargar_tono', 'listar_tonos', 'obtener_prompt_tono', 'obtener_balance_solitario']
+__all__ = [
+    'cargar_tono', 
+    'listar_tonos', 
+    'obtener_prompt_tono', 
+    'obtener_balance_solitario',
+    'BibleManager',
+    'obtener_bible_manager'
+]

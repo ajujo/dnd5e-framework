@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Adventure Bible DM View",
+  "description": "Vista filtrada de la biblia para el DM. Sin spoilers directos, con sombras para foreshadowing.",
+  "type": "object",
+  
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "acto_actual": { "type": "integer" },
+        "tipo_aventura": { "type": "string" },
+        "pj_nombre": { "type": "string" },
+        "nivel_pj": { "type": "integer" }
+      }
+    },
+    
+    "situacion_actual": {
+      "type": "object",
+      "description": "Estado actual de la aventura",
+      "properties": {
+        "objetivo_inmediato": { "type": "string", "description": "Qué debe hacer el PJ ahora" },
+        "ubicacion": { "type": "string" },
+        "amenaza_activa": { "type": "string" },
+        "tension_actual": { "type": "string", "enum": ["baja", "media", "alta", "climax"] }
+      }
+    },
+    
+    "antagonista_sombra": {
+      "type": "object",
+      "description": "Lo que el DM sabe del antagonista SIN revelar identidad",
+      "properties": {
+        "descripcion_vaga": { "type": "string", "description": "Ej: 'Una figura noble con conexiones en la alta sociedad'" },
+        "pistas_para_sembrar": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Frases de foreshadowing que el DM puede usar"
+        },
+        "recursos_visibles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Lo que se puede mostrar de sus recursos"
+        },
+        "revelacion_disponible": { "type": "boolean", "description": "Si ya se puede revelar la identidad" },
+        "identidad_real": { "type": "string", "description": "Solo presente si revelacion_disponible es true" }
+      }
+    },
+    
+    "acto_actual_info": {
+      "type": "object",
+      "description": "Información del acto en curso",
+      "properties": {
+        "numero": { "type": "integer" },
+        "nombre": { "type": "string" },
+        "objetivo": { "type": "string" },
+        "escenas_disponibles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "tipo": { "type": "string" },
+              "descripcion": { "type": "string" },
+              "completada": { "type": "boolean" }
+            }
+          }
+        },
+        "climax_previsto": { "type": "string" },
+        "progreso": { "type": "string", "enum": ["inicio", "desarrollo", "climax"] }
+      }
+    },
+    
+    "pnj_en_escena": {
+      "type": "array",
+      "description": "NPCs relevantes ahora mismo",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "rol_visible": { "type": "string", "description": "Lo que el PJ sabe de su rol" },
+          "actitud_actual": { "type": "string" },
+          "ubicacion": { "type": "string" },
+          "secreto_hint": { "type": "string", "description": "Pista vaga de que oculta algo, sin revelar qué" }
+        }
+      }
+    },
+    
+    "revelaciones_pendientes": {
+      "type": "array",
+      "description": "Revelaciones que aún deben descubrirse en este acto",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "pista_garantizada": { "type": "string", "description": "La pista que DEBE entregarse" },
+          "pistas_opcionales": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "entregada": { "type": "boolean" }
+        }
+      }
+    },
+    
+    "relojes_visibles": {
+      "type": "array",
+      "description": "Relojes que el DM debe tener en cuenta",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nombre": { "type": "string" },
+          "segmentos": { "type": "string", "description": "Ej: '3/6'" },
+          "urgencia": { "type": "string", "enum": ["baja", "media", "alta", "critica"] },
+          "que_avanza": { "type": "string" }
+        }
+      }
+    },
+    
+    "canon_activo": {
+      "type": "array",
+      "description": "Hechos establecidos que NO deben contradecirse",
+      "items": { "type": "string" }
+    },
+    
+    "flexible_actual": {
+      "type": "array",
+      "description": "Elementos que pueden adaptarse ahora",
+      "items": { "type": "string" }
+    },
+    
+    "recordatorios_tono": {
+      "type": "object",
+      "description": "Recordatorios del tono de aventura",
+      "properties": {
+        "letalidad": { "type": "string" },
+        "como_resolver_fallos": { "type": "string" },
+        "frecuencia_combate": { "type": "string" }
+      }
+    }
+  }
+}

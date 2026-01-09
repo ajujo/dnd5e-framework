@@ -1,0 +1,403 @@
+{
+  "_comentario": "EJEMPLO de Adventure Bible para referencia",
+  
+  "meta": {
+    "id": "adv_12345678",
+    "generada": "2024-01-09T10:00:00Z",
+    "tipo_aventura": "intriga_misterio",
+    "pj_nombre": "Kaelen Hoja Lunar",
+    "pj_id": "2574accf",
+    "nivel_pj": 1,
+    "ambientacion": "Reinos Olvidados - Faerûn",
+    "region_inicial": "Costa de la Espada - Aguas Profundas"
+  },
+  
+  "balance_solitario": {
+    "dificultad_objetivo": "media",
+    "letalidad": "baja",
+    "combate": {
+      "encuentros_por_acto": "1-2",
+      "enemigos_max_por_encuentro": 3,
+      "cr_max_individual": 2,
+      "descansos_entre_encuentros": true
+    },
+    "obstaculos": {
+      "cd_tipica": "10-14",
+      "cd_maxima": 16,
+      "siempre_alternativa": true
+    }
+  },
+  
+  "logline": "Nobles de Aguas Profundas mueren envenenados. El rastro lleva a una conspiración Zhentarim para desestabilizar la ciudad.",
+  
+  "main_quest": {
+    "objetivo_final": "Desmantelar la red de asesinatos y exponer al líder de la conspiración",
+    "por_que_importa": "Si no se detiene, el Lord Abierto de Aguas Profundas será el siguiente, sumiendo la ciudad en el caos",
+    "estado": "acto_1",
+    "gancho_inicial": "Un viejo conocido del PJ aparece envenenado. Con su último aliento, susurra: 'La serpiente... en la sombra de la torre...'"
+  },
+  
+  "antagonista": {
+    "identidad_real": "Lady Maelis Sombravelo",
+    "fachada": "Lady Verana Anteos, noble menor viuda, patrona de las artes",
+    "motivacion": "Venganza contra Aguas Profundas por la ejecución de su padre (un agente Zhentarim) hace 20 años",
+    "objetivo": "Eliminar a los Lords de Aguas Profundas y permitir que Zhentarim tome control del comercio",
+    "recursos": [
+      "Red de informantes en las casas nobles",
+      "Veneno raro de Calimshan (Lágrimas de Medianoche)",
+      "3 asesinos profesionales",
+      "Contactos en el gremio de mercaderes"
+    ],
+    "debilidad": "Su hermano Aldric no sabe que ella lidera la conspiración - si lo descubre, la traicionará",
+    "revelacion_prevista": "acto_3",
+    "pistas_foreshadowing": [
+      "Lady Verana llegó a la ciudad hace exactamente 6 meses - justo antes del primer asesinato",
+      "El veneno solo puede comprarse a un mercader de Calimshan que Lady Verana patrocina",
+      "Un sirviente menciona que Lady Verana tiene una cicatriz en la muñeca - marca de los Zhentarim",
+      "Aldric Anteos busca desesperadamente a su 'hermana desaparecida' sin saber que está frente a él"
+    ]
+  },
+  
+  "actos": [
+    {
+      "numero": 1,
+      "nombre": "El Primer Cadáver",
+      "objetivo": "Descubrir que los asesinatos están conectados y son obra del Zhentarim",
+      "estado": "activo",
+      "escenas_semilla": [
+        {
+          "id": "funeral_conocido",
+          "tipo": "social",
+          "descripcion": "Funeral del conocido del PJ. Nobles murmuran sobre otros 'accidentes'",
+          "obligatoria": true,
+          "flexible": false
+        },
+        {
+          "id": "escena_crimen",
+          "tipo": "exploracion",
+          "descripcion": "Investigar la habitación donde murió. Pista física garantizada.",
+          "obligatoria": true,
+          "flexible": true
+        },
+        {
+          "id": "taberna_rumores",
+          "tipo": "social",
+          "descripcion": "El Portal Bostezante - la tabernera Lyssa tiene información",
+          "obligatoria": false,
+          "flexible": true
+        },
+        {
+          "id": "emboscada_callejon",
+          "tipo": "combate",
+          "descripcion": "Alguien no quiere que investigues - 2 matones atacan",
+          "obligatoria": true,
+          "flexible": true
+        }
+      ],
+      "climax": "Descubrir que habrá otro asesinato en 3 días - empieza el reloj",
+      "transicion_siguiente": "Ahora el PJ sabe que hay un patrón y debe prevenir el siguiente asesinato"
+    },
+    {
+      "numero": 2,
+      "nombre": "Siguiendo el Rastro",
+      "objetivo": "Identificar al próximo objetivo y prevenir el asesinato",
+      "estado": "pendiente",
+      "escenas_semilla": [
+        {
+          "id": "guardia_corrupto",
+          "tipo": "social",
+          "descripcion": "El Capitán Darvin sabe algo pero tiene miedo - persuadir o intimidar",
+          "obligatoria": false,
+          "flexible": true
+        },
+        {
+          "id": "gala_nobles",
+          "tipo": "social",
+          "descripcion": "Infiltrarse en una gala para identificar al objetivo - Lady Verana estará presente",
+          "obligatoria": true,
+          "flexible": false
+        },
+        {
+          "id": "guarida_asesinos",
+          "tipo": "combate",
+          "descripcion": "Encontrar y asaltar el escondite de los asesinos",
+          "obligatoria": false,
+          "flexible": true
+        }
+      ],
+      "climax": "Salvar (o no) a la segunda víctima. Obtener el nombre del intermediario.",
+      "transicion_siguiente": "El intermediario lleva a la verdadera líder"
+    },
+    {
+      "numero": 3,
+      "nombre": "La Verdad Sale a la Luz",
+      "objetivo": "Descubrir la identidad de Lady Maelis y confrontarla",
+      "estado": "pendiente",
+      "escenas_semilla": [
+        {
+          "id": "hermano_aldric",
+          "tipo": "social",
+          "descripcion": "Aldric Anteos puede ser la clave - convencerle de ayudar",
+          "obligatoria": false,
+          "flexible": true
+        },
+        {
+          "id": "mansion_anteos",
+          "tipo": "exploracion",
+          "descripcion": "Infiltrarse en la mansión para encontrar pruebas",
+          "obligatoria": true,
+          "flexible": true
+        },
+        {
+          "id": "confrontacion_final",
+          "tipo": "combate",
+          "descripcion": "Enfrentamiento con Maelis y sus guardaespaldas",
+          "obligatoria": true,
+          "flexible": false
+        }
+      ],
+      "climax": "Maelis es derrotada/capturada/escapa según las acciones del PJ",
+      "transicion_siguiente": null
+    }
+  ],
+  
+  "revelaciones": [
+    {
+      "id": "rev_zhentarim",
+      "contenido": "Los asesinatos son obra del Zhentarim",
+      "importancia": "critica",
+      "acto": 1,
+      "descubierta": false,
+      "pistas": [
+        {
+          "id": "p1_fisica",
+          "tipo": "fisica",
+          "descripcion": "Símbolo de serpiente negra grabado en la empuñadura de una daga encontrada en la escena",
+          "donde": "escena_crimen",
+          "cd_obtener": null,
+          "garantizada": true,
+          "encontrada": false
+        },
+        {
+          "id": "p1_social",
+          "tipo": "social",
+          "descripcion": "Un mendigo vio a alguien con capa negra y símbolo de serpiente cerca de la casa",
+          "donde": "calles cerca de la escena",
+          "cd_obtener": 12,
+          "garantizada": false,
+          "encontrada": false
+        },
+        {
+          "id": "p1_documental",
+          "tipo": "documental",
+          "descripcion": "Carta cifrada en el cuerpo - si se descifra menciona 'la Red'",
+          "donde": "escena_crimen",
+          "cd_obtener": 15,
+          "garantizada": false,
+          "encontrada": false
+        }
+      ]
+    },
+    {
+      "id": "rev_veneno",
+      "contenido": "El veneno es Lágrimas de Medianoche, exclusivo de Calimshan",
+      "importancia": "importante",
+      "acto": 1,
+      "descubierta": false,
+      "pistas": [
+        {
+          "id": "p2_fisica",
+          "tipo": "fisica",
+          "descripcion": "Residuo azulado en los labios de la víctima - un alquimista lo identifica",
+          "donde": "escena_crimen / alquimista",
+          "cd_obtener": 10,
+          "garantizada": true,
+          "encontrada": false
+        },
+        {
+          "id": "p2_social",
+          "tipo": "social",
+          "descripcion": "La tabernera Lyssa menciona que un mercader de Calimshan vende 'cosas raras'",
+          "donde": "taberna_rumores",
+          "cd_obtener": 13,
+          "garantizada": false,
+          "encontrada": false
+        },
+        {
+          "id": "p2_magica",
+          "tipo": "magica",
+          "descripcion": "Detectar Veneno revela propiedades mágicas únicas del veneno",
+          "donde": "cualquier lugar con el veneno",
+          "cd_obtener": null,
+          "garantizada": false,
+          "encontrada": false
+        }
+      ]
+    },
+    {
+      "id": "rev_identidad",
+      "contenido": "Lady Verana Anteos es en realidad Lady Maelis Sombravelo, agente Zhentarim",
+      "importancia": "critica",
+      "acto": 3,
+      "descubierta": false,
+      "pistas": [
+        {
+          "id": "p3_fisica",
+          "tipo": "fisica",
+          "descripcion": "Documentos en su estudio prueban su identidad real",
+          "donde": "mansion_anteos",
+          "cd_obtener": null,
+          "garantizada": true,
+          "encontrada": false
+        },
+        {
+          "id": "p3_social",
+          "tipo": "social",
+          "descripcion": "Aldric reconoce un gesto de su hermana que 'Lady Verana' hace inconscientemente",
+          "donde": "cualquier escena con Aldric presente",
+          "cd_obtener": 14,
+          "garantizada": false,
+          "encontrada": false
+        },
+        {
+          "id": "p3_documental",
+          "tipo": "documental",
+          "descripcion": "Registros del gremio de mercaderes muestran que 'Verana' apareció el mismo día que 'Maelis' desapareció hace 20 años",
+          "donde": "gremio de mercaderes",
+          "cd_obtener": 16,
+          "garantizada": false,
+          "encontrada": false
+        }
+      ]
+    }
+  ],
+  
+  "pnj_clave": [
+    {
+      "nombre": "Capitán Darvin Crestahierro",
+      "rol": "Aliado potencial / Informante reluctante",
+      "descripcion_breve": "Capitán de la guardia, 45 años, barba gris, mirada cansada",
+      "secreto": "Fue sobornado por Zhentarim pero está arrepentido y tiene miedo",
+      "actitud_inicial": "desconfiado",
+      "actitud_actual": "desconfiado",
+      "ubicacion": "Cuartel de la guardia, Castillo Ward",
+      "estado": "vivo",
+      "conocido_por_pj": false,
+      "interacciones": []
+    },
+    {
+      "nombre": "Lyssa Polvo de Estrellas",
+      "rol": "Informante amistosa",
+      "descripcion_breve": "Tabernera elfa, 120 años, pelo plateado, ojos que lo ven todo",
+      "secreto": "Ex-Arpista, tiene contactos en toda la ciudad",
+      "actitud_inicial": "neutral",
+      "actitud_actual": "neutral",
+      "ubicacion": "El Portal Bostezante, Dock Ward",
+      "estado": "vivo",
+      "conocido_por_pj": false,
+      "interacciones": []
+    },
+    {
+      "nombre": "Aldric Anteos",
+      "rol": "Clave para derrotar al antagonista",
+      "descripcion_breve": "Noble joven, 28 años, pelo negro, expresión preocupada",
+      "secreto": "Busca a su hermana Maelis sin saber que es Lady Verana",
+      "actitud_inicial": "neutral",
+      "actitud_actual": "neutral",
+      "ubicacion": "Mansión Anteos, North Ward",
+      "estado": "vivo",
+      "conocido_por_pj": false,
+      "interacciones": []
+    },
+    {
+      "nombre": "Lady Verana Anteos (Maelis)",
+      "rol": "Antagonista principal",
+      "descripcion_breve": "Noble elegante, 45 años, pelo castaño con mechas grises, sonrisa calculadora",
+      "secreto": "ES el antagonista - Maelis Sombravelo",
+      "actitud_inicial": "amistoso",
+      "actitud_actual": "amistoso",
+      "ubicacion": "Mansión Anteos, North Ward",
+      "estado": "vivo",
+      "conocido_por_pj": false,
+      "interacciones": []
+    }
+  ],
+  
+  "relojes": [
+    {
+      "nombre": "Próximo Asesinato",
+      "descripcion": "El siguiente noble en la lista de Maelis",
+      "segmentos_total": 6,
+      "segmentos_actual": 0,
+      "que_avanza": "Cada día que pasa, cada fracaso importante, alertar a los enemigos",
+      "que_pasa_al_completar": "Lord Thann muere envenenado. La ciudad entra en pánico. La seguridad se triplica, dificultando la investigación.",
+      "visible_al_jugador": false,
+      "activo": false
+    },
+    {
+      "nombre": "Sospecha de Maelis",
+      "descripcion": "Cuánto sospecha Maelis que la están investigando",
+      "segmentos_total": 8,
+      "segmentos_actual": 0,
+      "que_avanza": "Hacer preguntas obvias, ser visto investigando, dejar testigos",
+      "que_pasa_al_completar": "Maelis envía asesinos tras el PJ y acelera sus planes",
+      "visible_al_jugador": false,
+      "activo": true
+    }
+  ],
+  
+  "side_quests": [
+    {
+      "id": "sq_hermano",
+      "gancho": "Aldric Anteos pide ayuda para encontrar a su 'hermana desaparecida' Maelis",
+      "que_revela": "Historia de la familia Anteos, que el padre fue ejecutado por ser Zhentarim",
+      "como_escala": "Si el PJ investiga a fondo, descubre que Maelis y Verana son la misma persona - vía alternativa para resolver el misterio",
+      "potencial_main": true,
+      "estado": "no_descubierta",
+      "recompensa": "Alianza con Aldric, acceso a la mansión Anteos"
+    },
+    {
+      "id": "sq_mercader",
+      "gancho": "El mercader de Calimshan ofrece información a cambio de un favor",
+      "que_revela": "Quién compra el veneno (intermediario, no Maelis directamente)",
+      "como_escala": "Menor, solo da información útil",
+      "potencial_main": false,
+      "estado": "no_descubierta",
+      "recompensa": "50 po, nombre del intermediario"
+    }
+  ],
+  
+  "recompensas_previstas": [
+    { "que": "25 po", "cuando": "Completar funeral_conocido", "entregada": false },
+    { "que": "Daga +1 (del matón)", "cuando": "emboscada_callejon", "entregada": false },
+    { "que": "Poción de curación", "cuando": "Ayudar a Lyssa con un problema menor", "entregada": false },
+    { "que": "100 po", "cuando": "Completar acto 1", "entregada": false },
+    { "que": "Contacto Arpista", "cuando": "Ganarse la confianza de Lyssa", "entregada": false },
+    { "que": "Anillo de protección", "cuando": "Derrotar a Maelis", "entregada": false }
+  ],
+  
+  "contrato_consistencia": {
+    "canon": [
+      "Aguas Profundas es una ciudad real de Faerûn",
+      "El Zhentarim existe y opera en secreto",
+      "Los NPCs clave están vivos hasta que el patch diga lo contrario",
+      "Las pistas descubiertas son hechos establecidos",
+      "El veneno es de Calimshan",
+      "Maelis es la hija del agente ejecutado hace 20 años"
+    ],
+    "flexible": [
+      "Orden de las escenas dentro de cada acto",
+      "Número exacto de matones en emboscadas",
+      "Ubicación exacta de pistas no descubiertas",
+      "NPCs secundarios (guardias, sirvientes, transeúntes)",
+      "Detalles de las fiestas y eventos sociales"
+    ],
+    "impro": [
+      "Descripciones de lugares y ambientes",
+      "Diálogos exactos de NPCs",
+      "Clima y hora del día",
+      "Nombres de figurantes",
+      "Pequeños obstáculos narrativos"
+    ]
+  }
+}
