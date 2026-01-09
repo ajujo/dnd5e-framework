@@ -18,7 +18,7 @@ class IniciarCombate(Herramienta):
     
     @property
     def descripcion(self) -> str:
-        return "Inicia un combate. SOLO puede usar monstruos que existan en el compendio (consulta primero con consultar_monstruo)."
+        return "Inicia un combate. SOLO puede usar monstruos que existan en el compendio."
     
     @property
     def parametros(self) -> Dict[str, Dict[str, Any]]:
@@ -37,8 +37,10 @@ class IniciarCombate(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_monstruo, listar_monstruos
+        from motor.compendio import obtener_compendio_motor
         from motor.dados import tirar
+        
+        compendio = obtener_compendio_motor()
         
         enemigos_ids = kwargs.get("enemigos", [])
         sorpresa = kwargs.get("sorpresa", "ninguno")
@@ -46,13 +48,15 @@ class IniciarCombate(Herramienta):
         if not enemigos_ids:
             return {"exito": False, "error": "No se especificaron enemigos"}
         
+        # Obtener lista de monstruos disponibles
+        monstruos_disponibles = [m.get("id") for m in compendio.listar_monstruos()]
+        
         # Validar que todos los monstruos existen en el compendio
         combatientes_enemigos = []
         monstruos_no_encontrados = []
-        monstruos_disponibles = [m.get("id") for m in listar_monstruos()]
         
         for i, enemigo_id in enumerate(enemigos_ids):
-            monstruo = obtener_monstruo(enemigo_id)
+            monstruo = compendio.obtener_monstruo(enemigo_id)
             
             if not monstruo:
                 monstruos_no_encontrados.append(enemigo_id)
@@ -73,8 +77,9 @@ class IniciarCombate(Herramienta):
             
             # Tirar iniciativa
             mod_des = 0
-            if monstruo.get("caracteristicas"):
-                des = monstruo["caracteristicas"].get("destreza", 10)
+            caracteristicas = monstruo.get("caracteristicas") or monstruo.get("atributos") or {}
+            if caracteristicas:
+                des = caracteristicas.get("destreza", 10)
                 mod_des = (des - 10) // 2
             combatiente["iniciativa"] = tirar("1d20").total + mod_des
             
@@ -86,7 +91,7 @@ class IniciarCombate(Herramienta):
                 "exito": False,
                 "error": f"Monstruos no encontrados en compendio: {monstruos_no_encontrados}",
                 "monstruos_disponibles": monstruos_disponibles,
-                "mensaje": "Solo puedes usar monstruos del compendio. Usa 'consultar_monstruo' para ver los disponibles."
+                "mensaje": "Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles."
             }
         
         # Tirar iniciativa del PJ
@@ -110,13 +115,10 @@ class IniciarCombate(Herramienta):
         todos_combatientes.sort(key=lambda x: x["iniciativa"], reverse=True)
         
         # Aplicar sorpresa
-        rondas_sorpresa = 0
         if sorpresa == "jugador":
-            rondas_sorpresa = 1
             for c in combatientes_enemigos:
                 c["sorprendido"] = True
         elif sorpresa == "enemigos":
-            rondas_sorpresa = 1
             combatiente_pj["sorprendido"] = True
         
         # Construir estado de combate
@@ -163,9 +165,10 @@ class ListarMonstruosDisponibles(Herramienta):
         return {}
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import listar_monstruos
+        from motor.compendio import obtener_compendio_motor
         
-        monstruos = listar_monstruos()
+        compendio = obtener_compendio_motor()
+        monstruos = compendio.listar_monstruos()
         
         lista = []
         for m in monstruos:

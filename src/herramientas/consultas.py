@@ -126,14 +126,16 @@ class ConsultarMonstruo(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_monstruo, listar_monstruos
+        from motor.compendio import obtener_compendio_motor
+        
+        compendio = obtener_compendio_motor()
         
         id_monstruo = kwargs.get("id_monstruo", "").lower().replace(" ", "_")
         
-        monstruo = obtener_monstruo(id_monstruo)
+        monstruo = compendio.obtener_monstruo(id_monstruo)
         
         if not monstruo:
-            disponibles = listar_monstruos()
+            disponibles = compendio.listar_monstruos()
             return {
                 "exito": False,
                 "error": f"Monstruo '{id_monstruo}' no encontrado",
@@ -184,7 +186,9 @@ class ConsultarObjeto(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_arma, obtener_armadura, obtener_objeto_misc
+        from motor.compendio import obtener_compendio_motor
+        
+        compendio = obtener_compendio_motor()
         
         id_objeto = kwargs.get("id_objeto", "").lower().replace(" ", "_")
         tipo = kwargs.get("tipo", "auto")
@@ -193,17 +197,17 @@ class ConsultarObjeto(Herramienta):
         tipo_encontrado = None
         
         if tipo in ("auto", "arma"):
-            objeto = obtener_arma(id_objeto)
+            objeto = compendio.obtener_arma(id_objeto)
             if objeto:
                 tipo_encontrado = "arma"
         
         if not objeto and tipo in ("auto", "armadura"):
-            objeto = obtener_armadura(id_objeto)
+            objeto = compendio.obtener_armadura(id_objeto)
             if objeto:
                 tipo_encontrado = "armadura"
         
         if not objeto and tipo in ("auto", "misc"):
-            objeto = obtener_objeto_misc(id_objeto)
+            objeto = compendio.obtener_objeto_misc(id_objeto)
             if objeto:
                 tipo_encontrado = "misc"
         

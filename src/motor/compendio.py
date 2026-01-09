@@ -99,6 +99,23 @@ class CompendioMotor:
         """Verifica si un arma existe en el compendio."""
         return self.obtener_arma(arma_id) is not None
 
+    # =========================================================================
+    # OBJETOS MISCELÁNEOS
+    # =========================================================================
+
+    def obtener_objeto_misc(self, objeto_id: str) -> Optional[Dict[str, Any]]:
+        """Obtiene los datos de un objeto misceláneo del compendio."""
+        # Intentar obtener de objetos si existe el método
+        if hasattr(self._compendio, 'obtener_objeto'):
+            return self._compendio.obtener_objeto(objeto_id)
+        return None
+    
+    def obtener_armadura(self, armadura_id: str) -> Optional[Dict[str, Any]]:
+        """Obtiene los datos de una armadura del compendio."""
+        if hasattr(self._compendio, 'obtener_armadura'):
+            return self._compendio.obtener_armadura(armadura_id)
+        return None
+
     def listar_armas(self) -> List[Dict[str, Any]]:
         """Lista todas las armas disponibles."""
         return self._compendio.listar_armas()

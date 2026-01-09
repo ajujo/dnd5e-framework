@@ -18,7 +18,8 @@ class RespuestaLLM:
     herramienta: Optional[str] = None  # Nombre de herramienta a ejecutar
     parametros: Dict[str, Any] = None  # Parámetros de la herramienta
     narrativa: str = ""  # Texto narrativo para el jugador
-    accion_dm: Optional[str] = None  # Acción especial del DM (iniciar_combate, cambiar_escena, etc.)
+    accion_dm: Optional[str] = None  # Acción especial del DM
+    cambio_modo: Optional[str] = None  # Cambio de modo: exploracion/social/combate
     error: Optional[str] = None  # Error de parsing si lo hay
     
     def __post_init__(self):
@@ -60,6 +61,7 @@ def parsear_respuesta_json(texto: str) -> RespuestaLLM:
         respuesta.parametros = datos.get("parametros", {})
         respuesta.narrativa = datos.get("narrativa", "")
         respuesta.accion_dm = datos.get("accion_dm")
+        respuesta.cambio_modo = datos.get("cambio_modo")
         
         # Si hay herramienta pero es null o "ninguna", limpiar
         if respuesta.herramienta in (None, "null", "ninguna", "none", ""):

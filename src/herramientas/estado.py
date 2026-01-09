@@ -96,7 +96,9 @@ class DarObjeto(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_arma, obtener_armadura, obtener_objeto_misc
+        from motor.compendio import obtener_compendio_motor
+        
+        compendio = obtener_compendio_motor()
         
         pj = contexto.get("pj")
         if not pj:
@@ -106,7 +108,7 @@ class DarObjeto(Herramienta):
         cantidad = int(kwargs.get("cantidad", 1))
         
         # Buscar objeto en compendio
-        objeto = obtener_arma(id_objeto) or obtener_armadura(id_objeto) or obtener_objeto_misc(id_objeto)
+        objeto = compendio.obtener_arma(id_objeto) or compendio.obtener_armadura(id_objeto) or compendio.obtener_objeto_misc(id_objeto)
         
         if not objeto:
             return {"exito": False, "error": f"Objeto '{id_objeto}' no encontrado en compendio"}

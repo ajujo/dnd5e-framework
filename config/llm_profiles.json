@@ -1,25 +1,22 @@
 {
-  "perfil_activo": "lite",
-
   "perfiles": {
-    "completo": {
-      "descripcion": "Modelo grande para narrativa rica y partidas largas",
-      "modelo_recomendado": "70B o superior",
-      "contexto_maximo": 131072,
-      "max_tokens_respuesta": 2048,
-      "temperatura": 0.8,
-      "endpoint": "http://localhost:1234/v1/chat/completions",
-      "timeout_segundos": 120
-    },
-
     "lite": {
-      "descripcion": "Modelo ligero para hardware limitado",
-      "modelo_recomendado": "13B-27B",
-      "contexto_maximo": 32768,
-      "max_tokens_respuesta": 1024,
-      "temperatura": 0.7,
-      "endpoint": "http://localhost:1234/v1/chat/completions",
-      "timeout_segundos": 60
+      "descripcion": "Modelo ligero para hardware limitado (7B-14B)",
+      "max_tokens": 400,
+      "temperature": 0.7,
+      "timeout": 30
+    },
+    "normal": {
+      "descripcion": "Modelo estándar (14B-32B)", 
+      "max_tokens": 600,
+      "temperature": 0.75,
+      "timeout": 60
+    },
+    "completo": {
+      "descripcion": "Modelo grande para narrativa rica (32B-80B+)",
+      "max_tokens": 1000,
+      "temperature": 0.65,
+      "timeout": 120
     }
   }
 }

@@ -13,7 +13,7 @@ from typing import Optional
 
 # Imports del proyecto
 from personaje import load_character, save_character, recalcular_derivados, list_characters
-from llm import obtener_cliente_llm, verificar_conexion
+from llm import obtener_cliente_llm, verificar_conexion, set_perfil, get_perfil
 from orquestador import DMCerebro
 
 
@@ -139,6 +139,45 @@ def mostrar_resultado_mecanico(resultado: dict, herramienta: str = None):
         print(f"  [Daño: {resultado['daño_detalle']}]")
 
 
+
+def mostrar_sistema(dm: DMCerebro):
+    """Muestra información del sistema actual."""
+    from llm import get_perfil
+    
+    perfil = get_perfil()
+    flags = dm.contexto.flags
+    
+    print("\n  ═══ ESTADO DEL SISTEMA ═══")
+    
+    # Perfil LLM
+    print(f"\n  🤖 PERFIL LLM: {perfil['nombre'].upper()}")
+    print(f"     Max tokens: {perfil['max_tokens']}")
+    print(f"     Temperatura: {perfil['temperature']}")
+    print(f"     Timeout: {perfil['timeout']}s")
+    
+    # Tipo de aventura
+    tipo_av = flags.get("tipo_aventura", {})
+    if tipo_av:
+        print(f"\n  📖 TIPO DE AVENTURA: {tipo_av.get('nombre', 'No definido')}")
+        print(f"     Tono: {tipo_av.get('tono', 'N/A')}")
+    
+    # Modo de juego actual
+    print(f"\n  🎮 MODO ACTUAL: {dm.contexto.modo_juego.upper()}")
+    
+    # Estadísticas de sesión
+    print(f"\n  📊 ESTADÍSTICAS:")
+    print(f"     Turnos jugados: {dm.contexto.turno}")
+    print(f"     NPCs en escena: {len(dm.contexto.npcs_activos)}")
+    if dm.contexto.ubicacion:
+        print(f"     Ubicación: {dm.contexto.ubicacion.nombre}")
+    
+    # Estado de combate si hay
+    if dm.contexto.estado_combate and dm.contexto.estado_combate.get("activo"):
+        print(f"\n  ⚔️ COMBATE ACTIVO:")
+        print(f"     Ronda: {dm.contexto.estado_combate.get('ronda', 1)}")
+    
+    print()
+
 def mostrar_ayuda():
     """Muestra los comandos disponibles."""
     print("""
@@ -148,6 +187,7 @@ def mostrar_ayuda():
     /combate     - Ver estado del combate activo
     /guardar     - Guardar partida
     /debug       - Activar/desactivar modo debug
+    /sistema     - Ver estado del sistema (perfil, modo, tipo aventura)
     /ayuda       - Mostrar esta ayuda
     /salir       - Guardar y salir
     
@@ -311,6 +351,50 @@ def crear_escena_demo() -> tuple:
     return ubicacion, npcs
 
 
+
+
+def generar_resumen_sesion(dm: DMCerebro) -> dict:
+    """Genera un resumen de la sesión actual para guardar."""
+    resumen = {
+        "ubicacion_actual": "",
+        "que_estaba_haciendo": "",
+        "resumen_sesion": "",
+        "turnos_jugados": dm.contexto.turno
+    }
+    
+    # Ubicación actual
+    if dm.contexto.ubicacion:
+        resumen["ubicacion_actual"] = dm.contexto.ubicacion.nombre
+    
+    # Qué estaba haciendo (últimos eventos)
+    if dm.contexto.historial:
+        ultimos = dm.contexto.historial[-3:]  # Últimos 3 eventos
+        acciones = [h.contenido for h in ultimos if h.tipo == "accion_jugador"]
+        if acciones:
+            resumen["que_estaba_haciendo"] = acciones[-1][:100]
+    
+    # Generar resumen con LLM si está disponible
+    if dm.llm_callback and dm.contexto.historial:
+        try:
+            # Extraer eventos importantes del historial
+            eventos = [h.contenido[:80] for h in dm.contexto.historial[-10:]]
+            eventos_texto = "\n".join(eventos)
+            
+            respuesta = dm.llm_callback(
+                f"Resume en 2 frases qué ha pasado en esta sesión de D&D:\n{eventos_texto}",
+                "Eres un asistente que resume partidas de rol. Sé conciso."
+            )
+            if respuesta:
+                resumen["resumen_sesion"] = respuesta.strip()[:200]
+        except:
+            pass
+    
+    # Fallback si no hay LLM
+    if not resumen["resumen_sesion"] and dm.contexto.historial:
+        resumen["resumen_sesion"] = f"Sesión de {dm.contexto.turno} turnos. Último: {resumen.get('que_estaba_haciendo', 'explorando')}"
+    
+    return resumen
+
 def jugar(dm: DMCerebro, es_continuacion: bool = False):
     """Bucle principal del juego."""
     limpiar_pantalla()
@@ -348,8 +432,14 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
         # Comandos del sistema
         if accion.lower() == "/salir":
             print("  Guardando partida...")
-            dm.contexto.pj["estado_aventura"] = dm.guardar_estado()
+            resumen = generar_resumen_sesion(dm)
+            estado = dm.guardar_estado()
+            estado["resumen"] = resumen
+            dm.contexto.pj["estado_aventura"] = estado
             save_character(dm.contexto.pj)
+            print("  ✓ Partida guardada")
+            if resumen.get("resumen_sesion"):
+                print(f"  📜 {resumen['resumen_sesion'][:80]}...")
             print("  ¡Hasta la próxima aventura!")
             break
         
@@ -380,15 +470,30 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
             continue
         
         elif accion.lower() == "/guardar":
-            # Guardar estado de aventura en el PJ
-            dm.contexto.pj["estado_aventura"] = dm.guardar_estado()
+            # Generar resumen de sesión
+            print("  Generando resumen...")
+            resumen = generar_resumen_sesion(dm)
+            
+            # Guardar estado de aventura + resumen en el PJ
+            estado = dm.guardar_estado()
+            estado["resumen"] = resumen
+            dm.contexto.pj["estado_aventura"] = estado
             save_character(dm.contexto.pj)
-            print("  ✓ Partida guardada (personaje + aventura).")
+            
+            print("  ✓ Partida guardada")
+            if resumen.get("ubicacion_actual"):
+                print(f"  📍 {resumen['ubicacion_actual']}")
+            if resumen.get("resumen_sesion"):
+                print(f"  📜 {resumen['resumen_sesion'][:80]}...")
             continue
         
         elif accion.lower() == "/debug":
             dm.debug_mode = not dm.debug_mode
             print(f"  Modo debug: {'ON' if dm.debug_mode else 'OFF'}")
+            continue
+        
+        elif accion.lower() in ("/sistema", "/system", "/sys"):
+            mostrar_sistema(dm)
             continue
         
         # Procesar acción narrativa
@@ -406,7 +511,18 @@ def main():
     parser.add_argument("--cargar", "-c", help="ID del personaje a cargar")
     parser.add_argument("--continuar", action="store_true", help="Continuar última partida")
     parser.add_argument("--debug", "-d", action="store_true", help="Modo debug")
+    parser.add_argument("--lite", action="store_true", help="Usar perfil lite (modelos 7B-14B)")
+    parser.add_argument("--normal", action="store_true", help="Usar perfil normal (modelos 14B-32B)")
+    parser.add_argument("--completo", action="store_true", help="Usar perfil completo (modelos 32B-80B+)")
     args = parser.parse_args()
+    
+    # Configurar perfil LLM
+    if args.lite:
+        set_perfil("lite")
+    elif args.completo:
+        set_perfil("completo")
+    else:
+        set_perfil("normal")  # Por defecto
     
     # Configurar LLM
     cliente_llm = obtener_cliente_llm()
@@ -414,7 +530,8 @@ def main():
     if cliente_llm:
         def llm_callback(system: str, user: str) -> str:
             return cliente_llm(user, system_prompt=system)
-        print("✓ LLM conectado")
+        perfil = get_perfil()
+        print(f"✓ LLM conectado [Perfil: {perfil['nombre']}]")
     else:
         llm_callback = None
         print("⚠ Sin LLM - modo narrativa limitada")
@@ -458,6 +575,18 @@ def main():
             print("  ✓ Continuando aventura guardada...")
             dm.cargar_estado(estado_guardado)
             es_continuacion = True
+            
+            # Mostrar resumen si existe
+            resumen = estado_guardado.get("resumen", {})
+            if resumen:
+                print()
+                if resumen.get("ubicacion_actual"):
+                    print(f"  📍 Ubicación: {resumen['ubicacion_actual']}")
+                if resumen.get("que_estaba_haciendo"):
+                    print(f"  🎯 Haciendo: {resumen['que_estaba_haciendo']}")
+                if resumen.get("resumen_sesion"):
+                    print(f"  📜 Resumen: {resumen['resumen_sesion']}")
+                print()
     
     if not es_continuacion:
         # Nueva aventura
