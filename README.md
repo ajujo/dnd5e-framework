@@ -82,7 +82,7 @@ DM: Bajas las escaleras hacia la cripta. El olor a muerte
 | Módulo | Estado | Descripción |
 |--------|--------|-------------|
 | Creación de personajes | ✅ Completo | Wizard interactivo con todas las razas, clases y trasfondos del SRD |
-| Sistema de combate táctico | ✅ Funcional | Iniciativa, ataques, daño, críticos, condiciones |
+| Sistema de combate táctico | ✅ Funcional | Iniciativa, ataques, daño, críticos, condiciones|
 | Narración LLM | ✅ Funcional | Genera descripciones inmersivas de combates y escenas |
 | Persistencia | ✅ Funcional | Guardar/cargar partidas, estado de aventura |
 | Adventure Bible | ✅ Estructura | Sistema de aventuras procedurales con actos, revelaciones, NPCs |
@@ -98,9 +98,11 @@ DM: Bajas las escaleras hacia la cripta. El olor a muerte
 
 ### 📋 Próximamente
 
-- Multijugador (varios PCs)
 - Interfaz web
 - Generación procedural de dungeons
+
+### 📋 Futuro lejano...muy lejano
+- Multijuhador (varios PC)
 - Integración con Roll20/Foundry
 
 ---
@@ -123,8 +125,8 @@ $ python src/cli_creacion.py
 ```
 
 - **9 razas** del SRD con todos sus rasgos
-- **12 clases** con características de nivel 1
-- **13 trasfondos** con equipo y habilidades
+- **4 clases** con características de nivel 1
+- **Algunos trasfondos** con equipo y habilidades
 - Generación de stats con 4d6-drop-lowest o array estándar
 - Guardado en JSON estructurado
 
@@ -224,7 +226,7 @@ Cada aventura se define en un JSON estructurado que incluye:
 
 - Python 3.11 o superior
 - Conexión a internet (para el LLM)
-- API key de Google AI (Gemini) u otro LLM compatible
+- LLM Local en LMStudio, Ollama o API key de ChatGPT u otro LLM compatible
 
 ### Instalación
 
@@ -242,8 +244,8 @@ source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 
 # Configurar API key
-export GEMINI_API_KEY="tu-api-key"
-# o crear archivo .env con: GEMINI_API_KEY=tu-api-key
+export CHATGPT_API_KEY="tu-api-key"
+# o crear archivo .env con: CHATGPT_API_KEY=tu-api-key
 ```
 
 ### Ejecutar
@@ -387,40 +389,46 @@ Ver [Mejoras_futuras.md](./Mejoras_futuras.md) para el roadmap completo.
 
 ### Prioridad Alta
 
-1. **Normalización de input con LLM**
+1. **Sistema de Experiencia y Niveles**
+   - Sin esto, el PJ nunca progresa. Es el corazón de D&D. Afecta a todo lo demás.
+
+2. **Más Clases Base**
+   - Solo están implementadas las 4 clases base (Guerrero, Pícaro, Mago, Clérigo).
+
+3. **Normalización de input con LLM**
    - Convertir "rematar al herido" → acción estructurada
    - Entender referencias como "el más cercano"
 
-2. **Sistema de magia completo**
+4. **Sistema de magia completo**
    - Ranuras de conjuros
    - Componentes y concentración
    - Todos los conjuros del SRD
 
-3. **IA de enemigos mejorada**
+5. **IA de enemigos mejorada**
    - Tácticas basadas en tipo de criatura
    - Selección inteligente de objetivos
 
 ### Prioridad Media
 
-4. **Condiciones de estado**
+6. **Condiciones de estado**
    - Envenenado, paralizado, cegado, etc.
    - Efectos mecánicos correctos
 
-5. **Movimiento táctico**
+7. **Movimiento táctico**
    - Grid de combate
    - Ataques de oportunidad
    - Terreno difícil
 
-6. **Descansos**
+8. **Descansos**
    - Descanso corto (dados de golpe)
    - Descanso largo (recuperar todo)
 
 ### Prioridad Baja / Futuro
 
-7. **Interfaz web**
-8. **Multijugador**
-9. **Importar personajes de D&D Beyond**
-10. **Integración con VTTs** (Roll20, Foundry)
+9. **Interfaz web**
+10. **Multijugador**
+11. **Importar personajes de D&D Beyond**
+12. **Integración con VTTs** (Roll20, Foundry)
 
 ---
 
@@ -461,11 +469,11 @@ Ver [Mejoras_futuras.md](./Mejoras_futuras.md) para el roadmap completo.
 
 ### ¿Qué LLM necesito?
 
-Actualmente está probado con **Google Gemini** (API gratuita con límites). También debería funcionar con OpenAI GPT-4 con modificaciones menores.
+Actualmente está probado con **LLM locales**. También debería funcionar con OpenAI GPT-4 (API gratuita con límites)con modificaciones menores. 
 
 ### ¿Es gratis?
 
-El código es gratuito y open source. Los LLMs tienen sus propios costes (Gemini tiene tier gratuito).
+El código es gratuito y open source. Los LLMs tienen sus propios costes (ChaGPT tiene tier gratuito).
 
 ### ¿Puedo usar contenido no-SRD?
 
