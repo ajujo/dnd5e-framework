@@ -8,17 +8,44 @@ from pathlib import Path
 from typing import Optional, Dict, Any, List
 
 
+def _encontrar_raiz_proyecto() -> Path:
+    """
+    Encuentra el directorio raíz del proyecto.
+    
+    Busca hacia arriba desde el directorio actual del archivo
+    hasta encontrar el directorio 'compendio'.
+    """
+    # Empezar desde el directorio de este archivo
+    directorio = Path(__file__).resolve().parent
+    
+    # Buscar hacia arriba hasta encontrar 'compendio' como hermano
+    for _ in range(5):  # Máximo 5 niveles
+        posible_compendio = directorio.parent / "compendio"
+        if posible_compendio.exists():
+            return directorio.parent
+        directorio = directorio.parent
+    
+    # Fallback: asumir que estamos en el directorio correcto
+    return Path.cwd()
+
+
+# Calcular ruta por defecto al compendio
+_PROYECTO_ROOT = _encontrar_raiz_proyecto()
+_COMPENDIO_DEFAULT = _PROYECTO_ROOT / "compendio"
+
+
 class Compendio:
     """Acceso a los datos de referencia del juego (solo lectura)."""
 
-    def __init__(self, ruta_base: str = "./compendio"):
+    def __init__(self, ruta_base: Path = None):
         """
         Inicializa el lector del compendio.
 
         Args:
             ruta_base: Directorio donde están los archivos del compendio.
+                       Si es None, usa la ruta por defecto detectada automáticamente.
         """
-        self.ruta_base = Path(ruta_base)
+        self.ruta_base = ruta_base if ruta_base else _COMPENDIO_DEFAULT
         self._cache: Dict[str, Any] = {}
 
     def _cargar_archivo(self, nombre: str) -> Optional[Dict[str, Any]]:
@@ -248,7 +275,7 @@ class Compendio:
 # Instancia global para uso directo
 _compendio = None
 
-def obtener_compendio(ruta_base: str = "./compendio") -> Compendio:
+def obtener_compendio(ruta_base: Path = None) -> Compendio:
     """Obtiene o crea la instancia del compendio."""
     global _compendio
     if _compendio is None:

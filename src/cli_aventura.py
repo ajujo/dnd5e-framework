@@ -187,6 +187,53 @@ def mostrar_sistema(dm: DMCerebro):
     
     print()
 
+
+def mostrar_ui_combate_tactico(dm: DMCerebro):
+    """Muestra la UI de combate táctico."""
+    if not dm.en_combate_tactico():
+        return
+    
+    gestor = dm.gestor_combate
+    orq = dm.orquestador_combate
+    turno_actual = gestor.obtener_turno_actual()
+    
+    print()
+    print("  ═══ ⚔️ COMBATE TÁCTICO ═══")
+    print(f"  Ronda: {gestor.ronda_actual}")
+    print()
+    
+    # Mostrar combatientes
+    for c in gestor.listar_combatientes():
+        # Indicador de turno actual
+        indicador = "▶ " if turno_actual and c.id == turno_actual.id else "  "
+        
+        # Barra de HP
+        porcentaje = c.hp_actual / c.hp_maximo if c.hp_maximo > 0 else 0
+        bloques = int(porcentaje * 8)
+        barra = "█" * bloques + "░" * (8 - bloques)
+        
+        # Estado
+        estado = ""
+        if not c.esta_vivo:
+            estado = " 💀"
+        elif c.inconsciente:
+            estado = " 😵"
+        
+        # Tipo de combatiente
+        tipo = "🛡️" if c.tipo.value == "pc" else "👹"
+        
+        print(f"  {indicador}{tipo} {c.nombre:<15} [{barra}] {c.hp_actual:>2}/{c.hp_maximo} HP  CA:{c.clase_armadura}{estado}")
+    
+    print()
+    
+    # Indicar de quién es el turno
+    if turno_actual:
+        if turno_actual.tipo.value == "pc":
+            print("  ➔ Tu turno. ¿Qué haces?")
+        else:
+            print(f"  ➔ Turno de {turno_actual.nombre}...")
+    print()
+
 def mostrar_ayuda():
     """Muestra los comandos disponibles."""
     print("""
@@ -493,18 +540,24 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
         mostrar_narrativa(narrativa_inicial)
     
     while True:
-        # Mostrar estado
-        mostrar_estado_pj(dm)
-        
-        # Input del jugador
-        try:
-            accion = input("  > ").strip()
-        except (EOFError, KeyboardInterrupt):
-            print("\n  Saliendo...")
-            break
-        
-        if not accion:
-            continue
+        # ========================================
+        # SI ESTAMOS EN COMBATE TÁCTICO, IR DIRECTO A ESA SECCIÓN
+        # ========================================
+        if dm.en_combate_tactico():
+            accion = ""  # No necesitamos input aquí, el combate tiene su propio loop
+        else:
+            # Mostrar estado (solo en modo narrativo)
+            mostrar_estado_pj(dm)
+            
+            # Input del jugador
+            try:
+                accion = input("  > ").strip()
+            except (EOFError, KeyboardInterrupt):
+                print("\n  Saliendo...")
+                break
+            
+            if not accion:
+                continue
         
         # Comandos del sistema
         if accion.lower() == "/salir":
@@ -573,8 +626,298 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
             mostrar_sistema(dm)
             continue
         
+        # ========================================
+        # MODO COMBATE TÁCTICO
+        # ========================================
+        if dm.en_combate_tactico():
+            from orquestador import EstadoCombateIntegrado
+            from motor import TipoCombatiente
+            orq = dm.orquestador_combate
+            gestor = dm.gestor_combate
+            pendiente_clarificacion = None  # Para trackear opciones de clarificación pendientes
+            
+            # Loop de combate táctico (toma control hasta que termine)
+            while dm.en_combate_tactico() and orq.estado == EstadoCombateIntegrado.EN_CURSO:
+                turno = gestor.obtener_turno_actual()
+                
+                if not turno:
+                    break
+                
+                # === TURNO DE NPC ===
+                if turno.tipo != TipoCombatiente.PC:
+                    print(f"\n  --- Turno de {turno.nombre} ---")
+                    resultado_ataque = orq.ejecutar_turno_enemigo(turno.id)
+                    
+                    # Mostrar tirada detallada con desglose
+                    d20 = resultado_ataque.get("d20_valor", "?")
+                    bonus_ataque = resultado_ataque.get("bonificador_ataque", 0)
+                    tirada_total = resultado_ataque.get("tirada_ataque", "?")
+                    ca = resultado_ataque.get("ca_objetivo", gestor.obtener_combatiente('pj').clase_armadura)
+                    
+                    if resultado_ataque.get("impacta"):
+                        critico = " ¡CRÍTICO!" if resultado_ataque.get("critico") else ""
+                        print(f"  🎲 Ataque: {d20}(d20) + {bonus_ataque}(mod) = {tirada_total} vs CA {ca} → ¡Impacta!{critico}")
+                        
+                        daño = resultado_ataque.get("daño", 0)
+                        daño_dados = resultado_ataque.get("daño_dados", 0)
+                        daño_mod = resultado_ataque.get("daño_mod", 0)
+                        daño_exp = resultado_ataque.get("daño_expresion", "?")
+                        
+                        if resultado_ataque.get("critico"):
+                            # Crítico: suma de 2 tiradas de dados + mod
+                            # daño_dados ya contiene la suma de las dos tiradas
+                            print(f"  💥 Daño crítico: {daño_dados}(2x{daño_exp.split('+')[0]}) + {daño_mod}(mod) = {daño}")
+                        else:
+                            print(f"  💥 Daño: {daño_dados}({daño_exp.split('+')[0]}) + {daño_mod}(mod) = {daño}")
+                    else:
+                        print(f"  🎲 Ataque: {d20}(d20) + {bonus_ataque}(mod) = {tirada_total} vs CA {ca} → Falla")
+                    
+                    mostrar_narrativa(resultado_ataque.get("narrativa", ""))
+                    
+                    # Verificar derrota del jugador
+                    pj = gestor.obtener_combatiente("pj")
+                    if pj and pj.hp_actual <= 0:
+                        print("\n" + "=" * 60)
+                        print("  💀 HAS CAÍDO EN COMBATE")
+                        print("=" * 60)
+                        orq.estado = EstadoCombateIntegrado.DERROTA
+                        dm._finalizar_combate_tactico(orq.obtener_resultado_final())
+                        
+                        # Ofrecer opciones
+                        print("\n  Opciones:")
+                        print("    1. Cargar última partida guardada")
+                        print("    2. Volver al menú principal")
+                        print("    3. Salir")
+                        try:
+                            opcion = input("\n  > ").strip()
+                            if opcion == "1":
+                                # Intentar cargar la última partida
+                                print("  Cargando última partida...")
+                                try:
+                                    # Recargar PJ desde disco
+                                    pj_recargado = load_character(dm.contexto.pj.get("info_basica", {}).get("nombre", ""))
+                                    if pj_recargado:
+                                        dm.contexto.pj = pj_recargado
+                                        # Restaurar estado si existe
+                                        if "estado_aventura" in pj_recargado:
+                                            dm.cargar_estado(pj_recargado["estado_aventura"])
+                                        # Restaurar HP
+                                        derivados = pj_recargado.get("derivados", {})
+                                        dm.contexto.pj["derivados"]["puntos_golpe_actual"] = derivados.get(
+                                            "puntos_golpe_actual", 
+                                            derivados.get("puntos_golpe_maximo", 10)
+                                        )
+                                        print("  ✓ Partida cargada")
+                                        print(f"  HP restaurado: {dm.contexto.pj['derivados']['puntos_golpe_actual']}")
+                                    else:
+                                        print("  ⚠️ No se encontró partida guardada")
+                                except Exception as e:
+                                    print(f"  ⚠️ Error al cargar: {e}")
+                            elif opcion == "2" or opcion == "3":
+                                print("  Hasta la próxima aventura...")
+                                return
+                        except (EOFError, KeyboardInterrupt):
+                            return
+                        break
+                    
+                    continue
+                
+                # === TURNO DEL JUGADOR ===
+                # Mostrar estado del combate
+                print()
+                print("  " + "=" * 50)
+                print(f"  🛡️ TURNO DE {turno.nombre.upper()}")
+                print("  " + "=" * 50)
+                
+                # Mostrar HPs
+                hps = []
+                for c in gestor.listar_combatientes():
+                    if c.muerto:
+                        hps.append(f"{c.nombre}:💀")
+                    else:
+                        hps.append(f"{c.nombre}:{c.hp_actual}/{c.hp_maximo}")
+                print(f"  HP: {' | '.join(hps)}")
+                
+                # Mostrar opciones pendientes si las hay
+                if pendiente_clarificacion:
+                    print("\n  ¿A quién atacas?")
+                    for i, opt in enumerate(pendiente_clarificacion, 1):
+                        print(f"    {i}. {opt['texto']}")
+                
+                # Pedir acción
+                try:
+                    accion_combate = input("\n  > ").strip()
+                except (EOFError, KeyboardInterrupt):
+                    print("\n  Combate abandonado.")
+                    break
+                
+                if not accion_combate:
+                    continue
+                
+                # Comandos especiales en combate
+                cmd = accion_combate.lower()
+                
+                if cmd == "/huir":
+                    print("  Intentas huir del combate...")
+                    dm._finalizar_combate_tactico(orq.obtener_resultado_final())
+                    break
+                elif cmd == "/estado":
+                    mostrar_ui_combate_tactico(dm)
+                    continue
+                elif cmd == "/ayuda":
+                    print("\n  === COMANDOS EN COMBATE ===")
+                    print("  /estado  - Ver estado del combate")
+                    print("  /inv     - Ver inventario")
+                    print("  /huir    - Intentar huir del combate")
+                    print("  /nollm   - Desactivar narración LLM")
+                    print("  /sillm   - Activar narración LLM")
+                    print("  /debug   - Toggle modo debug")
+                    print("  /guardar - Guardar partida")
+                    print("\n  === ACCIONES ===")
+                    print("  ataco [objetivo]   - Atacar")
+                    print("  ataco              - Seleccionar objetivo")
+                    continue
+                elif cmd in ("/inv", "/inventario", "/i"):
+                    mostrar_inventario(dm)
+                    continue
+                elif cmd == "/debug":
+                    dm.debug_mode = not dm.debug_mode
+                    print(f"  Modo debug: {'ON' if dm.debug_mode else 'OFF'}")
+                    continue
+                elif cmd == "/guardar":
+                    resumen = generar_resumen_sesion(dm)
+                    estado = dm.guardar_estado()
+                    estado["resumen"] = resumen
+                    dm.contexto.pj["estado_aventura"] = estado
+                    save_character(dm.contexto.pj)
+                    print("  ✓ Partida guardada")
+                    continue
+                elif cmd == "/nollm":
+                    orq.usar_llm_narracion = False
+                    print("  🔇 Narración LLM desactivada")
+                    continue
+                elif cmd == "/sillm":
+                    orq.usar_llm_narracion = True
+                    if orq.narrador:
+                        print("  🔊 Narración LLM activada")
+                    else:
+                        print("  ⚠️ No hay LLM conectado, se usará narración mecánica")
+                    continue
+                
+                # Si hay clarificación pendiente, procesar respuesta
+                if pendiente_clarificacion:
+                    try:
+                        indice = int(accion_combate) - 1
+                        if 0 <= indice < len(pendiente_clarificacion):
+                            # Convertir número en acción completa
+                            objetivo = pendiente_clarificacion[indice]['texto']
+                            accion_combate = f"ataco a {objetivo}"
+                    except ValueError:
+                        pass  # Usar texto tal cual
+                    pendiente_clarificacion = None
+                
+                # DEBUG: mostrar contexto
+                if dm.debug_mode:
+                    pj_combatiente = gestor.obtener_combatiente("pj")
+                    ctx = gestor.obtener_contexto_escena()
+                    print(f"[DEBUG] Acción: {accion_combate}")
+                    print(f"[DEBUG] PJ arma_principal: {pj_combatiente.arma_principal if pj_combatiente else 'N/A'}")
+                    print(f"[DEBUG] Contexto arma: {ctx.arma_principal}")
+                    print(f"[DEBUG] Contexto armas: {ctx.armas_disponibles}")
+                    print(f"[DEBUG] Turno: {turno.nombre} ({turno.tipo})")
+                
+                # Procesar acción del jugador
+                resultado = dm.procesar_turno_combate(accion_combate)
+                
+                # DEBUG: mostrar resultado
+                if dm.debug_mode:
+                    print(f"[DEBUG] Resultado tipo: {resultado.get('tipo')}")
+                    if resultado.get('resultado_mecanico'):
+                        rm = resultado['resultado_mecanico']
+                        print(f"[DEBUG] Eventos: {len(rm.get('eventos', []))}")
+                
+                if resultado.get("necesita_clarificacion"):
+                    # Guardar opciones para siguiente iteración
+                    pendiente_clarificacion = resultado.get("opciones", [])
+                    continue
+                
+                # Mostrar tiradas del jugador (antes de la narrativa LLM)
+                resultado_mecanico = resultado.get("resultado_mecanico", {})
+                eventos = resultado_mecanico.get("eventos", [])
+                for evento in eventos:
+                    if evento.get("tipo") == "ataque_realizado":
+                        datos = evento.get("datos", {})
+                        tirada = datos.get("tirada", {})
+                        d20 = tirada.get("dados", [0])[0] if tirada.get("dados") else "?"
+                        mod = tirada.get("modificador", 0)
+                        total = tirada.get("total", "?")
+                        impacta = datos.get("impacta", False)
+                        arma = datos.get("arma_nombre", "arma")
+                        objetivo = datos.get("objetivo_id", "objetivo")
+                        # Buscar nombre real del objetivo
+                        combatiente_obj = gestor.obtener_combatiente(objetivo)
+                        objetivo_nombre = combatiente_obj.nombre if combatiente_obj else objetivo
+                        
+                        if impacta:
+                            print(f"\n  🎲 Ataque con {arma}: {d20}(d20) + {mod}(mod) = {total} → ¡Impacta!")
+                        else:
+                            print(f"\n  🎲 Ataque con {arma}: {d20}(d20) + {mod}(mod) = {total} → Falla")
+                    
+                    elif evento.get("tipo") in ("daño_aplicado", "daño_calculado"):
+                        datos = evento.get("datos", {})
+                        daño = datos.get("daño_total", datos.get("cantidad", 0))
+                        objetivo_id = datos.get("objetivo_id", "objetivo")
+                        combatiente_obj = gestor.obtener_combatiente(objetivo_id)
+                        objetivo_nombre = combatiente_obj.nombre if combatiente_obj else objetivo_id
+                        print(f"  💥 Daño: {daño} a {objetivo_nombre}")
+                
+                # Si no hay eventos de acción, la acción no fue reconocida
+                if not eventos:
+                    print("\n  ⚠️ No entendí esa acción. Usa comandos como:")
+                    print("    • ataco [al esqueleto/goblin/...]")
+                    print("    • ataco (te mostrará objetivos)")
+                    print("    • /ayuda (ver comandos)")
+                    continue  # No pasar turno
+                
+                # Mostrar narrativa LLM (después de las tiradas)
+                narrativa = resultado.get("narrativa", "")
+                if narrativa and narrativa != "Acción ejecutada.":
+                    mostrar_narrativa(narrativa)
+                
+                # Verificar victoria
+                enemigos_vivos = [c for c in gestor.listar_combatientes() 
+                                  if c.tipo == TipoCombatiente.NPC_ENEMIGO and c.esta_vivo]
+                if not enemigos_vivos:
+                    print("\n" + "=" * 60)
+                    print("  🎉 ¡VICTORIA!")
+                    print("=" * 60)
+                    resultado_final = orq.obtener_resultado_final()
+                    xp = resultado_final.xp_ganada
+                    print(f"  XP ganada: {xp}")
+                    dm._finalizar_combate_tactico(resultado_final)
+                    break
+            
+            continue
+        
+        # ========================================
+        # MODO NARRATIVO (exploración/social)
+        # ========================================
         # Procesar acción narrativa
         resultado = dm.procesar_turno(accion)
+        
+        # Si se inició combate táctico, el siguiente loop iteration lo manejará
+        if dm.en_combate_tactico():
+            res_mecanico = resultado.get("resultado_mecanico", {})
+            if res_mecanico:
+                print(f"\n  ⚔️ ¡COMBATE INICIADO!")
+                orden = res_mecanico.get("orden_iniciativa", [])
+                if orden:
+                    print(f"  Orden: {', '.join(orden)}")
+                primer_turno = res_mecanico.get("primer_turno", "")
+                print(f"  Primer turno: {primer_turno}")
+            # Importante: NO continue aquí, dejamos que el loop vuelva a empezar
+            # y el próximo iteration entrará en el bloque de combate táctico
+            continue
         
         # Mostrar resultado mecánico si lo hay
         mostrar_resultado_mecanico(resultado.get("resultado_mecanico"), resultado.get("herramienta_usada"))

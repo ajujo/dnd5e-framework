@@ -188,11 +188,11 @@
   "meta": {
     "concepto": "Guerrero vengativo"
   },
-  "fecha_modificacion": "2026-01-09T23:25:35.436151",
+  "fecha_modificacion": "2026-01-10T09:47:30.902391",
   "fecha_creacion": "2026-01-08T12:35:09.367554",
   "estado_aventura": {
-    "turno": 8,
-    "modo_juego": "combate",
+    "turno": 11,
+    "modo_juego": "exploracion",
     "ubicacion": {
       "id": "taberna_ciervo",
       "nombre": "Taberna del Ciervo Dorado",
@@ -217,164 +217,188 @@
       {
         "turno": 0,
         "tipo": "accion_jugador",
-        "contenido": "Echo una mirada a los parroquianos mientras me acerco a la barra y pido una hidromiel",
-        "timestamp": "2026-01-09T22:45:27.590727"
+        "contenido": "miro a los parroquianos y me acerco a la barra. Pido una hidromiel",
+        "timestamp": "2026-01-10T09:33:51.004251"
       },
       {
         "turno": 0,
         "tipo": "respuesta_dm",
-        "contenido": "El humo de la chimenea baila con la luz de las velas mientras tus pasos resonaban suavemente sobre el suelo de madera pulida. Marta, la tabernera, te sonríe con los ojos de quien ha visto héroes pasar y sabe reconocerlos antes de que hablen. La hidromiel que te sirve brilla como miel líquida bajo la luz de la luna, aún ausente fuera, pero presente en tu alma.",
-        "timestamp": "2026-01-09T22:45:40.710472"
+        "contenido": "El aroma dulce y cálido de la hidromiel se desliza por el aire mientras Marta, con una sonrisa que podría calentar incluso el corazón más helado, vierte un vaso de oro líquido frente a ti. Los murmullos de la taberna se suavizan por un instante, como si hasta los parroquianos sintieran que algo más grande que una bebida está por nacer.",
+        "timestamp": "2026-01-10T09:34:04.543993"
       },
       {
         "turno": 1,
         "tipo": "accion_jugador",
-        "contenido": "Que tal Marta? que hay de nuevo esta noche?",
-        "timestamp": "2026-01-09T22:46:34.179357"
+        "contenido": "Que tal MArta? algo nuevo?",
+        "timestamp": "2026-01-10T09:35:24.683835"
       },
       {
         "turno": 1,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 15, \"modificador\": 3, \"total\": 18, \"cd\": 12, \"margen\": 6, \"tipo_tirada\": \"normal\", \"detalle\": \"15\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"15 + 1 (SAB) + 2 (comp) = 18 vs CD 12\"}",
-        "timestamp": "2026-01-09T22:46:47.306319"
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 10, \"modificador\": 3, \"total\": 13, \"cd\": 13, \"margen\": 0, \"tipo_tirada\": \"normal\", \"detalle\": \"10\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"10 + 1 (SAB) + 2 (comp) = 13 vs CD 13\"}",
+        "timestamp": "2026-01-10T09:35:39.081270"
       },
       {
         "turno": 1,
         "tipo": "respuesta_dm",
-        "contenido": "Marta se inclina hacia ti, su sonrisa se vuelve más profunda, casi misteriosa. 'Has venido en el momento justo, Hoja Lunar — hoy llegó un mensajero con la capa manchada de sangre y un anillo que nadie reconoce... pero todos temen. Dijo que el Guardián de Luskan no está muerto... sino encadenado.' Su voz baja hasta un susurro, como si la sombra de la verdad ya acechara entre las vigas.",
-        "timestamp": "2026-01-09T22:46:59.742615"
+        "contenido": "Marta se detiene un instante, su sonrisa se vuelve más profunda, casi triste. Baja la voz hasta un susurro que apenas alcanza tu oído: 'Hace dos noches, llegaron tres hombres... pero solo uno se fue con vida. Y ese uno llevaba un medallón con la marca de los Arpistas... y ojos que brillaban como cenizas encendidas.' Su mirada se clava en la tuya, llena de un silencio que habla más que palabras.",
+        "timestamp": "2026-01-10T09:35:51.507552"
       },
       {
         "turno": 2,
         "tipo": "accion_jugador",
-        "contenido": "y donde está ese mensajero y ese anillo? Marta",
-        "timestamp": "2026-01-09T22:52:05.780773"
+        "contenido": "Qué pasó con ellos? y con el que sobrevivió? sabes donde está?",
+        "timestamp": "2026-01-10T09:36:54.634079"
+      },
+      {
+        "turno": 2,
+        "tipo": "accion_jugador",
+        "contenido": "donde está el que sobreviv´?",
+        "timestamp": "2026-01-10T09:37:46.539092"
       },
       {
         "turno": 2,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 15, \"modificador\": 3, \"total\": 18, \"cd\": 13, \"margen\": 5, \"tipo_tirada\": \"normal\", \"detalle\": \"15\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"15 + 1 (SAB) + 2 (comp) = 18 vs CD 13\"}",
-        "timestamp": "2026-01-09T22:52:20.832412"
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 20, \"modificador\": 3, \"total\": 23, \"cd\": 15, \"margen\": 8, \"tipo_tirada\": \"normal\", \"detalle\": \"20\", \"competente\": true, \"critico_natural\": true, \"pifia_natural\": false, \"desglose\": \"20 + 1 (SAB) + 2 (comp) = 23 vs CD 15\"}",
+        "timestamp": "2026-01-10T09:38:02.529578"
       },
       {
         "turno": 2,
         "tipo": "respuesta_dm",
-        "contenido": "Marta desliza una mano bajo la barra y saca un pequeño llavero de bronce, con una clave tallada en forma de luna menguante. 'El mensajero duerme en el sótano — pero no por elección. El anillo lo lleva atado al cuello, como un collar de condenado. No lo toques si no quieres que las sombras te sigan... pero si eres quien dicen que eres, tal vez puedas liberarlo antes de que la Noche Sin Estrellas lo lleve consigo.'",
-        "timestamp": "2026-01-09T22:52:33.841216"
+        "contenido": "Marta se inclina hacia ti, sus ojos reflejando el fuego como si fueran llamas de un altar olvidado. 'El hombre que sobrevivió... está en la cripta bajo el antiguo molino del río Hielo Negro. Pero no va a salir vivo si no llevas el medallón que le arrebató la sombra. Y tú, elfo de hoja lunar... llevas el mismo sello en tu pecho. Él te espera. Y teme que ya seas parte del mismo destino.'",
+        "timestamp": "2026-01-10T09:38:15.402252"
       },
       {
         "turno": 3,
         "tipo": "accion_jugador",
-        "contenido": "Gracias Marta. Me dirijo al sotano",
-        "timestamp": "2026-01-09T22:53:29.013215"
+        "contenido": "cojo el mapa del que habla Marta y me dirijo al la cripta bajo el antiguo molino del rio hielo negro",
+        "timestamp": "2026-01-10T09:39:19.047037"
       },
       {
         "turno": 3,
+        "tipo": "respuesta_dm",
+        "contenido": "Marta desliza un pergamino envejecido sobre la barra, su superficie marcada con tinta carmesí que parece respirar débilmente. 'El camino hacia el molino está cubierto de nieve y silencio... pero no te engañes: lo que duerme allí bajo la tierra, sueña con despertar.' Fuera, el viento aúlla como un lamento ancestral, y la puerta de la taberna se cierra tras ti con un crujido que parece más una despedida que un adiós.",
+        "timestamp": "2026-01-10T09:39:37.228480"
+      },
+      {
+        "turno": 4,
+        "tipo": "accion_jugador",
+        "contenido": "voy al molino",
+        "timestamp": "2026-01-10T09:40:14.237167"
+      },
+      {
+        "turno": 4,
         "tipo": "resultado_mecanico",
         "contenido": "cambio_modo: {\"exito\": false, \"error\": \"Herramienta 'cambio_modo' no encontrada\", \"herramientas_disponibles\": [\"consultar_ficha\", \"consultar_monstruo\", \"consultar_objeto\", \"tirar_habilidad\", \"tirar_salvacion\", \"tirar_ataque\", \"modificar_hp\", \"dar_objeto\", \"quitar_objeto\", \"modificar_oro\", \"iniciar_combate\", \"listar_monstruos\", \"dañar_enemigo\"]}",
-        "timestamp": "2026-01-09T22:53:44.887342"
-      },
-      {
-        "turno": 3,
-        "tipo": "respuesta_dm",
-        "contenido": "Bajando los escalones de madera chirriante, el aire se vuelve frío como la tumba y huele a humedad, sangre seca y metal oxidado. Una luz tenue proveniente de una lámpara de aceite ilumina al mensajero, atrapado en cadenas de bronce que brillan con runas negras. El anillo, colgando de su cuello, palpita como un corazón dormido... y te observa antes de que tú lo veas.",
-        "timestamp": "2026-01-09T22:53:58.367375"
-      },
-      {
-        "turno": 4,
-        "tipo": "accion_jugador",
-        "contenido": "Hola, soy Kaelen Hoja Lunar. quien eres tú?, de donde vienes?",
-        "timestamp": "2026-01-09T22:57:05.404943"
-      },
-      {
-        "turno": 4,
-        "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 20, \"modificador\": 3, \"total\": 23, \"cd\": 14, \"margen\": 9, \"tipo_tirada\": \"normal\", \"detalle\": \"20\", \"competente\": true, \"critico_natural\": true, \"pifia_natural\": false, \"desglose\": \"20 + 1 (SAB) + 2 (comp) = 23 vs CD 14\"}",
-        "timestamp": "2026-01-09T22:57:22.045807"
+        "timestamp": "2026-01-10T09:40:30.261135"
       },
       {
         "turno": 4,
         "tipo": "respuesta_dm",
-        "contenido": "El mensajero levanta la cabeza lentamente, sus ojos — blancos como cenizas pero brillantes con un fuego antiguo — se clavan en los tuyos. 'Kaelen Hoja Lunar... el nombre es un canto que las sombras temen. Soy Thalorien, el último Guardián de Luskan... y este anillo no es mío. Es la llave que abrió mi prisión, y ahora... espera a quien pueda cerrarla.' El metal del collar se calienta al hablar, y por un instante, las runas brillan con una luz plateada que reconoce tu sangre élfica.",
-        "timestamp": "2026-01-09T22:57:36.200234"
+        "contenido": "La nieve crujirá bajo tus botas como huesos rotos, y cada paso que das hacia el molino parece susurrar tu nombre en una lengua olvidada. Las ventanas rotas del edificio vacío miran como ojos sin párpados, y en la puerta destrozada, una sombra más oscura que la noche se desliza —sin pies, sin forma— esperando.",
+        "timestamp": "2026-01-10T09:40:44.458939"
       },
       {
         "turno": 5,
         "tipo": "accion_jugador",
-        "contenido": "¿Qué prisión? y quien te ha hecho eso¿?",
-        "timestamp": "2026-01-09T23:01:28.740393"
+        "contenido": "quien eres?",
+        "timestamp": "2026-01-10T09:41:04.274216"
       },
       {
         "turno": 5,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 1, \"modificador\": 3, \"total\": 4, \"cd\": 16, \"margen\": -12, \"tipo_tirada\": \"normal\", \"detalle\": \"1\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": true, \"desglose\": \"1 + 1 (SAB) + 2 (comp) = 4 vs CD 16\"}",
-        "timestamp": "2026-01-09T23:01:46.303721"
+        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 8, \"modificador\": 3, \"total\": 11, \"cd\": 15, \"margen\": -4, \"tipo_tirada\": \"normal\", \"detalle\": \"8\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"8 + 1 (SAB) + 2 (comp) = 11 vs CD 15\"}",
+        "timestamp": "2026-01-10T09:41:22.627810"
       },
       {
         "turno": 5,
         "tipo": "respuesta_dm",
-        "contenido": "El momento en que hablas es el momento en que el anillo se despierta. Las runas se vuelven carmesí, y un susurro helado te invade la mente: *'Tú también llevas la marca... la sangre que abre puertas, pero no sabe cerrarlas.'* Las cadenas tiemblan, y una sombra alargada se desliza desde el suelo, sin origen ni forma, pero con hambre. El Guardián gime: '¡Corre! ¡No le des tu nombre otra vez!' La luz de la lámpara se apaga... y algo está empezando a arrastrarse desde las tinieblas bajo la escalera.",
-        "timestamp": "2026-01-09T23:02:01.419785"
+        "contenido": "La sombra no habla, pero la nieve a tus pies se convierte en letras antiguas que se desvanecen al instante: '¿Crees que el medallón te salva? Lo llevan los condenados antes de que sus almas se conviertan en eco.' El aire se vuelve pesado, como si el mismo tiempo temiera lo que viene.",
+        "timestamp": "2026-01-10T09:41:35.370246"
       },
       {
         "turno": 6,
         "tipo": "accion_jugador",
-        "contenido": "me pongo en alerta y retrocedo hasta la puerta",
-        "timestamp": "2026-01-09T23:03:21.911748"
+        "contenido": "me acerco a la sombra con cuidado y le digo de nuevo que quien es",
+        "timestamp": "2026-01-10T09:42:17.830357"
       },
       {
         "turno": 6,
         "tipo": "resultado_mecanico",
-        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 4, \"modificador\": 4, \"total\": 8, \"cd\": 13, \"margen\": -5, \"tipo_tirada\": \"desventaja\", \"detalle\": \"(16, 4) → 4\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"(16, 4) → 4 + 2 (FUE) + 2 (comp) = 8 vs CD 13\"}",
-        "timestamp": "2026-01-09T23:03:39.125525"
+        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 8, \"modificador\": 2, \"total\": 10, \"cd\": 15, \"margen\": -5, \"tipo_tirada\": \"ventaja\", \"detalle\": \"(6, 8) → 8\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"(6, 8) → 8 + 0 (CAR) + 2 (comp) = 10 vs CD 15\"}",
+        "timestamp": "2026-01-10T09:42:32.623031"
       },
       {
         "turno": 6,
         "tipo": "respuesta_dm",
-        "contenido": "Tus pasos retroceden con tensión, pero las sombras bajo la escalera se deslizan como aceite vivo, atravesando el suelo de madera como si fuera niebla. Una garra fría rasga tu capa mientras te alejas — no muy lejos. La puerta está a solo tres pasos... pero algo ya te ha tocado. El anillo en el cuello de Thalorien emite un grito silencioso, y las runas se encienden como ojos hambrientos.",
-        "timestamp": "2026-01-09T23:03:53.025284"
+        "contenido": "La sombra se contrae como una llaga abierta, y una voz sin boca susurra en tu mente: 'Llevas la marca como un cadáver lleva su corona. Yo fui el primero que intentó hablar... y perdí la voz para siempre.' La nieve a tu alrededor se levanta en espirales negras, formando una imagen: el medallón en tu pecho arde con un fuego frío. Ya no eres un intruso. Eres el siguiente en la cadena.",
+        "timestamp": "2026-01-10T09:42:46.407082"
       },
       {
         "turno": 7,
         "tipo": "accion_jugador",
-        "contenido": "saco mi espada larga y le ataco",
-        "timestamp": "2026-01-09T23:04:22.290475"
+        "contenido": "y qué quieres que haga?",
+        "timestamp": "2026-01-10T09:43:38.879565"
       },
       {
         "turno": 7,
         "tipo": "resultado_mecanico",
-        "contenido": "iniciar_combate: {\"exito\": false, \"error\": \"Monstruos no encontrados en compendio: ['sombra_de_la_cámara_del_vacío', 'sombra_de_la_cámara_del_vacío']\", \"monstruos_disponibles\": [\"goblin\", \"lobo\", \"bandido\", \"esqueleto\", \"orco\"], \"mensaje\": \"Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles.\"}",
-        "timestamp": "2026-01-09T23:04:40.107371"
+        "contenido": "tirar_habilidad: {\"exito\": false, \"tirada\": 1, \"modificador\": 3, \"total\": 4, \"cd\": 13, \"margen\": -9, \"tipo_tirada\": \"normal\", \"detalle\": \"1\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": true, \"desglose\": \"1 + 1 (SAB) + 2 (comp) = 4 vs CD 13\"}",
+        "timestamp": "2026-01-10T09:43:57.545275"
       },
       {
         "turno": 7,
         "tipo": "respuesta_dm",
-        "contenido": "Antes de que tu espada baje, las sombras bajo la escalera se retuercen y se elevan como humo con huesos, adoptando formas grotescas de guerreros caídos: dos esqueletos cubiertos de telas desgarradas y cadenas oxidadas, sus ojos brillan con una luz púrpura que chispea como el Vacío Negro. El anillo en el cuello de Thalorien grita en silencio, y uno de ellos se lanza hacia ti con un crujido de dientes rotos.",
-        "timestamp": "2026-01-09T23:04:54.406440"
+        "contenido": "El silencio se rompe con un grito que no proviene de la sombra... sino de tu propio pecho. El medallón se calienta como un carbón vivo, y de las grietas del suelo emergen manos esqueléticas, agarrando tus tobillos. La voz que antes susurraba ahora grita en mil ecos: '¡NO PREGUNTES! ¡ACTÚA!' Ante ti, la puerta del molino se abre de golpe —no por viento, ni magia— sino porque alguien dentro te está esperando. Y esta vez... no es una sombra.",
+        "timestamp": "2026-01-10T09:44:12.153611"
       },
       {
         "turno": 8,
         "tipo": "accion_jugador",
-        "contenido": "ataco al esqueleto que se abalanza sobre mi",
-        "timestamp": "2026-01-09T23:05:57.956082"
+        "contenido": "entro en el molino",
+        "timestamp": "2026-01-10T09:44:37.111379"
       },
       {
         "turno": 8,
-        "tipo": "accion_jugador",
-        "contenido": "ataco al esqueleto",
-        "timestamp": "2026-01-09T23:08:35.663561"
+        "tipo": "respuesta_dm",
+        "contenido": "El interior del molino respira con un susurro de madera podrida y metal oxidado. La luna plateada se cuela por las rendijas del techo, iluminando polvo que baila como cenizas de almas olvidadas. En el centro, una puerta de hierro negro, tallada con runas que lloran sangre oscura, se abre lentamente... como si te hubiera estado esperando.",
+        "timestamp": "2026-01-10T09:44:55.040783"
       },
       {
-        "turno": 8,
+        "turno": 9,
         "tipo": "accion_jugador",
-        "contenido": "ataco al esqueleto",
-        "timestamp": "2026-01-09T23:09:19.406744"
+        "contenido": "entro en la puerta",
+        "timestamp": "2026-01-10T09:45:17.020517"
       },
       {
-        "turno": 8,
+        "turno": 9,
+        "tipo": "resultado_mecanico",
+        "contenido": "iniciar_combate: {\"exito\": false, \"error\": \"Monstruos no encontrados en compendio: ['sombra_arpista']\", \"monstruos_disponibles\": [\"goblin\", \"lobo\", \"bandido\", \"esqueleto\", \"orco\"], \"mensaje\": \"Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles.\"}",
+        "timestamp": "2026-01-10T09:45:33.703528"
+      },
+      {
+        "turno": 9,
+        "tipo": "respuesta_dm",
+        "contenido": "Al cruzar el umbral, la puerta se cierra tras ti con un suspiro de huesos antiguos. No hay enemigos que te ataquen... pero las paredes se llenan de rostros: los Arpistas caídos, sus ojos vacíos clavados en ti, sus labios moviéndose sin voz. Cada uno susurra tu nombre como si lo hubieran pronunciado mil veces en el silencio. El medallón arde, no con fuego, sino con un frío que te recuerda tu propia muerte. El sobreviviente está cerca... y sabe que tú eres el siguiente en cargar con su carga.",
+        "timestamp": "2026-01-10T09:45:48.874469"
+      },
+      {
+        "turno": 10,
         "tipo": "accion_jugador",
-        "contenido": "ataco al esqueleto",
-        "timestamp": "2026-01-09T23:13:00.762869"
+        "contenido": "avanzo, que hay?",
+        "timestamp": "2026-01-10T09:46:31.673892"
+      },
+      {
+        "turno": 10,
+        "tipo": "resultado_mecanico",
+        "contenido": "listar_monstruos: {\"exito\": true, \"cantidad\": 5, \"monstruos\": [{\"id\": \"goblin\", \"nombre\": \"Goblin\", \"tipo\": \"Humanoide\", \"desafio\": 0.25, \"hp\": 7, \"ca\": 15}, {\"id\": \"lobo\", \"nombre\": \"Lobo\", \"tipo\": \"Bestia\", \"desafio\": 0.25, \"hp\": 11, \"ca\": 13}, {\"id\": \"bandido\", \"nombre\": \"Bandido\", \"tipo\": \"Humanoide\", \"desafio\": 0.125, \"hp\": 11, \"ca\": 12}, {\"id\": \"esqueleto\", \"nombre\": \"Esqueleto\", \"tipo\": \"No-muerto\", \"desafio\": 0.25, \"hp\": 13, \"ca\": 13}, {\"id\": \"orco\", \"nombre\": \"Orco\", \"tipo\": \"Humanoide\", \"desafio\": 0.5, \"hp\": 15, \"ca\": 13}]}",
+        "timestamp": "2026-01-10T09:46:48.974005"
+      },
+      {
+        "turno": 10,
+        "tipo": "respuesta_dm",
+        "contenido": "El suelo cruje bajo tus pasos, no por madera rota, sino por los huesos de quienes intentaron antes lo que tú haces ahora. Las sombras se desploman como cortinas de humo, revelando una escalera de piedra que desciende hacia un susurro ancestral: el latido de una cripta sellada con la sangre de los Arpistas. El medallón palpitea en tu pecho, no como una llave... sino como un juramento. Si bajas, no habrá vuelta atrás. Pero si te quedas... el sobreviviente morirá antes del alba.",
+        "timestamp": "2026-01-10T09:47:03.917174"
       }
     ],
     "estado_combate": null,
@@ -464,48 +488,46 @@
     "notas_dm": "TONO DE LA AVENTURA: Grandioso, inspirador, con momentos de tensión pero confianza en que el bien puede triunfar. Los héroes son admirados y sus acciones tienen peso.",
     "memoria_narrativa": {
       "main_quest": {
-        "fase": "confrontar_al_mensajero",
-        "objetivo": "Derrotar las sombras y escapar del sótano antes de que el portal se abra por completo.",
+        "fase": "rastrear_al_sobreviviente",
+        "objetivo": "descender por la escalera y enfrentar a las sombras guardianas en la cripta antes del amanecer",
         "revelaciones": [
-          "Ninguna aún",
-          "El Guardián de Luskan no está muerto, sino encadenado. Un anillo desconocido fue traído por un mensajero moribundo.",
-          "El Guardián de Luskan no está muerto, sino encadenado. El anillo que lleva es un artefacto maldito, vinculado a una antigua marea de oscuridad.",
-          "El mensajero es Garion Vey, el último Guardián de Luskan; el anillo es una llave maldita que abre un portal al Vacío Negro.",
-          "La Orden del Guantelete, corrompida por Shar, encadenó a Thalorien para usar el anillo como llave del Vacío Negro. El portal se abrirá en tres noches, durante la luna negra.",
-          "El anillo responde a la sangre élfica lunar y se activa con el nombre del portador. Solo un elfo de sangre pura puede cerrarlo... pero solo si sabe cómo.",
-          "Las sombras son criaturas del Vacío Negro, alimentadas por el anillo maldito. Solo un elfo de sangre lunar puede cerrar la puerta... pero debe hacerlo con conocimiento, no solo con fuerza."
+          "Los parroquianos hablan de extraños viajeros que llegaron hace dos días, cubiertos en nieve y con ojos como brasas.",
+          "Los parroquianos hablan de extraños viajeros que llegaron hace dos días, cubiertos en nieve y con ojos como brasas.",
+          "El sobreviviente lleva un medallón de los Arpistas y tiene ojos que brillan como cenizas encendidas; probablemente fue marcado por una fuerza oscura.",
+          "El sobreviviente lleva un medallón de los Arpistas y ha sido marcado por una fuerza oscura vinculada a Shar; el medallón que Kaelen lleva en su pecho es idéntico al suyo, y ambos están conectados por un destino que aún no entiende.",
+          "El medallón que Kaelen lleva es una llave y un candado: conecta su destino con el del sobreviviente, ambos marcados por Shar. Las sombras que acechan no son meros espíritus... son recuerdos vivientes de quienes cayeron antes.",
+          "El sobreviviente lleva un medallón de los Arpistas y ha sido marcado por una fuerza oscura vinculada a Shar; el medallón que Kaelen lleva en su pecho es idéntico al suyo, y ambos están conectados por un destino que aún no entiende. Las sombras que acechan son recuerdos vivientes de quienes cayeron antes, y ahora reconocen en Kaelen el mismo sello.",
+          "El medallón es una llave y un candado a la vez: conecta tu destino con el del sobreviviente. Las sombras son recuerdos vivientes de los Arpistas caídos, y ahora reconocen en ti su propio fin. La cripta está bajo el molino, pero la entrada está sellada por magia de Shar. Solo quien lleve el medallón puede abrirla... pero a un precio.",
+          "El medallón es una llave y un candado a la vez: conecta tu destino con el del sobreviviente. Las sombras son recuerdos vivientes de los Arpistas caídos, y ahora reconocen en ti su propio fin. La cripta está bajo el molino, pero la entrada está sellada por magia de Shar. Solo quien lleve el medallón puede abrirla... pero a un precio.",
+          "Las sombras son almas atrapadas de Arpistas caídos que intentaron liberar al sobreviviente; cada una que derrotes debilita el hechizo de Shar, pero también acerca tu propia condena si no encuentras la verdad en su interior.",
+          "Las sombras son almas atrapadas de Arpistas caídos que intentaron liberar al sobreviviente; cada una que derrotes debilita el hechizo de Shar, pero también acerca tu propia condena si no encuentras la verdad en su interior."
         ]
       },
       "side_quests": [],
       "pnj_relevantes": {
         "Marta la Tabernera": {
-          "actitud": "amistoso",
-          "ultima_nota": "Sabe más de lo que dice. El anillo la perturba, pero teme intervenir directamente."
+          "actitud": "confiada pero preocupada",
+          "ultima_nota": "Sabe más de lo que dice. Escuchó murmullos sobre el molino anoche, pero no se atrevió a entrar."
         },
-        "Garion Vey": {
-          "actitud": "desconfiado pero desesperado",
-          "ultima_nota": "Ha estado atrapado tres días. Sus palabras son coherentes, pero cada vez que habla del anillo, las sombras se alargan más."
-        },
-        "Thalorien": {
-          "actitud": "desesperado pero confiando",
-          "ultima_nota": "Observa desde el suelo, inmóvil, con las cadenas temblando. Sus ojos brillan con una luz tenue: está rezando en silencio."
+        "Sombra del Sobreviviente": {
+          "actitud": "confiado pero desgarrado",
+          "ultima_nota": "Sabía que llegarías. Te reconoció en el momento en que tocaste el medallón por primera vez."
         }
       },
       "amenazas_activas": [
-        "El anillo tiene una energía maligna latente, y su presencia atrae atención no deseada.",
-        "El anillo emana una energía corruptora que atrae sombras. Cada minuto en su proximidad aumenta el riesgo de que algo despierte.",
-        "El anillo responde a la presencia de un elfo con sangre lunar; su energía se intensifica al oír tu nombre.",
-        "La energía del anillo se intensifica cada vez que se menciona a Shar o la Orden del Guantelete. Las sombras en las esquinas se mueven con vida propia.",
-        "Las sombras bajo la escalera cobran forma: 2 Sombras de la Cámara del Vacío (criaturas corruptas alimentadas por el anillo). El portal se acerca a abrirse.",
-        "Las sombras se fortalecen con cada segundo que pasa. Si no se sella el anillo antes de la Noche Sin Estrellas, el Vacío Negro invadirá Faerûn."
+        "Viajeros misteriosos con ojos como brasas — posiblemente agentes del Zhentarim o seguidores de Shar.",
+        "El sobreviviente está siendo perseguido por entidades de Shar; las ruinas del Viejo Camino de Hierro son un nido de poder oscuro.",
+        "Entidades de Shar acechan en las ruinas del Viejo Camino de Hierro. El sobreviviente está siendo perseguido por sombras que se mueven sin cuerpo, y el medallón es llave y candado a la vez.",
+        "La sombra no es un enemigo, sino una prisión viva. Su identidad está ligada al medallón y a los Arpistas caídos.",
+        "Las sombras se fortalecen con cada duda. Si no entras a la cripta antes del amanecer, el sobreviviente será consumido por completo y tú serás el nuevo guardián de su prisión."
       ],
       "resumen_historia": ""
     },
     "resumen": {
       "ubicacion_actual": "Taberna del Ciervo Dorado",
-      "que_estaba_haciendo": "ataco al esqueleto",
-      "resumen_sesion": "Al intentar retroceder, fallas tu pericia y desencadenas una amenaza oculta: sombras se transforman en esqueletos.  \nSin tiempo para reaccionar, te lanzas al ataque con tu espada larga, pero el sistem",
-      "turnos_jugados": 8
+      "que_estaba_haciendo": "avanzo, que hay?",
+      "resumen_sesion": "Al intentar entrar en el molino, la puerta se cierra tras ti con un suspiro ancestral, y al avanzar, el suelo cruje bajo huesos de antiguas víctimas. Aunque no hay monstruos en el compendio, cinco gob",
+      "turnos_jugados": 11
     }
   }
 }

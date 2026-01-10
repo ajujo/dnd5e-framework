@@ -1,7 +1,10 @@
 """
 Herramientas de combate: iniciar encuentros, gestionar turnos.
 
-IMPORTANTE: Solo se pueden usar monstruos que existan en el compendio.
+INTEGRACIÓN CON GESTOR DE COMBATE TÁCTICO:
+- iniciar_combate → crea GestorCombate real
+- Los enemigos se cargan desde CompendioMotor
+- El motor controla turnos e iniciativa
 """
 
 from typing import Any, Dict, List
@@ -10,7 +13,7 @@ from .registro import registrar_herramienta
 
 
 class IniciarCombate(Herramienta):
-    """Inicia un encuentro de combate con enemigos del compendio."""
+    """Inicia un encuentro de combate táctico con GestorCombate."""
     
     @property
     def nombre(self) -> str:
@@ -18,7 +21,7 @@ class IniciarCombate(Herramienta):
     
     @property
     def descripcion(self) -> str:
-        return "Inicia un combate. SOLO puede usar monstruos que existan en el compendio."
+        return "Inicia un combate táctico. SOLO puede usar monstruos que existan en el compendio."
     
     @property
     def parametros(self) -> Dict[str, Dict[str, Any]]:
@@ -37,10 +40,10 @@ class IniciarCombate(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_compendio_motor
-        from motor.dados import tirar
-        
-        compendio = obtener_compendio_motor()
+        from motor import (
+            GestorCombate, Combatiente, TipoCombatiente, 
+            CompendioMotor, PipelineTurno
+        )
         
         enemigos_ids = kwargs.get("enemigos", [])
         sorpresa = kwargs.get("sorpresa", "ninguno")
@@ -48,44 +51,13 @@ class IniciarCombate(Herramienta):
         if not enemigos_ids:
             return {"exito": False, "error": "No se especificaron enemigos"}
         
-        # Obtener lista de monstruos disponibles
+        # Crear CompendioMotor
+        compendio = CompendioMotor()
+        
+        # Verificar que los monstruos existen
         monstruos_disponibles = [m.get("id") for m in compendio.listar_monstruos()]
+        monstruos_no_encontrados = [e for e in enemigos_ids if e not in monstruos_disponibles]
         
-        # Validar que todos los monstruos existen en el compendio
-        combatientes_enemigos = []
-        monstruos_no_encontrados = []
-        
-        for i, enemigo_id in enumerate(enemigos_ids):
-            monstruo = compendio.obtener_monstruo(enemigo_id)
-            
-            if not monstruo:
-                monstruos_no_encontrados.append(enemigo_id)
-                continue
-            
-            # Crear instancia única del monstruo
-            combatiente = {
-                "id": f"{enemigo_id}_{i+1}",
-                "nombre": monstruo.get("nombre", enemigo_id),
-                "tipo": "enemigo",
-                "hp": monstruo.get("puntos_golpe", 10),
-                "hp_max": monstruo.get("puntos_golpe", 10),
-                "ca": monstruo.get("clase_armadura", 10),
-                "iniciativa": 0,
-                "datos_monstruo": monstruo,
-                "estado": "activo"
-            }
-            
-            # Tirar iniciativa
-            mod_des = 0
-            caracteristicas = monstruo.get("caracteristicas") or monstruo.get("atributos") or {}
-            if caracteristicas:
-                des = caracteristicas.get("destreza", 10)
-                mod_des = (des - 10) // 2
-            combatiente["iniciativa"] = tirar("1d20").total + mod_des
-            
-            combatientes_enemigos.append(combatiente)
-        
-        # Si hubo monstruos no encontrados, avisar
         if monstruos_no_encontrados:
             return {
                 "exito": False,
@@ -94,58 +66,105 @@ class IniciarCombate(Herramienta):
                 "mensaje": "Solo puedes usar monstruos del compendio. Usa 'listar_monstruos' para ver los disponibles."
             }
         
-        # Tirar iniciativa del PJ
+        # Crear GestorCombate con pipeline
+        pipeline = PipelineTurno(compendio)
+        gestor = GestorCombate(compendio=compendio, pipeline=pipeline)
+        
+        # Agregar PJ como combatiente
         pj = contexto.get("pj")
-        iniciativa_pj = 0
         if pj:
+            info = pj.get("info_basica", {})
             derivados = pj.get("derivados", {})
-            mod_ini = derivados.get("iniciativa", 0)
-            iniciativa_pj = tirar("1d20").total + mod_ini
+            caracteristicas = pj.get("caracteristicas", {})
+            equipo = pj.get("equipo", {})
+            
+            # Obtener arma equipada
+            arma_principal = None
+            for arma in equipo.get("armas", []):
+                if arma.get("equipada"):
+                    arma_id = arma.get("id", "arma")
+                    # Extraer el ID base del compendio (quitar sufijo _N si existe)
+                    # espada_larga_1 -> espada_larga
+                    compendio_ref = arma_id
+                    if "_" in arma_id:
+                        partes = arma_id.rsplit("_", 1)
+                        if len(partes) == 2 and partes[1].isdigit():
+                            compendio_ref = partes[0]
+                    
+                    arma_principal = {
+                        "id": arma_id,
+                        "nombre": arma.get("nombre", "Arma"),
+                        "compendio_ref": compendio_ref,
+                    }
+                    break
+            
+            combatiente_pj = Combatiente(
+                id="pj",
+                nombre=info.get("nombre", "Aventurero"),
+                tipo=TipoCombatiente.PC,
+                hp_maximo=derivados.get("puntos_golpe_maximo", 10),
+                hp_actual=derivados.get("puntos_golpe_actual", 10),
+                clase_armadura=derivados.get("clase_armadura", 10),
+                velocidad=derivados.get("velocidad", 30),
+                fuerza=caracteristicas.get("fuerza", 10),
+                destreza=caracteristicas.get("destreza", 10),
+                constitucion=caracteristicas.get("constitucion", 10),
+                inteligencia=caracteristicas.get("inteligencia", 10),
+                sabiduria=caracteristicas.get("sabiduria", 10),
+                carisma=caracteristicas.get("carisma", 10),
+                arma_principal=arma_principal,
+            )
+            gestor.agregar_combatiente(combatiente_pj)
         
-        combatiente_pj = {
-            "id": "pj",
-            "nombre": pj.get("info_basica", {}).get("nombre", "Aventurero") if pj else "Aventurero",
-            "tipo": "jugador",
-            "iniciativa": iniciativa_pj,
-            "estado": "activo"
-        }
+        # Agregar enemigos desde compendio
+        for i, enemigo_id in enumerate(enemigos_ids):
+            try:
+                gestor.agregar_desde_compendio(
+                    monstruo_id=enemigo_id,
+                    instancia_id=f"{enemigo_id}_{i+1}",
+                    tipo=TipoCombatiente.NPC_ENEMIGO
+                )
+            except ValueError as e:
+                return {"exito": False, "error": str(e)}
         
-        # Ordenar por iniciativa
-        todos_combatientes = [combatiente_pj] + combatientes_enemigos
-        todos_combatientes.sort(key=lambda x: x["iniciativa"], reverse=True)
+        # Iniciar combate (tira iniciativas y ordena)
+        gestor.iniciar_combate(tirar_iniciativa=True)
         
         # Aplicar sorpresa
         if sorpresa == "jugador":
-            for c in combatientes_enemigos:
-                c["sorprendido"] = True
+            for c in gestor.listar_combatientes():
+                if c.tipo == TipoCombatiente.NPC_ENEMIGO:
+                    c.sorprendido = True
         elif sorpresa == "enemigos":
-            combatiente_pj["sorprendido"] = True
+            pj_combatiente = gestor.obtener_combatiente("pj")
+            if pj_combatiente:
+                pj_combatiente.sorprendido = True
         
-        # Construir estado de combate
-        estado_combate = {
-            "activo": True,
-            "ronda": 1,
-            "turno_idx": 0,
-            "orden": [c["id"] for c in todos_combatientes],
-            "combatientes": {c["id"]: c for c in todos_combatientes},
-            "sorpresa": sorpresa,
-            "log": []
-        }
+        # Obtener info para respuesta
+        turno_actual = gestor.obtener_turno_actual()
         
-        # Determinar quién actúa primero
-        primer_turno = todos_combatientes[0]
+        combatientes_info = []
+        for c in gestor.listar_combatientes():
+            combatientes_info.append({
+                "id": c.id,
+                "nombre": c.nombre,
+                "tipo": c.tipo.value,
+                "iniciativa": c.iniciativa,
+                "hp": c.hp_actual,
+                "hp_max": c.hp_maximo,
+                "ca": c.clase_armadura,
+            })
         
         return {
             "exito": True,
-            "mensaje": "¡Combate iniciado!",
-            "combatientes": [
-                {"nombre": c["nombre"], "iniciativa": c["iniciativa"], "hp": c.get("hp", "?")}
-                for c in todos_combatientes
-            ],
-            "orden_iniciativa": [c["nombre"] for c in todos_combatientes],
-            "primer_turno": primer_turno["nombre"],
+            "mensaje": "¡Combate táctico iniciado!",
+            "combatientes": combatientes_info,
+            "orden_iniciativa": [c.nombre for c in gestor.listar_combatientes()],
+            "primer_turno": turno_actual.nombre if turno_actual else "?",
             "sorpresa": sorpresa,
-            "estado_combate": estado_combate
+            # Crítico: devolver el gestor para que DMCerebro lo guarde
+            "gestor_combate": gestor,
+            "modo_tactico": True,
         }
 
 
@@ -165,9 +184,9 @@ class ListarMonstruosDisponibles(Herramienta):
         return {}
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        from motor.compendio import obtener_compendio_motor
+        from motor import CompendioMotor
         
-        compendio = obtener_compendio_motor()
+        compendio = CompendioMotor()
         monstruos = compendio.listar_monstruos()
         
         lista = []
@@ -189,7 +208,7 @@ class ListarMonstruosDisponibles(Herramienta):
 
 
 class AplicarDañoNPC(Herramienta):
-    """Aplica daño a un NPC/enemigo en combate."""
+    """Aplica daño a un NPC/enemigo en combate (LEGACY - para compatibilidad)."""
     
     @property
     def nombre(self) -> str:
@@ -197,7 +216,7 @@ class AplicarDañoNPC(Herramienta):
     
     @property
     def descripcion(self) -> str:
-        return "Aplica daño a un enemigo en combate."
+        return "Aplica daño a un enemigo. NOTA: En modo táctico, usar el pipeline de combate."
     
     @property
     def parametros(self) -> Dict[str, Dict[str, Any]]:
@@ -215,7 +234,46 @@ class AplicarDañoNPC(Herramienta):
         }
     
     def ejecutar(self, contexto: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        combate = contexto.get("combate")
+        # Verificar si hay gestor táctico
+        gestor = contexto.get("gestor_combate")
+        
+        if gestor:
+            # Modo táctico: delegar al gestor
+            id_enemigo = kwargs["id_enemigo"]
+            daño = int(kwargs["daño"])
+            
+            enemigo = gestor.obtener_combatiente(id_enemigo)
+            if not enemigo:
+                ids_disponibles = [c.id for c in gestor.listar_combatientes() 
+                                   if c.tipo.value == "enemigo"]
+                return {
+                    "exito": False,
+                    "error": f"Enemigo '{id_enemigo}' no encontrado",
+                    "enemigos_disponibles": ids_disponibles
+                }
+            
+            hp_anterior = enemigo.hp_actual
+            enemigo.hp_actual = max(0, enemigo.hp_actual - daño)
+            
+            derrotado = enemigo.hp_actual <= 0
+            if derrotado:
+                enemigo.muerto = True
+            
+            # Verificar si combate terminó
+            combate_terminado = gestor.estado == gestor.estado.VICTORIA
+            
+            return {
+                "exito": True,
+                "enemigo": enemigo.nombre,
+                "daño_recibido": daño,
+                "hp_anterior": hp_anterior,
+                "hp_actual": enemigo.hp_actual,
+                "derrotado": derrotado,
+                "combate_terminado": combate_terminado,
+            }
+        
+        # Fallback: modo legacy (dict básico)
+        combate = contexto.get("combate") or contexto.get("estado_combate")
         if not combate or not combate.get("activo"):
             return {"exito": False, "error": "No hay combate activo"}
         
@@ -240,7 +298,6 @@ class AplicarDañoNPC(Herramienta):
         if derrotado:
             enemigo["estado"] = "derrotado"
         
-        # Verificar si todos los enemigos están derrotados
         enemigos_vivos = [c for c in combatientes.values() 
                         if c.get("tipo") == "enemigo" and c.get("hp", 0) > 0]
         combate_terminado = len(enemigos_vivos) == 0

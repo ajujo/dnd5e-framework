@@ -183,6 +183,10 @@ CONTEXTO ACTUAL
 class DMCerebro:
     """
     El cerebro del DM - coordina LLM, herramientas y contexto.
+    
+    Modos de operación:
+    - NARRATIVO (exploración/social): El LLM controla el flujo
+    - TÁCTICO (combate): OrquestadorCombate controla, LLM solo narra
     """
     
     def __init__(self, llm_callback: Callable[[str, str], str] = None):
@@ -195,6 +199,10 @@ class DMCerebro:
         self.llm_callback = llm_callback
         self.ultimo_resultado_herramienta: Optional[Dict[str, Any]] = None
         self.debug_mode = False
+        
+        # Combate táctico
+        self.orquestador_combate: Optional['OrquestadorCombate'] = None
+        self.gestor_combate = None  # GestorCombate activo
     
     def cargar_personaje(self, pj: Dict[str, Any]) -> None:
         """Carga el personaje jugador."""
@@ -209,7 +217,129 @@ class DMCerebro:
         """Añade un NPC a la escena."""
         self.contexto.añadir_npc(**kwargs)
     
-
+    def en_combate_tactico(self) -> bool:
+        """Verifica si hay un combate táctico activo."""
+        return self.orquestador_combate is not None and self.gestor_combate is not None
+    
+    def _iniciar_combate_tactico(self, gestor) -> None:
+        """Inicia el modo de combate táctico."""
+        from .combate_integrado import OrquestadorCombate
+        
+        self.gestor_combate = gestor
+        self.orquestador_combate = OrquestadorCombate(
+            gestor=gestor,
+            llm_callback=self.llm_callback,
+        )
+        self.contexto.cambiar_modo("combate")
+        
+        if self.debug_mode:
+            print("[DEBUG] Combate táctico iniciado")
+    
+    def _finalizar_combate_tactico(self, resultado) -> Dict[str, Any]:
+        """Finaliza el combate táctico y vuelve al modo narrativo."""
+        # Actualizar HP del PJ
+        if self.contexto.pj and resultado:
+            self.contexto.pj["derivados"]["puntos_golpe_actual"] = resultado.hp_final_pj
+            
+            # Añadir XP si hubo victoria
+            if resultado.victoria and resultado.xp_ganada > 0:
+                xp_actual = self.contexto.pj.get("progresion", {}).get("experiencia", 0)
+                if "progresion" not in self.contexto.pj:
+                    self.contexto.pj["progresion"] = {}
+                self.contexto.pj["progresion"]["experiencia"] = xp_actual + resultado.xp_ganada
+        
+        # Limpiar estado de combate
+        self.gestor_combate = None
+        self.orquestador_combate = None
+        self.contexto.estado_combate = None
+        self.contexto.cambiar_modo("exploracion")
+        
+        if self.debug_mode:
+            print(f"[DEBUG] Combate finalizado: {'VICTORIA' if resultado.victoria else 'DERROTA'}")
+        
+        return {
+            "narrativa": resultado.resumen_narrativo,
+            "resultado_mecanico": {
+                "victoria": resultado.victoria,
+                "xp": resultado.xp_ganada,
+                "enemigos_derrotados": resultado.enemigos_derrotados,
+            },
+            "herramienta_usada": "fin_combate",
+            "modo": "exploracion"
+        }
+    
+    def procesar_turno_combate(self, accion_jugador: str) -> Dict[str, Any]:
+        """
+        Procesa un turno durante combate táctico.
+        
+        El motor controla, el LLM solo narra.
+        """
+        if not self.en_combate_tactico():
+            return {"error": "No hay combate táctico activo"}
+        
+        orq = self.orquestador_combate
+        turno = orq.obtener_turno_actual()
+        
+        if not turno:
+            # Combate terminó
+            resultado = orq.obtener_resultado_final()
+            return self._finalizar_combate_tactico(resultado)
+        
+        resultado_turno = {
+            "narrativa": "",
+            "resultado_mecanico": None,
+            "herramienta_usada": None,
+            "modo": "combate",
+            "turno_info": {
+                "combatiente": turno.combatiente_nombre,
+                "ronda": turno.ronda,
+                "es_jugador": turno.es_jugador,
+            }
+        }
+        
+        if turno.es_jugador:
+            # Turno del jugador - procesar via pipeline
+            resultado = orq.procesar_turno_jugador(accion_jugador)
+            resultado_turno["narrativa"] = resultado.get("narrativa", "")
+            resultado_turno["resultado_mecanico"] = resultado
+            resultado_turno["necesita_clarificacion"] = resultado.get("necesita_clarificacion", False)
+            resultado_turno["opciones"] = resultado.get("opciones", [])
+        
+        # Verificar si combate terminó
+        from .combate_integrado import EstadoCombateIntegrado
+        if orq.estado != EstadoCombateIntegrado.EN_CURSO:
+            resultado_final = orq.obtener_resultado_final()
+            return self._finalizar_combate_tactico(resultado_final)
+        
+        return resultado_turno
+    
+    def ejecutar_turnos_enemigos(self) -> List[Dict[str, Any]]:
+        """
+        Ejecuta todos los turnos de enemigos pendientes.
+        
+        Returns:
+            Lista de resultados de turnos de enemigos
+        """
+        resultados = []
+        
+        if not self.en_combate_tactico():
+            return resultados
+        
+        from .combate_integrado import EstadoCombateIntegrado
+        orq = self.orquestador_combate
+        
+        while orq.estado == EstadoCombateIntegrado.EN_CURSO:
+            turno = orq.obtener_turno_actual()
+            if not turno or turno.es_jugador:
+                break
+            
+            resultado = orq.ejecutar_turno_enemigo(turno.combatiente_id)
+            resultados.append(resultado)
+            
+            if orq.estado != EstadoCombateIntegrado.EN_CURSO:
+                break
+        
+        return resultados
 
     def _inferir_enemigos_de_contexto(self) -> list:
         """Infiere qué enemigos usar basándose en el historial reciente."""
@@ -446,15 +576,15 @@ class DMCerebro:
             # VALIDACIÓN: tirar_ataque y dañar_enemigo requieren combate activo
             herramientas_combate = ["tirar_ataque", "dañar_enemigo"]
             if respuesta.herramienta in herramientas_combate:
-                if not self.contexto.estado_combate:
-                    # No hay combate activo - INICIAR AUTOMÁTICAMENTE
-                    # Inferir enemigos del historial o usar esqueletos por defecto
+                # Verificar si hay combate táctico o legacy activo
+                if not self.en_combate_tactico() and not self.contexto.estado_combate:
+                    # No hay combate activo - INICIAR AUTOMÁTICAMENTE EN MODO TÁCTICO
                     enemigos_auto = self._inferir_enemigos_de_contexto()
                     
                     if self.debug_mode:
-                        print(f"[DEBUG] Auto-iniciando combate con: {enemigos_auto}")
+                        print(f"[DEBUG] Auto-iniciando combate TÁCTICO con: {enemigos_auto}")
                     
-                    # Ejecutar iniciar_combate automáticamente
+                    # Ejecutar iniciar_combate
                     contexto_herramienta = self.contexto.generar_diccionario_contexto()
                     resultado_inicio = ejecutar_herramienta(
                         "iniciar_combate",
@@ -462,23 +592,37 @@ class DMCerebro:
                         enemigos=enemigos_auto
                     )
                     
-                    # CRÍTICO: Guardar el estado de combate en el contexto
-                    if resultado_inicio.get("estado_combate"):
+                    # CRÍTICO: Usar gestor_combate para modo táctico
+                    if resultado_inicio.get("gestor_combate"):
+                        self._iniciar_combate_tactico(resultado_inicio["gestor_combate"])
+                        
+                        # Mostrar info de inicio
+                        orden = resultado_inicio.get("orden_iniciativa", [])
+                        print(f"\n  ⚔️ ¡COMBATE TÁCTICO INICIADO!")
+                        print(f"  Orden: {', '.join(orden)}")
+                        print(f"  Primer turno: {resultado_inicio.get('primer_turno', '?')}")
+                        print()
+                        
+                        # IMPORTANTE: Retornar ahora - el siguiente turno irá por el sistema táctico
+                        resultado_turno["narrativa"] = "¡El combate comienza!"
+                        resultado_turno["resultado_mecanico"] = {
+                            k: v for k, v in resultado_inicio.items() if k != "gestor_combate"
+                        }
+                        resultado_turno["modo"] = "combate"
+                        return resultado_turno
+                    
+                    # Fallback: modo legacy
+                    elif resultado_inicio.get("estado_combate"):
                         self.contexto.estado_combate = resultado_inicio["estado_combate"]
+                        self.contexto.cambiar_modo("combate")
                         if self.debug_mode:
-                            print(f"[DEBUG] estado_combate guardado: {self.contexto.estado_combate.get('activo')}")
+                            print("[DEBUG] Usando modo combate legacy")
                     
-                    # Procesar cambio de modo
-                    self.contexto.cambiar_modo("combate")
-                    
-                    # Mostrar info de inicio de combate
+                    # Mostrar info
                     orden = resultado_inicio.get("orden_iniciativa", [])
                     print(f"\n  ⚔️ ¡COMBATE INICIADO!")
-                    print(f"  Orden de iniciativa: {', '.join(orden)}")
-                    print(f"  Primer turno: {resultado_inicio.get('primer_turno', '?')}")
+                    print(f"  Orden: {', '.join(orden)}")
                     print()
-                    
-                    # NO hacer return - continuar para ejecutar el ataque del jugador
             
             # Ejecutar herramienta
             contexto_herramienta = self.contexto.generar_diccionario_contexto()
@@ -491,26 +635,48 @@ class DMCerebro:
             resultado_turno["resultado_mecanico"] = resultado_herramienta
             self.ultimo_resultado_herramienta = resultado_herramienta
             
-            # CRÍTICO: Si es iniciar_combate, guardar el estado en el contexto
-            if respuesta.herramienta == "iniciar_combate" and resultado_herramienta.get("estado_combate"):
-                self.contexto.estado_combate = resultado_herramienta["estado_combate"]
-                if self.debug_mode:
-                    print(f"[DEBUG] estado_combate guardado desde LLM")
+            # NUEVO: Si es iniciar_combate con gestor_combate, iniciar modo táctico
+            if respuesta.herramienta == "iniciar_combate":
+                if resultado_herramienta.get("gestor_combate"):
+                    # Modo táctico con GestorCombate real
+                    self._iniciar_combate_tactico(resultado_herramienta["gestor_combate"])
+                    if self.debug_mode:
+                        print("[DEBUG] Modo táctico activado con GestorCombate")
+                    
+                    # Retornar inmediatamente - siguiente input irá por sistema táctico
+                    resultado_turno["narrativa"] = respuesta.narrativa or "¡El combate comienza!"
+                    resultado_turno["resultado_mecanico"] = {
+                        k: v for k, v in resultado_herramienta.items() if k != "gestor_combate"
+                    }
+                    resultado_turno["modo"] = "combate"
+                    return resultado_turno
+                    
+                elif resultado_herramienta.get("estado_combate"):
+                    # Fallback: modo legacy con dict básico
+                    self.contexto.estado_combate = resultado_herramienta["estado_combate"]
+                    if self.debug_mode:
+                        print("[DEBUG] estado_combate guardado (modo legacy)")
             
             if self.debug_mode:
                 print(f"\n[DEBUG] Tool result: {resultado_herramienta}")
             
+            # Filtrar objetos no serializables para el log y el LLM
+            resultado_serializable = {
+                k: v for k, v in resultado_herramienta.items()
+                if k not in ("gestor_combate",)  # Excluir objetos no serializables
+            }
+            
             # Registrar resultado mecánico
             self.contexto.registrar_historial(
                 "resultado_mecanico",
-                f"{respuesta.herramienta}: {json.dumps(resultado_herramienta, ensure_ascii=False)}"
+                f"{respuesta.herramienta}: {json.dumps(resultado_serializable, ensure_ascii=False)}"
             )
             
             # Segunda llamada al LLM para narrar el resultado
             mensaje_resultado = f"""El jugador dijo: "{accion_jugador}"
 
 Usaste la herramienta '{respuesta.herramienta}' y obtuviste este resultado:
-{json.dumps(resultado_herramienta, indent=2, ensure_ascii=False)}
+{json.dumps(resultado_serializable, indent=2, ensure_ascii=False)}
 
 Ahora NARRA el resultado de forma inmersiva para el jugador.
 Responde SOLO con JSON en este formato:
