@@ -120,6 +120,100 @@ def llamar_llm(prompt: str, system_prompt: str = "",
         return None
 
 
+def llamar_llm_streaming(prompt: str, system_prompt: str = "",
+                         temperature: float = None, max_tokens: int = None,
+                         on_token: callable = None) -> Optional[str]:
+    """
+    Llama al LLM con streaming - muestra tokens a medida que se generan.
+    
+    Args:
+        prompt: Mensaje del usuario
+        system_prompt: Prompt del sistema
+        temperature: Temperatura de generación
+        max_tokens: Máximo de tokens
+        on_token: Callback que recibe cada token (opcional)
+    
+    Returns:
+        Respuesta completa como string
+    """
+    if temperature is None:
+        temperature = _perfil_activo["temperature"]
+    if max_tokens is None:
+        max_tokens = _perfil_activo["max_tokens"]
+    timeout = _perfil_activo["timeout"]
+    
+    try:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        
+        response = requests.post(
+            f"{LM_STUDIO_URL}/chat/completions",
+            json={
+                "messages": messages,
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "stream": True,  # Activar streaming
+            },
+            timeout=timeout,
+            stream=True  # requests también necesita stream=True
+        )
+        
+        if response.status_code != 200:
+            print(f"[LLM Error] Status: {response.status_code}")
+            return None
+        
+        full_response = ""
+        
+        for line in response.iter_lines():
+            if line:
+                line_text = line.decode('utf-8')
+                
+                # Las líneas de SSE empiezan con "data: "
+                if line_text.startswith("data: "):
+                    data_str = line_text[6:]  # Quitar "data: "
+                    
+                    if data_str == "[DONE]":
+                        break
+                    
+                    try:
+                        data = json.loads(data_str)
+                        delta = data.get("choices", [{}])[0].get("delta", {})
+                        content = delta.get("content", "")
+                        
+                        if content:
+                            full_response += content
+                            if on_token:
+                                on_token(content)
+                    except json.JSONDecodeError:
+                        pass
+        
+        return full_response
+        
+    except requests.exceptions.Timeout:
+        print("\n[LLM Error] Timeout esperando respuesta")
+        return None
+    except Exception as e:
+        print(f"\n[LLM Error] {e}")
+        return None
+
+
+# Variable global para activar/desactivar streaming
+_streaming_enabled = True
+
+
+def set_streaming(enabled: bool) -> None:
+    """Activa o desactiva el streaming de respuestas."""
+    global _streaming_enabled
+    _streaming_enabled = enabled
+
+
+def is_streaming_enabled() -> bool:
+    """Verifica si el streaming está activado."""
+    return _streaming_enabled
+
+
 def obtener_cliente_llm() -> Optional[Callable[[str, str], str]]:
     """
     Obtiene un cliente LLM como función callback.

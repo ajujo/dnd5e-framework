@@ -92,22 +92,58 @@ def mostrar_estado_pj(dm: DMCerebro):
     print("─" * ANCHO_LINEA)
 
 
-def mostrar_narrativa(texto: str):
-    """Muestra la narrativa del DM con formato."""
+def mostrar_narrativa(texto: str, typewriter: bool = True, velocidad: float = 0.02):
+    """
+    Muestra la narrativa del DM con formato.
+    
+    Args:
+        texto: El texto a mostrar
+        typewriter: Si True, muestra el texto progresivamente (efecto máquina de escribir)
+        velocidad: Segundos entre cada carácter (solo si typewriter=True)
+    """
+    import time
+    import sys
+    
     print()
-    # Dividir en líneas de ancho apropiado
-    palabras = texto.split()
-    linea_actual = "  "
     
-    for palabra in palabras:
-        if len(linea_actual) + len(palabra) + 1 > ANCHO_LINEA - 4:
+    if not typewriter:
+        # Modo tradicional - mostrar todo de golpe
+        palabras = texto.split()
+        linea_actual = "  "
+        
+        for palabra in palabras:
+            if len(linea_actual) + len(palabra) + 1 > ANCHO_LINEA - 4:
+                print(linea_actual)
+                linea_actual = "  " + palabra
+            else:
+                linea_actual += " " + palabra if linea_actual != "  " else palabra
+        
+        if linea_actual.strip():
             print(linea_actual)
-            linea_actual = "  " + palabra
-        else:
-            linea_actual += " " + palabra if linea_actual != "  " else palabra
-    
-    if linea_actual.strip():
-        print(linea_actual)
+    else:
+        # Modo typewriter - mostrar progresivamente
+        print("  ", end="", flush=True)
+        col = 2  # Posición en la línea actual
+        
+        palabras = texto.split()
+        for i, palabra in enumerate(palabras):
+            # Verificar si la palabra cabe en la línea actual
+            if col + len(palabra) + 1 > ANCHO_LINEA - 4:
+                print()  # Nueva línea
+                print("  ", end="", flush=True)
+                col = 2
+            elif i > 0:
+                # Espacio antes de la palabra (excepto la primera)
+                print(" ", end="", flush=True)
+                col += 1
+            
+            # Imprimir palabra carácter a carácter
+            for char in palabra:
+                print(char, end="", flush=True)
+                col += 1
+                time.sleep(velocidad)
+        
+        print()  # Nueva línea al final
     
     print()
 

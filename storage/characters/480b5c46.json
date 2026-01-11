@@ -1,0 +1,379 @@
+{
+  "id": "480b5c46",
+  "version": "1.0",
+  "info_basica": {
+    "nombre": "Valandor Moonshadow",
+    "raza": "semielfo",
+    "subraza": null,
+    "clase": "picaro",
+    "nivel": 1,
+    "experiencia": 0,
+    "trasfondo": "criminal",
+    "alineamiento": "caotico_bueno"
+  },
+  "caracteristicas": {
+    "destreza": 15,
+    "inteligencia": 14,
+    "constitucion": 13,
+    "carisma": 14,
+    "sabiduria": 10,
+    "fuerza": 8
+  },
+  "competencias": {
+    "salvaciones": [
+      "destreza",
+      "inteligencia"
+    ],
+    "habilidades": [
+      "percepcion",
+      "persuasion",
+      "engano",
+      "investigacion",
+      "sigilo"
+    ],
+    "habilidades_origen": {
+      "percepcion": "clase",
+      "persuasion": "clase",
+      "engano": "clase",
+      "investigacion": "clase",
+      "sigilo": "trasfondo"
+    },
+    "armaduras": [
+      "ligera"
+    ],
+    "armas": [
+      "armas_simples",
+      "ballesta_mano",
+      "espada_larga",
+      "estoque",
+      "espada_corta"
+    ],
+    "herramientas": [
+      "herramientas_ladron",
+      "set_juego"
+    ],
+    "idiomas": [
+      "comun",
+      "elfico"
+    ]
+  },
+  "rasgos": {
+    "raciales": [
+      {
+        "id": "ascendencia_feerica",
+        "nombre": "Ascendencia Feérica",
+        "descripcion": "Ventaja en salvaciones contra Encantamiento, inmune a sueño mágico."
+      },
+      {
+        "id": "versatilidad_habilidades",
+        "nombre": "Versatilidad en Habilidades",
+        "descripcion": "Competencia en dos habilidades a elegir."
+      }
+    ],
+    "clase": [],
+    "trasfondo": [
+      {
+        "id": "contacto_criminal",
+        "nombre": "Contacto Criminal",
+        "descripcion": "Tienes un contacto de confianza que actúa como enlace con una red de delincuentes. Sabes cómo hacerles llegar mensajes y te los envíen, incluso a grandes distancias."
+      }
+    ]
+  },
+  "equipo": {
+    "armas": [
+      {
+        "id": "estoque_1",
+        "compendio_ref": "estoque",
+        "nombre": "Estoque",
+        "equipada": true
+      },
+      {
+        "id": "daga_1",
+        "compendio_ref": "daga",
+        "nombre": "Daga",
+        "equipada": false
+      },
+      {
+        "id": "daga_2",
+        "compendio_ref": "daga",
+        "nombre": "Daga",
+        "equipada": false
+      }
+    ],
+    "armadura": {
+      "id": "cuero_1",
+      "compendio_ref": "armadura_cuero",
+      "nombre": "Armadura de cuero",
+      "equipada": true
+    },
+    "escudo": null,
+    "objetos": [],
+    "dinero": {
+      "po": 0,
+      "pp": 0,
+      "pe": 0,
+      "pc": 0
+    }
+  },
+  "personalidad": {
+    "rasgos": [
+      "Siempre tengo un plan sobre qué hacer cuando las cosas van mal."
+    ],
+    "ideales": [
+      "Libertad. Las cadenas están hechas para romperse, al igual que los que las forjarían."
+    ],
+    "vinculos": [
+      "Estoy tratando de pagar una vieja deuda que debo a un generoso benefactor."
+    ],
+    "defectos": [
+      "Cuando veo algo valioso, no puedo pensar en nada más que en cómo robarlo."
+    ]
+  },
+  "reglas": {
+    "sistema": "dnd5e",
+    "version": "PHB",
+    "nivel_max_creador": 1
+  },
+  "historia": {
+    "edad": 89,
+    "altura": "",
+    "peso": "",
+    "ojos": "negro",
+    "cabello": "Negro azabache",
+    "piel": "",
+    "backstory": "ayuda"
+  },
+  "conjuros": null,
+  "derivados": {
+    "bonificador_competencia": 2,
+    "puntos_golpe_maximo": 9,
+    "puntos_golpe_actual": 9,
+    "dado_golpe": "d8",
+    "clase_armadura": 13,
+    "velocidad": 30,
+    "iniciativa": 2,
+    "modificadores": {
+      "destreza": 2,
+      "inteligencia": 2,
+      "constitucion": 1,
+      "carisma": 2,
+      "sabiduria": 0,
+      "fuerza": -1
+    },
+    "salvaciones": {
+      "destreza": 4,
+      "inteligencia": 4,
+      "constitucion": 1,
+      "carisma": 2,
+      "sabiduria": 0,
+      "fuerza": -1
+    }
+  },
+  "meta": {
+    "concepto": "Un picaro imganitivo y sigiloso, un poquito caradura"
+  },
+  "fecha_modificacion": "2026-01-11T22:07:27.988118",
+  "fecha_creacion": "2026-01-11T21:50:27.932402",
+  "estado_aventura": {
+    "turno": 3,
+    "modo_juego": "social",
+    "ubicacion": {
+      "id": "taberna_ciervo",
+      "nombre": "Taberna del Ciervo Dorado",
+      "descripcion": "Una taberna acogedora con vigas de roble oscurecidas por el humo. El fuego crepita en la chimenea mientras parroquianos murmuran sobre sus jarras de cerveza.",
+      "tipo": "interior",
+      "conexiones": []
+    },
+    "npcs_activos": [
+      {
+        "id": "tabernera",
+        "nombre": "Marta la Tabernera",
+        "descripcion": "Una mujer robusta de mediana edad con delantal manchado y sonrisa fácil.",
+        "actitud": "amistoso",
+        "hp": null,
+        "hp_max": null,
+        "ca": null,
+        "es_enemigo": false,
+        "datos_extra": {}
+      }
+    ],
+    "historial": [
+      {
+        "turno": 0,
+        "tipo": "accion_jugador",
+        "contenido": "observo el lugar mientras pido una cerveza helada en la barra",
+        "timestamp": "2026-01-11T22:00:54.599551"
+      },
+      {
+        "turno": 0,
+        "tipo": "resultado_mecanico",
+        "contenido": "consultar_ficha: {\"exito\": true, \"datos\": {\"nombre\": \"Valandor Moonshadow\", \"raza\": \"semielfo\", \"clase\": \"picaro\", \"nivel\": 1, \"hp\": \"9/9\", \"ca\": 13, \"caracteristicas\": {\"destreza\": \"15 (+2)\", \"inteligencia\": \"14 (+2)\", \"constitucion\": \"13 (+1)\", \"carisma\": \"14 (+2)\", \"sabiduria\": \"10 (+0)\", \"fuerza\": \"8 (-1)\"}, \"habilidades_competentes\": [\"percepcion\", \"persuasion\", \"engano\", \"investigacion\", \"sigilo\"], \"arma_equipada\": \"Estoque\"}}",
+        "timestamp": "2026-01-11T22:01:09.050521"
+      },
+      {
+        "turno": 0,
+        "tipo": "respuesta_dm",
+        "contenido": "La cerveza llega en un cuenco de barro, empañada por la condensación, pero el hielo en su superficie es demasiado perfecto para ser natural. A tu espalda, una sombra se aleja de la ventana con un susurro de tela. Nadie habla de los desaparecidos del puerto... pero todos miran hacia el norte cuando nadie los observa.",
+        "timestamp": "2026-01-11T22:01:21.187612"
+      },
+      {
+        "turno": 1,
+        "tipo": "accion_jugador",
+        "contenido": "miro con atención a la sombra...e intento seguirla",
+        "timestamp": "2026-01-11T22:02:15.898736"
+      },
+      {
+        "turno": 1,
+        "tipo": "resultado_mecanico",
+        "contenido": "tirar_sigilo: {\"exito\": false, \"error\": \"Herramienta 'tirar_sigilo' no encontrada\", \"herramientas_disponibles\": [\"consultar_ficha\", \"consultar_monstruo\", \"consultar_objeto\", \"tirar_habilidad\", \"tirar_salvacion\", \"tirar_ataque\", \"modificar_hp\", \"dar_objeto\", \"quitar_objeto\", \"modificar_oro\", \"iniciar_combate\", \"listar_monstruos\", \"dañar_enemigo\"]}",
+        "timestamp": "2026-01-11T22:02:30.789254"
+      },
+      {
+        "turno": 1,
+        "tipo": "respuesta_dm",
+        "contenido": "Tu pie resbala sobre un charco de cerveza y el crujido de tu bota rompe el murmullo de la taberna. La sombra se detiene un instante, girando lentamente hacia ti: una capa negra con el bordado de una serpiente devorando su cola. No habla, pero sus ojos —fríos como la luna de Shar— te retan. La puerta trasera se abre con un chirrido, y el viento helado del norte arrastra consigo el olor a hierbas podridas y sangre seca.",
+        "timestamp": "2026-01-11T22:02:43.684565"
+      },
+      {
+        "turno": 2,
+        "tipo": "accion_jugador",
+        "contenido": "¿Quién eres? pregunto",
+        "timestamp": "2026-01-11T22:05:56.083392"
+      },
+      {
+        "turno": 2,
+        "tipo": "resultado_mecanico",
+        "contenido": "tirar_habilidad: {\"exito\": true, \"tirada\": 12, \"modificador\": 4, \"total\": 16, \"cd\": 15, \"margen\": 1, \"tipo_tirada\": \"normal\", \"detalle\": \"12\", \"competente\": true, \"critico_natural\": false, \"pifia_natural\": false, \"desglose\": \"12 + 2 (CAR) + 2 (comp) = 16 vs CD 15\"}",
+        "timestamp": "2026-01-11T22:06:11.580942"
+      },
+      {
+        "turno": 2,
+        "tipo": "respuesta_dm",
+        "contenido": "La sombra no responde con palabras, pero su mano se desliza hacia el puñal oculto bajo la capa. Un susurro helado se arrastra por el aire, como el eco de una oración maldecida: 'Los que buscan la verdad en las sombras... se convierten en parte de ellas.' La puerta trasera se abre más, revelando un pasillo oscuro donde las velas se apagan una a una al pasar. No hay salida fácil, pero sí un camino que te llama.",
+        "timestamp": "2026-01-11T22:06:24.860398"
+      }
+    ],
+    "estado_combate": null,
+    "flags": {
+      "tipo_aventura": {
+        "id": "fantasia_oscura",
+        "nombre": "Fantasía Oscura",
+        "tono": "Sombrío, tenso, opresivo. Destellos de esperanza son raros y preciosos. La belleza existe pero está manchada por la oscuridad. La muerte acecha constantemente.",
+        "datos_completos": {
+          "id": "fantasia_oscura",
+          "nombre": "Fantasía Oscura",
+          "descripcion_corta": "Mundo hostil, moral gris, supervivencia ante todo",
+          "descripcion_larga": "Un mundo donde la esperanza es escasa, los aliados pueden traicionar, y sobrevivir ya es una victoria. Las decisiones difíciles no tienen respuestas correctas.",
+          "tono_narrativo": "Sombrío, tenso, opresivo. Destellos de esperanza son raros y preciosos. La belleza existe pero está manchada por la oscuridad. La muerte acecha constantemente.",
+          "frecuencias": {
+            "combate": "alta",
+            "social": "media",
+            "exploracion": "media",
+            "misterio": "media"
+          },
+          "como_resolver_fallos": "Los fallos tienen costes duros: heridas permanentes, pérdida de recursos valiosos, aliados heridos o muertos, enemigos alertados. Cada error se paga. Pero siempre hay una salida, aunque sea dolorosa.",
+          "letalidad": "alta",
+          "moral": "gris",
+          "arquetipos_npc": [
+            "Superviviente endurecido que desconfía de todos",
+            "Líder corrupto que hace lo necesario",
+            "Fanático religioso convencido de su causa",
+            "Mercenario sin escrúpulos pero profesional",
+            "Víctima que se convirtió en verdugo",
+            "Aliado que oculta sus propios planes"
+          ],
+          "tipos_antagonista": [
+            "Señor de la guerra despiadado",
+            "Culto a entidad lovecraftiana",
+            "Plaga o maldición sin cura conocida",
+            "Tirano paranoico",
+            "La propia naturaleza corrupta del mundo"
+          ],
+          "tipos_quest": [
+            "Sobrevivir a una persecución implacable",
+            "Encontrar recursos escasos (comida, refugio, cura)",
+            "Elegir entre dos males",
+            "Descubrir la verdad aunque duela",
+            "Escapar de un lugar maldito"
+          ],
+          "escenarios_tipicos": [
+            "Ruinas de civilizaciones caídas",
+            "Bosques retorcidos y corrompidos",
+            "Ciudades en decadencia",
+            "Páramos desolados",
+            "Mazmorras donde nadie debería entrar"
+          ],
+          "recompensas_tipicas": {
+            "oro": "escaso",
+            "items_magicos": "raros y con coste",
+            "reconocimiento": "bajo",
+            "aliados": "raros y poco fiables"
+          },
+          "prompt_extra": "El mundo es hostil e indiferente. Los aliados son escasos y la traición es común. Cada victoria tiene un precio. La muerte es una posibilidad real y presente. Los NPCs tienen sus propias agendas y raramente ayudan sin esperar algo a cambio. Lo sobrenatural es terrorífico, no maravilloso. Las decisiones morales no tienen respuestas fáciles."
+        }
+      },
+      "region": {
+        "id": "costa_espada",
+        "nombre": "Costa de la Espada",
+        "datos": {
+          "nombre": "Costa de la Espada",
+          "descripcion": "La región más cosmopolita de Faerûn. Incluye Aguas Profundas, Neverwinter, Puerta de Baldur y Luskan.",
+          "ciudades": [
+            "Aguas Profundas",
+            "Neverwinter",
+            "Puerta de Baldur",
+            "Luskan",
+            "Mirabar"
+          ],
+          "facciones": [
+            "Lords de Aguas Profundas",
+            "Arpistas",
+            "Zhentarim",
+            "Enclave Esmeralda"
+          ],
+          "amenazas_tipicas": [
+            "Piratas",
+            "Zhentarim",
+            "Cultos demoníacos",
+            "Dragones"
+          ]
+        }
+      }
+    },
+    "notas_dm": "TONO DE LA AVENTURA: Sombrío, tenso, opresivo. Destellos de esperanza son raros y preciosos. La belleza existe pero está manchada por la oscuridad. La muerte acecha constantemente.",
+    "memoria_narrativa": {
+      "main_quest": {
+        "fase": "inicio",
+        "objetivo": "Descubrir la identidad de la sombra y su vínculo con los desaparecidos del puerto",
+        "revelaciones": [
+          "Marta ha notado que varios viajeros han desaparecido en los últimos días, todos con el mismo símbolo grabado en sus pertenencias: una serpiente devorando su propia cola.",
+          "La sombra lleva un broche con el símbolo de la serpiente devorando su cola: la marca del culto a Shar.",
+          "La sombra lleva el broche del culto a Shar y se mueve con propósito. No es un simple espía, sino un mensajero de alto rango."
+        ]
+      },
+      "side_quests": [],
+      "pnj_relevantes": {
+        "Marta la Tabernera": {
+          "actitud": "cautelosa",
+          "ultima_nota": "Ha notado tu interés en la sombra, pero no dice nada. Su mirada se demora un instante demasiado largo en tu estoque."
+        },
+        "Sombra en capa negra": {
+          "actitud": "hostil pero curioso",
+          "ultima_nota": "No habla, pero reacciona a la presión. Su silencio es más amenazante que cualquier palabra."
+        }
+      },
+      "amenazas_activas": [
+        "Un culto a Shar opera en las sombras del Camino del Lobo. La serpiente devoradora es su marca.",
+        "Culto a Shar activo en las sombras del Camino del Lobo; la sombra es un mensajero o devoto.",
+        "Culto a Shar activo en las sombras del Camino del Lobo; la sombra es un mensajero o devoto de rango medio."
+      ],
+      "resumen_historia": ""
+    },
+    "resumen": {
+      "ubicacion_actual": "Taberna del Ciervo Dorado",
+      "que_estaba_haciendo": "¿Quién eres? pregunto",
+      "resumen_sesion": "Valandor Moonshadow pide una cerveza en el bar, pero al intentar seguir una sombra sospechosa, tropieza y llama la atención. Al preguntarle quién es, la sombra no responde, pero se prepara para atacar",
+      "turnos_jugados": 3
+    }
+  }
+}

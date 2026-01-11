@@ -1,0 +1,514 @@
+============================================================
+  INFORME DE CONVERSIÓN SRD → COMPENDIO
+============================================================
+
+Fecha: 2026-01-11 21:26:53
+Monstruos procesados: 327
+Monstruos convertidos: 327
+Monstruos con advertencias: 140
+
+------------------------------------------------------------
+  ADVERTENCIAS
+------------------------------------------------------------
+
+Aboleth:
+  - Acción no parseada: Enslave (3/Day)
+  - Acción no parseada: Whenever the charmed target takes damage, the target can repeat the saving throw
+
+Adult Black Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Blue Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Brass Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Bronze Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Adult Copper Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Gold Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Adult Green Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Red Dragon:
+  - Acción no parseada: Frightful Presence
+
+Adult Silver Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Adult White Dragon:
+  - Acción no parseada: Frightful Presence
+
+Air Elemental:
+  - Acción no parseada: Whirlwind (Recharge 4–6)
+  - Acción no parseada: If the saving throw is successful, the target takes half the bludgeoning damage and isn't flung away or knocked prone
+
+Ancient Black Dragon:
+  - Acción no parseada: Frightful Presence
+
+Ancient Blue Dragon:
+  - Acción no parseada: Frightful Presence
+
+Ancient Brass Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Ancient Bronze Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Ancient Copper Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Ancient Gold Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Ancient Green Dragon:
+  - Acción no parseada: Frightful Presence
+
+Ancient Red Dragon:
+  - Acción no parseada: Frightful Presence
+
+Ancient Silver Dragon:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the dragon retains its alignment, hit points, Hit Dice, ability to speak, proficiencies, Legendary Resistance, lair actions, and Intelligence, Wisdom, and Charisma scores, as well as this action
+
+Ancient White Dragon:
+  - Acción no parseada: Frightful Presence
+
+Androsphinx:
+  - Acción no parseada: Roar (3/Day)
+  - Acción no parseada: First Roar
+  - Acción no parseada: Second Roar
+  - Acción no parseada: Third Roar
+
+Ankheg:
+  - Acción no parseada: Acid Spray (Recharge 6)
+
+Archmage:
+  - Acción no parseada: Dagger
+
+Badger:
+  - Acción no parseada: Bite
+
+Balor:
+  - Acción no parseada: Teleport
+
+Bandit:
+  - Acción no parseada: Light Crossbow
+
+Bandit Captain:
+  - Acción no parseada: Dagger
+
+Banshee:
+  - Acción no parseada: Corrupting Touch
+  - Acción no parseada: Horrifying Visage
+  - Acción no parseada: Wail (1/Day)
+
+Barbed Devil:
+  - Acción no parseada: Hurl Flame
+
+Bat:
+  - Acción no parseada: Bite
+
+Behir:
+  - Acción no parseada: Swallow
+  - Acción no parseada: If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls prone in a space within 10 feet of the behir
+
+Blink Dog:
+  - Acción no parseada: Teleport (Recharge 4–6)
+
+Bugbear:
+  - Acción no parseada: Javelin
+
+Bulette:
+  - Acción no parseada: Deadly Leap
+
+Cat:
+  - Acción no parseada: Claws
+
+Chain Devil:
+  - Acción no parseada: Animate Chains (Recharges after a Short or Long Rest)
+  - Acción no parseada: Each animated chain is an object with AC 20, 20 hit points, resistance to piercing damage, and immunity to psychic and thunder damage
+
+Chuul:
+  - Acción no parseada: Tentacles
+
+Clay Golem:
+  - Acción no parseada: Haste (Recharge 5–6)
+
+Cloaker:
+  - Acción no parseada: Moan
+  - Acción no parseada: Phantasms (Recharges after a Short or Long Rest)
+  - Acción no parseada: Whenever any creature targets the cloaker with an attack or a harmful spell while a duplicate remains, that creature rolls randomly to determine whether it targets the cloaker or one of the duplicates
+  - Acción no parseada: A duplicate has the cloaker's AC and uses its saving throws
+
+Couatl:
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the couatl retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and other actions are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks
+
+Crab:
+  - Acción no parseada: Claw
+
+Cult Fanatic:
+  - Acción no parseada: Dagger
+
+Darkmantle:
+  - Acción no parseada: While attached to the target, the darkmantle can attack no other creature except the target but has advantage on its attack rolls
+  - Acción no parseada: A creature can detach the darkmantle by making a successful DC 13 Strength check as an action
+  - Acción no parseada: Darkness Aura (1/Day)
+
+Deva:
+  - Acción no parseada: Healing Touch (3/Day)
+  - Acción no parseada: Change Shape
+  - Acción no parseada: In a new form, the deva retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and special senses are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks
+
+Djinni:
+  - Acción no parseada: Create Whirlwind
+  - Acción no parseada: A creature can use its action to free a creature restrained by the whirlwind, including itself, by succeeding on a DC 18 Strength check
+
+Doppelganger:
+  - Acción no parseada: Read Thoughts
+
+Dretch:
+  - Acción no parseada: Fetid Cloud (1/Day)
+
+Druid:
+  - Acción no parseada: Quarterstaff
+
+Dryad:
+  - Acción no parseada: Club
+  - Acción no parseada: Fey Charm
+  - Acción no parseada: Each time the dryad or its allies do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success
+  - Acción no parseada: The dryad can have no more than one humanoid and up to three beasts charmed at a time
+
+Duergar:
+  - Acción no parseada: Enlarge (Recharges after a Short or Long Rest)
+  - Acción no parseada: Javelin
+  - Acción no parseada: Invisibility (Recharges after a Short or Long Rest)
+
+Efreeti:
+  - Acción no parseada: Hurl Flame
+
+Ettercap:
+  - Acción no parseada: Web (Recharge 5–6)
+
+Flameskull:
+  - Acción no parseada: Fire Ray
+
+Flying Snake:
+  - Acción no parseada: Bite
+
+Gelatinous Cube:
+  - Acción no parseada: Engulf
+  - Acción no parseada: On a successful save, the creature can choose to be pushed 5 feet back or to the side of the cube
+  - Acción no parseada: On a failed save, the cube enters the creature's space, and the creature takes 10 (3d6) acid damage and is engulfed
+  - Acción no parseada: An engulfed creature can try to escape by taking an action to make a DC 12 Strength check
+
+Ghost:
+  - Acción no parseada: Etherealness
+  - Acción no parseada: Horrifying Visage
+  - Acción no parseada: Possession (Recharge 6)
+  - Acción no parseada: The possession lasts until the body drops to 0 hit points, the ghost ends it as a bonus action, or the ghost is turned or forced out by an effect like the dispel evil and good spell
+
+Giant Frog:
+  - Acción no parseada: Swallow
+
+Giant Octopus:
+  - Acción no parseada: Ink Cloud (Recharges after a Short or Long Rest)
+
+Giant Spider:
+  - Acción no parseada: Web (Recharge 5–6)
+
+Giant Toad:
+  - Acción no parseada: Swallow
+
+Gibbering Mouther:
+  - Acción no parseada: Bite
+  - Acción no parseada: Blinding Spittle (Recharge 5–6)
+
+Gladiator:
+  - Acción no parseada: Spear
+
+Gnoll:
+  - Acción no parseada: Spear
+
+Gold Dragon Wyrmling:
+  - Acción no parseada: Bite: Melee Weapon Attack: +6 to hit, reach 5 ft
+
+Green Hag:
+  - Acción no parseada: Illusory Appearance
+  - Acción no parseada: The changes wrought by this effect fail to hold up to physical inspection
+  - Acción no parseada: Invisible Passage
+
+Guard:
+  - Acción no parseada: Spear
+
+Guardian Naga:
+  - Acción no parseada: Spit Poison
+
+Harpy:
+  - Acción no parseada: Luring Song
+  - Acción no parseada: While charmed by the harpy, a target is incapacitated and ignores the songs of other harpies
+  - Acción no parseada: A target that successfully saves is immune to this harpy's song for the next 24 hours
+
+Hawk:
+  - Acción no parseada: Talons
+
+Homunculus:
+  - Acción no parseada: Bite
+
+Horned Devil:
+  - Acción no parseada: Hurl Flame
+
+Ice Devil:
+  - Acción no parseada: Wall of Ice (Recharge 6)
+  - Acción no parseada: When the wall appears, each creature in its space is pushed out of it by the shortest route
+  - Acción no parseada: The wall lasts for 1 minute or until the devil is incapacitated or dies
+
+Imp:
+  - Acción no parseada: Invisibility
+
+Knight:
+  - Acción no parseada: Leadership (Recharges after a Short or Long Rest)
+
+Kraken:
+  - Acción no parseada: If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a DC 25 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet of the kraken
+  - Acción no parseada: Fling
+  - Acción no parseada: Lightning Storm
+
+Lamia:
+  - Acción no parseada: Intoxicating Touch
+
+Lich:
+  - Acción no parseada: Paralyzing Touch
+
+Lizard:
+  - Acción no parseada: Bite
+
+Lizardfolk:
+  - Acción no parseada: Javelin
+
+Mage:
+  - Acción no parseada: Dagger
+
+Marilith:
+  - Acción no parseada: Teleport
+
+Merfolk:
+  - Acción no parseada: Spear
+
+Merrow:
+  - Acción no parseada: Harpoon
+
+Mummy:
+  - Acción no parseada: Dreadful Glare
+
+Mummy Lord:
+  - Acción no parseada: Dreadful Glare
+
+Nalfeshnee:
+  - Acción no parseada: Horror Nimbus (Recharge 5–6)
+  - Acción no parseada: Teleport
+
+Night Hag:
+  - Acción no parseada: Change Shape
+  - Acción no parseada: Etherealness
+  - Acción no parseada: Nightmare Haunting (1/Day)
+
+Nightmare:
+  - Acción no parseada: Ethereal Stride
+
+Nothic:
+  - Acción no parseada: Rotting Gaze
+  - Acción no parseada: Weird Insight
+
+Octopus:
+  - Acción no parseada: Tentacles
+  - Acción no parseada: Ink Cloud (Recharges after a Short or Long Rest)
+
+Ogre:
+  - Acción no parseada: Javelin
+
+Oni:
+  - Acción no parseada: Change Shape
+
+Orc:
+  - Acción no parseada: Javelin
+
+Otyugh:
+  - Acción no parseada: Tentacle Slam
+
+Owl:
+  - Acción no parseada: Talons
+
+Planetar:
+  - Acción no parseada: Healing Touch (4/Day)
+
+Poisonous Snake:
+  - Acción no parseada: Bite
+
+Purple Worm:
+  - Acción no parseada: If the worm takes 30 damage or more on a single turn from a creature inside it, the worm must succeed on a DC 21 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet of the worm
+
+Quasit:
+  - Acción no parseada: Scare (1/Day)
+  - Acción no parseada: Invisibility
+
+Quipper:
+  - Acción no parseada: Bite
+
+Rat:
+  - Acción no parseada: Bite
+
+Raven:
+  - Acción no parseada: Beak
+
+Remorhaz:
+  - Acción no parseada: Swallow
+  - Acción no parseada: If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a DC 15 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet of the remorhaz
+
+Roper:
+  - Acción no parseada: Tendril
+  - Acción no parseada: Reel
+
+Rug of Smothering:
+  - Acción no parseada: Smother
+
+Rust Monster:
+  - Acción no parseada: Antennae
+  - Acción no parseada: If the object touched is either metal armor or a metal shield being worn or carried, it takes a permanent and cumulative −1 penalty to the AC it offers
+
+Sahuagin:
+  - Acción no parseada: Spear
+
+Salamander:
+  - Acción no parseada: Spear
+
+Scorpion:
+  - Acción no parseada: Sting
+
+Scout:
+  - Acción no parseada: Longbow
+
+Sea Hag:
+  - Acción no parseada: Death Glare
+  - Acción no parseada: Illusory Appearance
+  - Acción no parseada: The changes wrought by this effect fail to hold up to physical inspection
+
+Shadow:
+  - Acción no parseada: If a non-evil humanoid dies from this attack, a new shadow rises from the corpse 1d4 hours later
+
+Shambling Mound:
+  - Acción no parseada: Engulf
+
+Solar:
+  - Acción no parseada: Flying Sword
+  - Acción no parseada: Healing Touch (4/Day)
+
+Spectator:
+  - Acción no parseada: Eye Rays
+  - Acción no parseada: Create Food and Water
+
+Specter:
+  - Acción no parseada: Life Drain
+
+Spider:
+  - Acción no parseada: Bite
+
+Sprite:
+  - Acción no parseada: Longsword
+  - Acción no parseada: Shortbow
+  - Acción no parseada: Heart Sight
+  - Acción no parseada: Invisibility
+
+Stirge:
+  - Acción no parseada: The stirge can detach itself by spending 5 feet of its movement
+
+Stone Golem:
+  - Acción no parseada: Slow (Recharge 5–6)
+
+Storm Giant:
+  - Acción no parseada: Lightning Strike (Recharge 5–6)
+
+Succubus/Incubus:
+  - Acción no parseada: Charm
+  - Acción no parseada: The fiend can have only one target charmed at a time
+  - Acción no parseada: Draining Kiss
+  - Acción no parseada: Etherealness
+
+Swarm of Poisonous Snakes:
+  - Acción no parseada: Bite
+
+Swarm of Quippers:
+  - Acción no parseada: Bite
+
+Swarm of Rats:
+  - Acción no parseada: Bite
+
+Tarrasque:
+  - Acción no parseada: Frightful Presence
+  - Acción no parseada: Swallow
+  - Acción no parseada: If the tarrasque takes 60 damage or more on a single turn from a creature inside it, the tarrasque must succeed on a DC 20 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet of the tarrasque
+
+Treant:
+  - Acción no parseada: Animate Trees (1/Day)
+
+Tribal Warrior:
+  - Acción no parseada: Spear
+
+Unicorn:
+  - Acción no parseada: Healing Touch (3/Day)
+  - Acción no parseada: Teleport (1/Day)
+
+Vampire:
+  - Acción no parseada: Charm
+  - Acción no parseada: Each time the vampire or the vampire's companions do anything harmful to the target, it can repeat the saving throw, ending the effect on itself on a success
+  - Acción no parseada: Children of the Night (1/Day)
+
+Vrock:
+  - Acción no parseada: Spores (Recharge 6)
+  - Acción no parseada: Stunning Screech (1/Day)
+
+Water Elemental:
+  - Acción no parseada: Whelm (Recharge 4–6)
+  - Acción no parseada: The elemental can grapple one Large creature or up to two Medium or smaller creatures at one time
+
+Weasel:
+  - Acción no parseada: Bite
+
+Werewolf:
+  - Acción no parseada: Spear (Humanoid Form Only)
+
+Wight:
+  - Acción no parseada: A humanoid slain by this attack rises 24 hours later as a zombie under the wight's control, unless the humanoid is restored to life or its body is destroyed
+
+Will-o'-Wisp:
+  - Acción no parseada: Shock
+  - Acción no parseada: Invisibility
+
+Wraith:
+  - Acción no parseada: Create Specter
+
+Yeti:
+  - Acción no parseada: Chilling Gaze
+

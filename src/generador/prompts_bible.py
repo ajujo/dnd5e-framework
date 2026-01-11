@@ -134,10 +134,29 @@ Genera una Adventure Bible en JSON con EXACTAMENTE esta estructura:
 REGLAS DE DISEÑO
 ═══════════════════════════════════════════════════════════════════════
 
-1. PARTIDA EN SOLITARIO:
-   - Un solo PJ, no un grupo
-   - Combates: máximo 3 enemigos débiles o 1 fuerte
-   - La aventura debe ser completable por UN personaje de nivel {nivel_pj}
+1. PARTIDA EN SOLITARIO (1 PJ nivel {nivel_pj}):
+   - Un solo PJ, NO un grupo
+   - Los encuentros deben ser navegables por 1 personaje
+   
+   REGLAS DE DIFICULTAD DE ENCUENTROS:
+   Para un PJ de nivel {nivel_pj}, los umbrales son:
+   - Encuentro FÁCIL: CR {cr_facil} (1 enemigo) o 2 de CR {cr_facil_2}
+   - Encuentro MEDIO: CR {cr_medio} (1 enemigo)
+   - Encuentro DIFÍCIL: CR {nivel_pj} (1 enemigo)
+   - Encuentro LETAL: CR {cr_letal} o 2+ enemigos de CR {cr_medio}
+   
+   ⚠️ IMPORTANTE: Para 1 PJ, 3+ enemigos SIEMPRE es encuentro MORTAL.
+   
+   Ejemplos de monstruos apropiados para nivel {nivel_pj}:
+   - CR 0: Commoner, Rat, Goat
+   - CR 1/8: Bandit, Cultist, Kobold
+   - CR 1/4: Goblin, Esqueleto, Zombi
+   - CR 1/2: Orc, Hobgoblin, Scout
+   - CR 1: Bugbear, Ghoul, Specter
+   - CR 2: Ogre, Ghast, Mimic
+   - CR 3: Werewolf, Owlbear, Manticore
+   
+   Regla general: usa 1 enemigo de CR = nivel_pj - 1 para encuentro medio.
 
 2. THREE CLUE RULE:
    - Cada revelación CRÍTICA tiene exactamente 3 pistas
@@ -234,12 +253,17 @@ Tipos de quest típicos:
 {chr(10).join('- ' + q for q in tipo_aventura.get('tipos_quest', ['Misión genérica'])[:3])}"""
     
     # Construir prompt final
+    # Pre-calcular valores de CR para el template
     prompt = PROMPT_GENERAR_BIBLE.format(
         info_pj=info_pj,
         tipo_aventura=tipo_aventura.get('nombre', 'Épica Heroica'),
         descripcion_tono=descripcion_tono,
         region=region,
-        nivel_pj=nivel
+        nivel_pj=nivel,
+        cr_facil=max(0, nivel - 2),
+        cr_facil_2=max(0, nivel - 3),
+        cr_medio=max(0, nivel - 1),
+        cr_letal=nivel + 1,
     )
     
     return prompt

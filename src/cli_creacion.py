@@ -1365,13 +1365,18 @@ def ejecutar_flujo(creador: CreadorPersonaje):
 def main():
     """Punto de entrada principal."""
     parser = argparse.ArgumentParser(description="Creador de personajes D&D 5e")
-    parser.add_argument("--llm", action="store_true", help="Usar LLM para sugerencias")
+    parser.add_argument("--llm", action="store_true", help="(obsoleto - LLM activo por defecto)")
+    parser.add_argument("--no-llm", action="store_true", dest="no_llm", help="Desactivar asistencia LLM")
     parser.add_argument("--continuar", type=str, help="ID de autosave a continuar")
     args = parser.parse_args()
     
-    # Configurar LLM si se solicita
-    if args.llm:
-        configurar_llm()
+    # Configurar LLM por defecto (a menos que se solicite desactivar)
+    if not args.no_llm:
+        llm_ok = configurar_llm()
+        if not llm_ok:
+            print("  Continuando sin LLM...")
+    else:
+        print("  🔇 LLM desactivado por usuario")
     
     print()
     print("  🐉 CREADOR DE PERSONAJES D&D 5e")

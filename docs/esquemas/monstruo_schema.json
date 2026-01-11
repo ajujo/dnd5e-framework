@@ -1,0 +1,571 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "monstruo_schema.json",
+    "title": "Monstruo D&D 5e",
+    "description": "Schema para monstruos del compendio interno (basado en SRD 5.1)",
+    "type": "object",
+    "required": [
+        "id",
+        "nombre",
+        "tamaño",
+        "tipo",
+        "clase_armadura",
+        "puntos_golpe",
+        "velocidades",
+        "atributos",
+        "desafio",
+        "experiencia"
+    ],
+    "properties": {
+        "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$",
+            "description": "Identificador único en snake_case"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "Nombre en español"
+        },
+        "srd_ref": {
+            "type": "object",
+            "description": "Referencia al SRD original para trazabilidad",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string",
+                    "default": "SRD 5.1"
+                },
+                "index": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "tamaño": {
+            "type": "string",
+            "enum": [
+                "Diminuto",
+                "Pequeño",
+                "Mediano",
+                "Grande",
+                "Enorme",
+                "Gargantuesco"
+            ]
+        },
+        "tipo": {
+            "type": "string",
+            "enum": [
+                "Aberración",
+                "Bestia",
+                "Celestial",
+                "Constructo",
+                "Dragón",
+                "Elemental",
+                "Fata",
+                "Infernal",
+                "Gigante",
+                "Humanoide",
+                "Monstruosidad",
+                "Légamo",
+                "Planta",
+                "No-muerto"
+            ]
+        },
+        "subtipo": {
+            "type": "string",
+            "description": "Subtipo opcional (ej: goblinoide, demonio)"
+        },
+        "alineamiento": {
+            "type": "string"
+        },
+        "clase_armadura": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "fuente_ca": {
+            "type": "string",
+            "description": "Fuente de la CA (ej: armadura natural, armadura de cuero)"
+        },
+        "puntos_golpe": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "dados_golpe": {
+            "type": "string",
+            "pattern": "^\\d+d\\d+(\\s*[+-]\\s*\\d+)?$",
+            "description": "Fórmula de dados (ej: 2d8+4)"
+        },
+        "velocidades": {
+            "type": "object",
+            "properties": {
+                "tierra": {
+                    "type": "integer",
+                    "default": 0
+                },
+                "vuelo": {
+                    "type": "integer",
+                    "default": 0
+                },
+                "nado": {
+                    "type": "integer",
+                    "default": 0
+                },
+                "trepar": {
+                    "type": "integer",
+                    "default": 0
+                },
+                "excavar": {
+                    "type": "integer",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false
+        },
+        "atributos": {
+            "type": "object",
+            "required": [
+                "fuerza",
+                "destreza",
+                "constitucion",
+                "inteligencia",
+                "sabiduria",
+                "carisma"
+            ],
+            "properties": {
+                "fuerza": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                },
+                "destreza": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                },
+                "constitucion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                },
+                "inteligencia": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                },
+                "sabiduria": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                },
+                "carisma": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
+                }
+            },
+            "additionalProperties": false
+        },
+        "tiradas_salvacion": {
+            "type": "object",
+            "properties": {
+                "fuerza": {
+                    "type": "integer"
+                },
+                "destreza": {
+                    "type": "integer"
+                },
+                "constitucion": {
+                    "type": "integer"
+                },
+                "inteligencia": {
+                    "type": "integer"
+                },
+                "sabiduria": {
+                    "type": "integer"
+                },
+                "carisma": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false
+        },
+        "habilidades": {
+            "type": "object",
+            "description": "Bonificadores de habilidades",
+            "additionalProperties": {
+                "type": "integer"
+            }
+        },
+        "resistencias": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Resistencias a tipos de daño"
+        },
+        "vulnerabilidades": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "inmunidades_daño": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "inmunidades_condicion": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "sentidos": {
+            "type": "object",
+            "properties": {
+                "vision_oscura": {
+                    "type": "integer"
+                },
+                "vision_ciega": {
+                    "type": "integer"
+                },
+                "sentido_temblor": {
+                    "type": "integer"
+                },
+                "vision_verdadera": {
+                    "type": "integer"
+                },
+                "percepcion_pasiva": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false
+        },
+        "idiomas": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "desafio": {
+            "type": "number",
+            "description": "Valor de desafío (CR)"
+        },
+        "experiencia": {
+            "type": "integer",
+            "description": "Puntos de experiencia"
+        },
+        "rasgos": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "nombre"
+                ],
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "descripcion": {
+                        "type": "string"
+                    },
+                    "texto_srd": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "nivel_parseo": {
+                        "type": "string",
+                        "enum": [
+                            "completo",
+                            "parcial",
+                            "texto"
+                        ],
+                        "default": "texto"
+                    }
+                }
+            }
+        },
+        "modificadores_tirada": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "tipo": {
+                        "type": "string",
+                        "enum": [
+                            "ventaja",
+                            "desventaja"
+                        ]
+                    },
+                    "aplica_a": {
+                        "type": "string",
+                        "enum": [
+                            "ataque",
+                            "tirada_salvacion",
+                            "habilidad"
+                        ]
+                    },
+                    "contra": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "condicion": {
+                        "type": "string"
+                    },
+                    "texto_srd": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "regeneracion": {
+            "type": "object",
+            "properties": {
+                "cantidad": {
+                    "type": "integer"
+                },
+                "condicion_texto": {
+                    "type": "string"
+                }
+            }
+        },
+        "acciones": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/accion"
+            }
+        },
+        "multiataque": {
+            "type": "object",
+            "properties": {
+                "texto_srd": {
+                    "type": "string"
+                },
+                "ataques": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "accion_id": {
+                                "type": "string"
+                            },
+                            "cantidad": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "puede_usar_antes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "acciones_legendarias": {
+            "type": "object",
+            "properties": {
+                "cantidad_por_ronda": {
+                    "type": "integer",
+                    "default": 3
+                },
+                "texto_intro": {
+                    "type": "string"
+                },
+                "acciones": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "coste": {
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "usa_accion": {
+                                "type": "string"
+                            },
+                            "texto_srd": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "accion": {
+            "type": "object",
+            "required": [
+                "nombre",
+                "tipo"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "tipo": {
+                    "type": "string",
+                    "enum": [
+                        "ataque",
+                        "habilidad_especial",
+                        "conjuro",
+                        "otro"
+                    ]
+                },
+                "modalidad": {
+                    "type": "string",
+                    "enum": [
+                        "cuerpo",
+                        "distancia"
+                    ]
+                },
+                "ataque": {
+                    "type": "object",
+                    "properties": {
+                        "bonificador": {
+                            "type": "integer"
+                        },
+                        "alcance_pies": {
+                            "type": "integer"
+                        },
+                        "alcance_corto": {
+                            "type": "integer"
+                        },
+                        "alcance_largo": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "objetivos_max": {
+                    "type": "integer",
+                    "default": 1
+                },
+                "impacto": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "tipo": {
+                                "type": "string",
+                                "enum": [
+                                    "daño",
+                                    "condicion",
+                                    "efecto"
+                                ]
+                            },
+                            "cantidad": {
+                                "type": "string"
+                            },
+                            "tipo_daño": {
+                                "type": "string"
+                            },
+                            "condicion": {
+                                "type": "string"
+                            },
+                            "mitad_si_exito": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "recarga": {
+                    "type": "object",
+                    "properties": {
+                        "tipo": {
+                            "type": "string",
+                            "enum": [
+                                "dado",
+                                "descanso_corto",
+                                "descanso_largo"
+                            ]
+                        },
+                        "rango": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "area": {
+                    "type": "object",
+                    "properties": {
+                        "forma": {
+                            "type": "string",
+                            "enum": [
+                                "linea",
+                                "cono",
+                                "esfera",
+                                "cubo"
+                            ]
+                        },
+                        "longitud_pies": {
+                            "type": "integer"
+                        },
+                        "ancho_pies": {
+                            "type": "integer"
+                        },
+                        "radio_pies": {
+                            "type": "integer"
+                        },
+                        "seleccion": {
+                            "type": "string",
+                            "enum": [
+                                "todas_en_area",
+                                "hasta_n_objetivos"
+                            ]
+                        },
+                        "n_max": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "salvacion": {
+                    "type": "object",
+                    "properties": {
+                        "caracteristica": {
+                            "type": "string",
+                            "enum": [
+                                "fuerza",
+                                "destreza",
+                                "constitucion",
+                                "inteligencia",
+                                "sabiduria",
+                                "carisma"
+                            ]
+                        },
+                        "cd": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "texto_srd": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

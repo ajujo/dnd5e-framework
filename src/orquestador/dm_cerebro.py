@@ -479,38 +479,52 @@ class DMCerebro:
             return ""
 
     def _construir_system_prompt(self) -> str:
-        """Construye el system prompt completo para el DM."""
-        # Obtener documentación de herramientas
+        """
+        Construye el system prompt completo para el DM.
+        
+        OPTIMIZACIÓN KV CACHE: El contenido está ordenado de más estático a más dinámico.
+        Esto permite que LM Studio reutilice el caché de la parte estática entre turnos.
+        
+        Orden:
+        1. ESTÁTICO: Instrucciones base del DM (nunca cambia)
+        2. ESTÁTICO: Herramientas disponibles (nunca cambia)
+        3. SEMI-ESTÁTICO: Adventure Bible (cambia entre actos)
+        4. SEMI-ESTÁTICO: Prompt de tono (cambia si cambia aventura)
+        5. DINÁMICO: Contexto actual (cambia cada turno)
+        """
+        partes = []
+        
+        # 1. ESTÁTICO: Instrucciones base del DM + Herramientas
+        # Usamos un template sin {contexto} para añadirlo al final
         doc_herramientas = documentacion_herramientas()
+        prompt_base = SYSTEM_PROMPT_DM.replace(
+            "═══════════════════════════════════════════════════════════════════════\nCONTEXTO ACTUAL\n═══════════════════════════════════════════════════════════════════════\n{contexto}",
+            ""  # Quitamos el placeholder de contexto
+        ).format(herramientas=doc_herramientas)
+        partes.append(prompt_base.rstrip())
         
-        # Obtener contexto actual
-        contexto = self.contexto.generar_contexto_llm()
+        # 2. SEMI-ESTÁTICO: Adventure Bible (solo cambia entre actos)
+        contexto_bible = self._obtener_contexto_bible()
+        if contexto_bible:
+            partes.append(contexto_bible)
         
-        # Construir prompt base
-        prompt = SYSTEM_PROMPT_DM.format(
-            herramientas=doc_herramientas,
-            contexto=contexto
-        )
-        
-        # Obtener e inyectar prompt de tono si hay tipo de aventura
+        # 3. SEMI-ESTÁTICO: Prompt de tono (solo cambia si cambia el tipo de aventura)
         tipo_aventura = self.contexto.flags.get("tipo_aventura", {})
         if tipo_aventura and tipo_aventura.get("id"):
             prompt_tono = obtener_prompt_tono(tipo_aventura["id"])
             if prompt_tono:
-                # Insertar el tono antes del contexto actual
-                marcador = "═══════════════════════════════════════════════════════════════════════\nCONTEXTO ACTUAL"
-                if marcador in prompt:
-                    prompt = prompt.replace(marcador, prompt_tono + "\n\n" + marcador)
-                else:
-                    # Si no encuentra el marcador, añadir al final
-                    prompt = prompt + "\n\n" + prompt_tono
+                partes.append(prompt_tono)
         
-        # Obtener e inyectar contexto de la Adventure Bible
-        contexto_bible = self._obtener_contexto_bible()
-        if contexto_bible:
-            prompt = prompt + "\n\n" + contexto_bible
+        # 4. DINÁMICO: Contexto actual (cambia cada turno - va AL FINAL)
+        contexto = self.contexto.generar_contexto_llm()
+        partes.append(
+            "═══════════════════════════════════════════════════════════════════════\n"
+            "CONTEXTO ACTUAL (ESTADO DEL TURNO)\n"
+            "═══════════════════════════════════════════════════════════════════════\n"
+            f"{contexto}"
+        )
         
-        return prompt
+        return "\n\n".join(partes)
 
 
     def _llamar_llm(self, mensaje_usuario: str) -> str:

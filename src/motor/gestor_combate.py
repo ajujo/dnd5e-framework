@@ -234,10 +234,30 @@ class GestorCombate:
             instancia_id = f"{base}_{contador}"
         
         # Cargar acciones del monstruo
+        # Soporta tanto schema viejo como nuevo:
+        # Viejo: {"bonificador_ataque": 4, "daño": "1d6+2"}
+        # Nuevo: {"ataque": {"bonificador": 4}, "impacto": [{"cantidad": "1d6+2"}]}
         acciones_raw = datos.get("acciones", [])
         acciones = []
         for acc in acciones_raw:
-            if "bonificador_ataque" in acc:  # Es un ataque
+            # Detectar si es ataque (schema nuevo o viejo)
+            es_ataque_nuevo = "ataque" in acc and "bonificador" in acc.get("ataque", {})
+            es_ataque_viejo = "bonificador_ataque" in acc
+            
+            if es_ataque_nuevo:
+                # Schema nuevo
+                ataque_data = acc.get("ataque", {})
+                impacto = acc.get("impacto", [{}])[0] if acc.get("impacto") else {}
+                
+                acciones.append({
+                    "nombre": acc.get("nombre", "Ataque"),
+                    "bonificador_ataque": ataque_data.get("bonificador", 0),
+                    "daño": impacto.get("cantidad", "1d4"),
+                    "tipo_daño": impacto.get("tipo_daño", "contundente"),
+                    "alcance": ataque_data.get("alcance_pies", 5),
+                })
+            elif es_ataque_viejo:
+                # Schema viejo (retrocompatibilidad)
                 acciones.append({
                     "nombre": acc.get("nombre", "Ataque"),
                     "bonificador_ataque": acc.get("bonificador_ataque", 0),
