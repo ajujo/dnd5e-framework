@@ -386,7 +386,18 @@ class OrquestadorCombate:
                         if not objetivo:
                             combatiente = self.gestor.obtener_combatiente(objetivo_id)
                             objetivo = combatiente.nombre if combatiente else objetivo_id
-                        partes.append(f"💥 Daño: {daño} a {objetivo}")
+                        
+                        # Mostrar desglose si está disponible
+                        tirada = datos.get("tirada", {})
+                        if tirada and tirada.get("dados"):
+                            dados = tirada.get("dados", [])
+                            dados_total = sum(dados)
+                            mod = tirada.get("modificador", 0)
+                            expresion = tirada.get("expresion", "")
+                            dado_exp = expresion.split("+")[0] if "+" in expresion else expresion
+                            partes.append(f"💥 Daño: {dados_total}({dado_exp}) + {mod}(mod) = {daño} a {objetivo}")
+                        else:
+                            partes.append(f"💥 Daño: {daño} a {objetivo}")
                     
                     elif tipo == "combatiente_cae":
                         objetivo_id = datos.get("objetivo_id", "combatiente")

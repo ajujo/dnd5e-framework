@@ -6,7 +6,7 @@
     "raza": "semielfo",
     "subraza": null,
     "clase": "picaro",
-    "nivel": 1,
+    "nivel": 2,
     "experiencia": 0,
     "trasfondo": "criminal",
     "alineamiento": "caotico_bueno"
@@ -146,8 +146,8 @@
   "conjuros": null,
   "derivados": {
     "bonificador_competencia": 2,
-    "puntos_golpe_maximo": 9,
-    "puntos_golpe_actual": 9,
+    "puntos_golpe_maximo": 14,
+    "puntos_golpe_actual": 14,
     "dado_golpe": "d8",
     "clase_armadura": 13,
     "velocidad": 30,
@@ -172,7 +172,7 @@
   "meta": {
     "concepto": "Un picaro imganitivo y sigiloso, un poquito caradura"
   },
-  "fecha_modificacion": "2026-01-11T22:07:27.988118",
+  "fecha_modificacion": "2026-01-12T23:24:12.974724",
   "fecha_creacion": "2026-01-11T21:50:27.932402",
   "estado_aventura": {
     "turno": 3,
@@ -375,5 +375,6 @@
       "resumen_sesion": "Valandor Moonshadow pide una cerveza en el bar, pero al intentar seguir una sombra sospechosa, tropieza y llama la atención. Al preguntarle quién es, la sombra no responde, pero se prepara para atacar",
       "turnos_jugados": 3
     }
-  }
+  },
+  "features": []
 }

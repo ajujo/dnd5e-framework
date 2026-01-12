@@ -83,6 +83,7 @@ DM: Bajas las escaleras hacia la cripta. El olor a muerte
 |--------|--------|-------------|
 | Creación de personajes | ✅ Completo | Wizard interactivo con todas las razas, clases y trasfondos del SRD |
 | Sistema de combate táctico | ✅ Funcional | Iniciativa, ataques, daño, críticos, condiciones |
+| Sistema XP y Niveles | ✅ Funcional | Tabla XP 1-20, subida de nivel con HP y features, comandos /xp y /nivelup |
 | Narración LLM | ✅ Funcional | Genera descripciones inmersivas de combates y escenas |
 | Persistencia | ✅ Funcional | Guardar/cargar partidas, estado de aventura |
 | Adventure Bible | ✅ Estructura | Sistema de aventuras procedurales con actos, revelaciones, NPCs |

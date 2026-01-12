@@ -317,9 +317,20 @@ class DMCerebro:
             resultado_turno["necesita_clarificacion"] = resultado.get("necesita_clarificacion", False)
             resultado_turno["opciones"] = resultado.get("opciones", [])
         
-        # Verificar si combate terminó
+        # DEBUG: Ver estado antes de verificar fin
         from .combate_integrado import EstadoCombateIntegrado
+        if self.debug_mode:
+            print(f"[DEBUG] Estado orq después de turno: {orq.estado}")
+            print(f"[DEBUG] Resultado tipo: {resultado.get('tipo', 'N/A')}")
+            enemigos_info = [(c.nombre, c.hp_actual, c.muerto) 
+                            for c in self.gestor_combate.listar_combatientes() 
+                            if c.tipo.value == "npc_enemigo"]
+            print(f"[DEBUG] Enemigos: {enemigos_info}")
+        
+        # Verificar si combate terminó
         if orq.estado != EstadoCombateIntegrado.EN_CURSO:
+            if self.debug_mode:
+                print(f"[DEBUG] ¡Combate terminando! Estado: {orq.estado}")
             resultado_final = orq.obtener_resultado_final()
             return self._finalizar_combate_tactico(resultado_final)
         

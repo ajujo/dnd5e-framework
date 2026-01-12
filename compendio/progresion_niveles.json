@@ -1,0 +1,335 @@
+{
+    "version": "1.0",
+    "descripcion": "Tabla de progresión de niveles y XP para D&D 5e",
+    "tabla_xp": [
+        {
+            "nivel": 1,
+            "xp_necesaria": 0,
+            "prof_bonus": 2
+        },
+        {
+            "nivel": 2,
+            "xp_necesaria": 300,
+            "prof_bonus": 2
+        },
+        {
+            "nivel": 3,
+            "xp_necesaria": 900,
+            "prof_bonus": 2
+        },
+        {
+            "nivel": 4,
+            "xp_necesaria": 2700,
+            "prof_bonus": 2
+        },
+        {
+            "nivel": 5,
+            "xp_necesaria": 6500,
+            "prof_bonus": 3
+        },
+        {
+            "nivel": 6,
+            "xp_necesaria": 14000,
+            "prof_bonus": 3
+        },
+        {
+            "nivel": 7,
+            "xp_necesaria": 23000,
+            "prof_bonus": 3
+        },
+        {
+            "nivel": 8,
+            "xp_necesaria": 34000,
+            "prof_bonus": 3
+        },
+        {
+            "nivel": 9,
+            "xp_necesaria": 48000,
+            "prof_bonus": 4
+        },
+        {
+            "nivel": 10,
+            "xp_necesaria": 64000,
+            "prof_bonus": 4
+        },
+        {
+            "nivel": 11,
+            "xp_necesaria": 85000,
+            "prof_bonus": 4
+        },
+        {
+            "nivel": 12,
+            "xp_necesaria": 100000,
+            "prof_bonus": 4
+        },
+        {
+            "nivel": 13,
+            "xp_necesaria": 120000,
+            "prof_bonus": 5
+        },
+        {
+            "nivel": 14,
+            "xp_necesaria": 140000,
+            "prof_bonus": 5
+        },
+        {
+            "nivel": 15,
+            "xp_necesaria": 165000,
+            "prof_bonus": 5
+        },
+        {
+            "nivel": 16,
+            "xp_necesaria": 195000,
+            "prof_bonus": 5
+        },
+        {
+            "nivel": 17,
+            "xp_necesaria": 225000,
+            "prof_bonus": 6
+        },
+        {
+            "nivel": 18,
+            "xp_necesaria": 265000,
+            "prof_bonus": 6
+        },
+        {
+            "nivel": 19,
+            "xp_necesaria": 305000,
+            "prof_bonus": 6
+        },
+        {
+            "nivel": 20,
+            "xp_necesaria": 355000,
+            "prof_bonus": 6
+        }
+    ],
+    "niveles_mejora_caracteristica": [
+        4,
+        8,
+        10,
+        12,
+        16,
+        19
+    ],
+    "clases": {
+        "pícaro": {
+            "id": "rogue",
+            "nombre": "Pícaro",
+            "nombre_en": "Rogue",
+            "hit_die": 8,
+            "competencias_salvacion": [
+                "DES",
+                "INT"
+            ],
+            "niveles_mejora_caracteristica": [
+                4,
+                8,
+                10,
+                12,
+                16,
+                19
+            ],
+            "niveles": {
+                "1": {
+                    "features": [
+                        {
+                            "id": "sneak-attack",
+                            "nombre": "Ataque Furtivo",
+                            "descripcion": "1d6 de daño extra al atacar con ventaja o si un aliado está adyacente al enemigo"
+                        },
+                        {
+                            "id": "expertise-1",
+                            "nombre": "Pericia",
+                            "descripcion": "Dobla tu bonificador de competencia en 2 habilidades elegidas"
+                        },
+                        {
+                            "id": "thieves-cant",
+                            "nombre": "Jerga de Ladrones",
+                            "descripcion": "Lenguaje secreto de los pícaros"
+                        }
+                    ],
+                    "sneak_attack_dice": 1
+                },
+                "2": {
+                    "features": [
+                        {
+                            "id": "cunning-action",
+                            "nombre": "Acción Astuta",
+                            "descripcion": "Puedes usar acción bonus para Esconderse, Correr o Desengancharse"
+                        }
+                    ],
+                    "sneak_attack_dice": 1
+                },
+                "3": {
+                    "features": [
+                        {
+                            "id": "roguish-archetype",
+                            "nombre": "Arquetipo de Pícaro",
+                            "descripcion": "Elige tu especialización: Ladrón, Asesino o Embaucador Arcano"
+                        }
+                    ],
+                    "sneak_attack_dice": 2,
+                    "seleccion_subclase": true
+                },
+                "4": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-1",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 2,
+                    "mejora_caracteristica": true
+                },
+                "5": {
+                    "features": [
+                        {
+                            "id": "uncanny-dodge",
+                            "nombre": "Esquiva Increíble",
+                            "descripcion": "Usa tu reacción para reducir a la mitad el daño de un ataque que te impacte"
+                        }
+                    ],
+                    "sneak_attack_dice": 3
+                },
+                "6": {
+                    "features": [
+                        {
+                            "id": "expertise-2",
+                            "nombre": "Pericia",
+                            "descripcion": "Dobla tu bonificador de competencia en 2 habilidades adicionales"
+                        }
+                    ],
+                    "sneak_attack_dice": 3
+                },
+                "7": {
+                    "features": [
+                        {
+                            "id": "evasion",
+                            "nombre": "Evasión",
+                            "descripcion": "Si superas una tirada de salvación de DES para recibir la mitad del daño, no recibes ninguno. Si fallas, solo la mitad"
+                        }
+                    ],
+                    "sneak_attack_dice": 4
+                },
+                "8": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-2",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 4,
+                    "mejora_caracteristica": true
+                },
+                "9": {
+                    "features": [],
+                    "sneak_attack_dice": 5
+                },
+                "10": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-3",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 5,
+                    "mejora_caracteristica": true
+                },
+                "11": {
+                    "features": [
+                        {
+                            "id": "reliable-talent",
+                            "nombre": "Talento Fiable",
+                            "descripcion": "Cualquier tirada de dados de competencia menor a 10 cuenta como 10"
+                        }
+                    ],
+                    "sneak_attack_dice": 6
+                },
+                "12": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-4",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 6,
+                    "mejora_caracteristica": true
+                },
+                "13": {
+                    "features": [],
+                    "sneak_attack_dice": 7
+                },
+                "14": {
+                    "features": [
+                        {
+                            "id": "blindsense",
+                            "nombre": "Sentido Ciego",
+                            "descripcion": "Puedes detectar criaturas invisibles en 10 pies si puedes oírlas"
+                        }
+                    ],
+                    "sneak_attack_dice": 7
+                },
+                "15": {
+                    "features": [
+                        {
+                            "id": "slippery-mind",
+                            "nombre": "Mente Escurridiza",
+                            "descripcion": "Competencia en tiradas de salvación de Sabiduría"
+                        }
+                    ],
+                    "sneak_attack_dice": 8
+                },
+                "16": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-5",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 8,
+                    "mejora_caracteristica": true
+                },
+                "17": {
+                    "features": [],
+                    "sneak_attack_dice": 9
+                },
+                "18": {
+                    "features": [
+                        {
+                            "id": "elusive",
+                            "nombre": "Elusivo",
+                            "descripcion": "Ningún ataque tiene ventaja contra ti mientras no estés incapacitado"
+                        }
+                    ],
+                    "sneak_attack_dice": 9
+                },
+                "19": {
+                    "features": [
+                        {
+                            "id": "ability-score-improvement-6",
+                            "nombre": "Mejora de Característica",
+                            "descripcion": "+2 a una característica o +1 a dos"
+                        }
+                    ],
+                    "sneak_attack_dice": 10,
+                    "mejora_caracteristica": true
+                },
+                "20": {
+                    "features": [
+                        {
+                            "id": "stroke-of-luck",
+                            "nombre": "Golpe de Suerte",
+                            "descripcion": "Una vez por descanso, convierte un fallo en un éxito o un ataque fallido en un golpe"
+                        }
+                    ],
+                    "sneak_attack_dice": 10
+                }
+            }
+        }
+    }
+}

@@ -236,6 +236,10 @@ NO cambies las opciones."""
             return f"Ataque con {datos.get('arma_nombre', 'arma')}: {resultado}{critico}{pifia}"
         
         elif tipo == "daño_calculado":
+            objetivo_id = datos.get("objetivo_id", "")
+            objetivo_muerto = datos.get("objetivo_muerto", False)
+            if objetivo_muerto:
+                return f"Daño: {datos.get('daño_total', 0)} de tipo {datos.get('tipo_daño', 'desconocido')} - ¡OBJETIVO MUERE!"
             return f"Daño: {datos.get('daño_total', 0)} de tipo {datos.get('tipo_daño', 'desconocido')}"
         
         elif tipo == "conjuro_lanzado":
@@ -321,6 +325,7 @@ def crear_contexto_narracion(
     
     # Obtener combatientes para contexto
     combatientes_info = []
+    combatientes_muertos = {}  # id -> bool para enriquecer eventos
     for c in gestor.listar_combatientes():
         combatientes_info.append({
             "nombre": c.nombre,
@@ -330,9 +335,19 @@ def crear_contexto_narracion(
             "muerto": c.muerto,
             "condiciones": c.condiciones.copy()
         })
+        combatientes_muertos[c.id] = c.muerto
     
-    # Eventos como dicts
-    eventos_dict = [e.to_dict() for e in resultado.eventos] if resultado.eventos else []
+    # Eventos como dicts - enriquecer con info de muerte
+    eventos_dict = []
+    if resultado.eventos:
+        for e in resultado.eventos:
+            evento_dict = e.to_dict()
+            # Si es evento de daño, añadir si el objetivo murió
+            if evento_dict.get("tipo") in ("daño_calculado", "daño_aplicado"):
+                objetivo_id = evento_dict.get("datos", {}).get("objetivo_id")
+                if objetivo_id and objetivo_id in combatientes_muertos:
+                    evento_dict["datos"]["objetivo_muerto"] = combatientes_muertos[objetivo_id]
+            eventos_dict.append(evento_dict)
     
     contexto = ContextoNarracion(
         ronda=gestor.ronda_actual,

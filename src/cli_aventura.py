@@ -277,6 +277,8 @@ def mostrar_ayuda():
     /estado      - Ver estado detallado del personaje
     /inventario  - Ver inventario (alias: /inv, /i)
     /combate     - Ver estado del combate activo
+    /xp          - Ver experiencia y progreso (alias: /exp)
+    /nivelup     - Subir de nivel (ej: /nivelup 5)
     /guardar     - Guardar partida
     /debug       - Activar/desactivar modo debug
     /sistema     - Ver estado del sistema (perfil, modo, tipo aventura)
@@ -772,6 +774,86 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
                 print("\n  No hay combate activo.")
             continue
         
+        elif accion.lower().startswith("/nivelup") or accion.lower().startswith("/levelup"):
+            # Comando para subir de nivel (testing)
+            # Uso: /nivelup o /nivelup 5 (subir a nivel 5)
+            from motor.progresion import obtener_gestor_progresion
+            
+            partes = accion.split()
+            nivel_objetivo = None
+            if len(partes) > 1:
+                try:
+                    nivel_objetivo = int(partes[1])
+                except ValueError:
+                    print("  ⚠️ Uso: /nivelup [nivel]  (ej: /nivelup 5)")
+                    continue
+            
+            gestor = obtener_gestor_progresion()
+            resultado = gestor.subir_nivel(dm.contexto.pj, nivel_objetivo)
+            
+            if "error" in resultado:
+                print(f"  ⚠️ {resultado['error']}")
+                continue
+            
+            print()
+            print("  ═══════════════════════════════════════")
+            print(f"  ⬆️  ¡SUBIDA DE NIVEL!")
+            print("  ═══════════════════════════════════════")
+            print(f"  Nivel {resultado['nivel_anterior']} → {resultado['nivel_nuevo']}")
+            print(f"  HP ganados: +{resultado['hp_ganados']}")
+            hp_max = dm.contexto.pj.get("derivados", {}).get("puntos_golpe_maximo", 0)
+            print(f"  HP total: {hp_max}")
+            
+            if resultado['features_nuevos']:
+                print()
+                print("  📜 Nuevas habilidades:")
+                for f in resultado['features_nuevos']:
+                    print(f"    • {f['nombre']}")
+                    if f.get('descripcion'):
+                        print(f"      {f['descripcion'][:60]}...")
+            
+            if resultado.get('sneak_attack_dice'):
+                print(f"\n  🗡️ Ataque Furtivo: {resultado['sneak_attack_dice']}d6")
+            
+            if resultado['mejora_caracteristica']:
+                print()
+                print("  ⭐ ¡Puedes mejorar características!")
+                print("     (+2 a una o +1 a dos, máximo 20)")
+            
+            # Guardar cambios
+            save_character(dm.contexto.pj)
+            print("\n  ✓ Cambios guardados")
+            continue
+        
+        elif accion.lower() in ("/xp", "/exp", "/experiencia"):
+            # Mostrar progreso de XP
+            from motor.progresion import obtener_gestor_progresion
+            
+            gestor = obtener_gestor_progresion()
+            progreso = gestor.get_progreso_xp(dm.contexto.pj)
+            
+            nivel = progreso["nivel_actual"]
+            xp = progreso["xp_actual"]
+            xp_sig = progreso["xp_para_siguiente"]
+            falta = progreso["xp_faltante"]
+            pct = progreso["porcentaje"]
+            
+            print()
+            print("  ═══ EXPERIENCIA ═══")
+            print(f"  Nivel: {nivel}")
+            print(f"  XP: {xp:,}")
+            
+            if nivel < 20:
+                # Barra de progreso
+                barra_len = 20
+                lleno = int(barra_len * pct / 100)
+                barra = "█" * lleno + "░" * (barra_len - lleno)
+                print(f"  [{barra}] {pct}%")
+                print(f"  Siguiente nivel ({nivel + 1}): {xp_sig:,} XP (faltan {falta:,})")
+            else:
+                print("  ¡Nivel máximo alcanzado!")
+            continue
+        
         elif accion.lower() == "/guardar":
             # Generar resumen de sesión
             print("  Generando resumen...")
@@ -1042,15 +1124,53 @@ def jugar(dm: DMCerebro, es_continuacion: bool = False):
                         objetivo_id = datos.get("objetivo_id", "objetivo")
                         combatiente_obj = gestor.obtener_combatiente(objetivo_id)
                         objetivo_nombre = combatiente_obj.nombre if combatiente_obj else objetivo_id
-                        print(f"  💥 Daño: {daño} a {objetivo_nombre}")
+                        
+                        # Mostrar desglose completo del daño (dado + mod)
+                        tirada = datos.get("tirada", {})
+                        if tirada:
+                            expresion = tirada.get("expresion", "")
+                            dados = tirada.get("dados", [])
+                            mod = tirada.get("modificador", 0)
+                            es_critico = tirada.get("es_critico", False)
+                            
+                            if dados:
+                                dados_total = sum(dados)
+                                # Extraer solo la parte del dado (ej: "1d8" de "1d8+3")
+                                dado_exp = expresion.split("+")[0] if "+" in expresion else expresion
+                                if es_critico:
+                                    print(f"  💥 Daño crítico: {dados_total}(2x{dado_exp}) + {mod}(mod) = {daño} a {objetivo_nombre}")
+                                else:
+                                    print(f"  💥 Daño: {dados_total}({dado_exp}) + {mod}(mod) = {daño} a {objetivo_nombre}")
+                            else:
+                                print(f"  💥 Daño: {daño} a {objetivo_nombre}")
+                        else:
+                            print(f"  💥 Daño: {daño} a {objetivo_nombre}")
                 
                 # Si no hay eventos de acción, la acción no fue reconocida
                 if not eventos:
-                    print("\n  ⚠️ No entendí esa acción. Usa comandos como:")
-                    print("    • ataco [al esqueleto/goblin/...]")
-                    print("    • ataco (te mostrará objetivos)")
-                    print("    • /ayuda (ver comandos)")
-                    continue  # No pasar turno
+                    # Verificar si el combate sigue activo (protección contra fin incorrecto)
+                    if not dm.en_combate_tactico():
+                        print("\n  ⚠️ Error: El combate terminó inesperadamente.")
+                        print("  Esto puede ocurrir si el LLM no pudo procesar la acción.")
+                        print("  Usa 'ataco al [enemigo]' para reiniciar el combate.")
+                        break
+                    
+                    # Mostrar mensaje de error y pedir otra acción
+                    resultado_tipo = resultado.get("resultado_mecanico", {}).get("tipo", "")
+                    if resultado_tipo == "necesita_clarificar":
+                        # Hay opciones disponibles, mostrarlas
+                        opciones = resultado.get("opciones", [])
+                        if opciones:
+                            print("\n  ¿A quién atacas?")
+                            for i, opt in enumerate(opciones, 1):
+                                print(f"    {i}. {opt.get('texto', opt)}")
+                            pendiente_clarificacion = opciones
+                    else:
+                        print("\n  ⚠️ No entendí esa acción. Usa comandos como:")
+                        print("    • ataco al [nombre del enemigo]")
+                        print("    • ataco (te mostrará objetivos)")
+                        print("    • /ayuda (ver comandos)")
+                    continue  # No pasar turno, pedir otra acción
                 
                 # Mostrar narrativa LLM (después de las tiradas)
                 narrativa = resultado.get("narrativa", "")

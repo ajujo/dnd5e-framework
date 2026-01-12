@@ -6,7 +6,7 @@
     "raza": "elfo_bosque",
     "subraza": "elfo_bosque",
     "clase": "guerrero",
-    "nivel": 1,
+    "nivel": 2,
     "experiencia": 0,
     "trasfondo": "soldado",
     "alineamiento": "caotico_bueno"
@@ -162,8 +162,8 @@
   "conjuros": null,
   "derivados": {
     "bonificador_competencia": 2,
-    "puntos_golpe_maximo": 12,
-    "puntos_golpe_actual": 12,
+    "puntos_golpe_maximo": 18,
+    "puntos_golpe_actual": 18,
     "dado_golpe": "d10",
     "clase_armadura": 18,
     "velocidad": 35,
@@ -188,7 +188,7 @@
   "meta": {
     "concepto": "Guerrero vengativo"
   },
-  "fecha_modificacion": "2026-01-10T09:47:30.902391",
+  "fecha_modificacion": "2026-01-12T23:50:58.944162",
   "fecha_creacion": "2026-01-08T12:35:09.367554",
   "estado_aventura": {
     "turno": 11,
@@ -529,5 +529,6 @@
       "resumen_sesion": "Al intentar entrar en el molino, la puerta se cierra tras ti con un suspiro ancestral, y al avanzar, el suelo cruje bajo huesos de antiguas víctimas. Aunque no hay monstruos en el compendio, cinco gob",
       "turnos_jugados": 11
     }
-  }
+  },
+  "features": []
 }
