@@ -41,36 +41,81 @@ def parsear_respuesta_json(texto: str) -> RespuestaLLM:
         "narrativa": "Texto para el jugador...",
         "accion_dm": "iniciar_combate" o null
     }
+    
+    Maneja casos problemáticos:
+    - JSON sin llaves exteriores
+    - Claves con mayúsculas ("Herramienta" vs "herramienta")
+    - Texto narrativo antes del JSON
     """
     respuesta = RespuestaLLM()
     
     # Limpiar el texto (quitar markdown code blocks si los hay)
     texto_limpio = texto.strip()
+    if texto_limpio.startswith("```"):
+        # Quitar bloques de código markdown
+        texto_limpio = re.sub(r'^```(?:json)?\s*', '', texto_limpio)
+        texto_limpio = re.sub(r'\s*```$', '', texto_limpio)
     
     # Buscar JSON en el texto
     json_match = re.search(r'\{[\s\S]*\}', texto_limpio)
     
-    if not json_match:
+    datos = None
+    narrativa_previa = ""
+    
+    if json_match:
+        # Guardar texto antes del JSON como posible narrativa
+        narrativa_previa = texto_limpio[:json_match.start()].strip()
+        
+        try:
+            datos = json.loads(json_match.group())
+        except json.JSONDecodeError:
+            pass
+    
+    # Si no encontramos JSON válido, intentar añadir llaves
+    if datos is None:
+        # Buscar si parece JSON pero sin llaves (empieza con "clave":)
+        if re.search(r'^\s*"?\w+"?\s*:', texto_limpio, re.MULTILINE):
+            # Intentar envolver en llaves
+            texto_wrapped = "{" + texto_limpio + "}"
+            try:
+                datos = json.loads(texto_wrapped)
+            except json.JSONDecodeError:
+                # Buscar solo la parte que parece JSON
+                json_partial = re.search(r'"(?:herramienta|Herramienta)".*', texto_limpio, re.DOTALL | re.IGNORECASE)
+                if json_partial:
+                    try:
+                        datos = json.loads("{" + json_partial.group() + "}")
+                    except:
+                        pass
+    
+    if datos is None:
         # Si no hay JSON, tratar todo como narrativa
         respuesta.narrativa = texto_limpio
         return respuesta
     
     try:
-        datos = json.loads(json_match.group())
+        # Normalizar claves a minúsculas
+        datos_lower = {k.lower(): v for k, v in datos.items()}
         
-        respuesta.herramienta = datos.get("herramienta")
-        respuesta.parametros = datos.get("parametros", {})
-        respuesta.narrativa = datos.get("narrativa", "")
-        respuesta.cambio_modo = datos.get("cambio_modo")
-        respuesta.memoria = datos.get("memoria", {})
-        respuesta.accion_dm = datos.get("accion_dm")
+        respuesta.herramienta = datos_lower.get("herramienta")
+        respuesta.parametros = datos_lower.get("parametros", {})
+        respuesta.narrativa = datos_lower.get("narrativa", "")
+        respuesta.cambio_modo = datos_lower.get("cambio_modo")
+        respuesta.memoria = datos_lower.get("memoria", {})
+        respuesta.accion_dm = datos_lower.get("accion_dm")
+        
+        # Si hay narrativa previa (texto antes del JSON), combinarla
+        if narrativa_previa and not respuesta.narrativa:
+            respuesta.narrativa = narrativa_previa
+        elif narrativa_previa and respuesta.narrativa:
+            respuesta.narrativa = narrativa_previa + "\n\n" + respuesta.narrativa
         
         # Si hay herramienta pero es null o "ninguna", limpiar
         if respuesta.herramienta in (None, "null", "ninguna", "none", ""):
             respuesta.herramienta = None
             respuesta.parametros = {}
         
-    except json.JSONDecodeError as e:
+    except Exception as e:
         respuesta.error = f"Error parseando JSON: {e}"
         # Intentar extraer narrativa del texto
         respuesta.narrativa = texto_limpio

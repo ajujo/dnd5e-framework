@@ -96,6 +96,59 @@ Ver sección detallada más abajo.
 
 ---
 
+### 9. Optimización de Prompt para Modelos 32B
+
+**Prioridad**: Baja  
+**Complejidad**: Media
+
+Para funcionar bien con modelos más pequeños (32B), el prompt necesitaría optimizaciones:
+
+#### Reducir tokens del System Prompt
+
+| Versión | Tokens | Uso |
+|---------|--------|-----|
+| Actual (70B+) | ~5,500 | Muy detallado |
+| Lite (32B) | ~2,500-3,000 | Solo lo esencial |
+
+#### Simplificar formato JSON
+
+```python
+# Actual (modelo grande)
+{"herramienta": "iniciar_combate", "parametros": {"enemigos": ["goblin"]}, 
+ "narrativa": "...", "cambio_modo": "combate", "memoria": {...}}
+
+# Lite (modelo 32B)
+{"h": "iniciar_combate", "e": ["goblin"], "n": "Narración breve..."}
+```
+
+#### Instrucciones más directas
+
+- Quitar ejemplos redundantes
+- Eliminar reglas obvias
+- Menos secciones, más conciso
+
+#### Perfil LLM "lite"
+
+Añadir en `llm_profiles.json`:
+```json
+"lite": {
+  "prompt_mode": "reducido",
+  "max_tokens": 400,
+  "descripcion": "Para modelos 32B o menores"
+}
+```
+
+#### Tamaños de modelo recomendados
+
+| Tamaño | Calidad DM | Notas |
+|--------|------------|-------|
+| 7-8B | ⚠️ Básico | Narrativa limitada |
+| 12-14B | 🟡 Aceptable | A veces olvida contexto |
+| 32-40B | 🟢 Bueno | Funciona bien con prompt optimizado |
+| 70-80B | ⭐ Excelente | Recomendado, prompt actual |
+
+---
+
 ## Prioridad Baja / Futuro
 
 - Interfaz web
@@ -169,6 +222,38 @@ Prompt tokens to decode: 5749  ← Todos
 ```
 
 ---
+
+### Formas de Aprovechar Más Contexto
+
+Con 32K-65K tokens disponibles, podrías hacer esto:
+
+1. Historial Más Largo (actualmente ~15 turnos)
+
+- Ahora:     Últimos 15 turnos (~1,500 tokens)
+- Posible:   Últimos 50-100 turnos (~5,000-10,000 tokens)
+- Beneficio: El DM recuerda todo lo que pasó en la sesión
+
+2. Resumen de Sesiones Anteriores
+
+Nueva sección en el prompt:
+"RESUMEN SESIONES PREVIAS:
+ - Sesión 1: Llegaste a Neverwinter, conociste a Marta
+ - Sesión 2: Descubriste el culto de Shar en la taberna
+ - Sesión 3: Perseguiste a la sombra hasta las catacumbas"
+
+3. Adventure Bible Completa (no filtrada)
+
+- Ahora:     Solo vista del acto actual (~800 tokens)
+- Posible:   Toda la Bible (~3,000-5,000 tokens)
+- Beneficio: El DM conoce TODO el plot, no solo el acto actual
+
+4. Memoria de NPCs Rica
+
+- Ahora:     Solo NPCs en escena
+- Posible:   Historial completo de cada NPC encontrado
+           "Marta: encontrada turno 5, actitud amistosa, te dio info..."
+
+
 
 ### Mejora Propuesta: Historial como Mensajes Separados
 

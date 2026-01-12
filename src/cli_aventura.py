@@ -435,25 +435,162 @@ def seleccionar_tipo_aventura() -> dict:
         print("  Opción no válida.")
 
 
-def crear_escena_demo() -> tuple:
-    """Crea una escena de demostración."""
-    ubicacion = {
+# Ubicaciones iniciales típicas de D&D
+UBICACIONES_INICIALES = {
+    "1": {
         "ubicacion_id": "taberna_ciervo",
         "nombre": "Taberna del Ciervo Dorado",
         "descripcion": "Una taberna acogedora con vigas de roble oscurecidas por el humo. El fuego crepita en la chimenea mientras parroquianos murmuran sobre sus jarras de cerveza.",
-        "tipo": "interior"
+        "tipo": "interior",
+        "npcs": [{"id": "tabernera", "nombre": "Marta la Tabernera", "descripcion": "Una mujer robusta de mediana edad con delantal manchado y sonrisa fácil.", "actitud": "amistoso"}]
+    },
+    "2": {
+        "ubicacion_id": "plaza_mercado",
+        "nombre": "Plaza del Mercado",
+        "descripcion": "Un bullicioso mercado al aire libre donde comerciantes de todas las tierras ofrecen sus mercancías. El olor a especias exóticas se mezcla con el de pan recién horneado.",
+        "tipo": "exterior",
+        "npcs": [{"id": "mercader", "nombre": "Jorund el Comerciante", "descripcion": "Un enano de barba trenzada que vende armas y armaduras de calidad dudosa.", "actitud": "neutral"}]
+    },
+    "3": {
+        "ubicacion_id": "templo_pelor",
+        "nombre": "Templo de Pelor",
+        "descripcion": "Un majestuoso templo de piedra blanca dedicado al dios del sol. La luz entra por vitrales dorados creando patrones de luz en el suelo de mármol.",
+        "tipo": "interior",
+        "npcs": [{"id": "sacerdote", "nombre": "Padre Aldric", "descripcion": "Un anciano clérigo de rostro amable que atiende a peregrinos y enfermos.", "actitud": "amistoso"}]
+    },
+    "4": {
+        "ubicacion_id": "muelles_puerto",
+        "nombre": "Los Muelles",
+        "descripcion": "El puerto de la ciudad bulle de actividad. Marineros descargan cajas misteriosas mientras gaviotas gritan sobre aguas grisáceas. El olor a sal y pescado impregna el aire.",
+        "tipo": "exterior",
+        "npcs": [{"id": "capitan", "nombre": "Capitana Kira", "descripcion": "Una mujer curtida por el mar con un parche en el ojo y sonrisa pícara.", "actitud": "neutral"}]
+    },
+    "5": {
+        "ubicacion_id": "entrada_bosque",
+        "nombre": "Linde del Bosque Oscuro",
+        "descripcion": "El camino se adentra en un bosque ancestral donde los árboles se alzan como gigantes dormidos. La luz del sol apenas penetra la espesa bóveda de hojas.",
+        "tipo": "exterior",
+        "npcs": [{"id": "explorador", "nombre": "Thalia la Exploradora", "descripcion": "Una elfa silvana que vigila la entrada al bosque, alerta ante cualquier peligro.", "actitud": "neutral"}]
+    },
+    "6": {
+        "ubicacion_id": "castillo_ruinas",
+        "nombre": "Ruinas del Castillo Tormenta",
+        "descripcion": "Los restos de una fortaleza antigua se alzan sobre una colina azotada por el viento. Historias de tesoros y maldiciones rodean este lugar abandonado.",
+        "tipo": "exterior",
+        "npcs": []
     }
+}
+
+
+def seleccionar_ubicacion_inicial(dm: 'DMCerebro') -> tuple:
+    """
+    Permite al jugador seleccionar la ubicación inicial de la aventura.
     
-    npcs = [
-        {
-            "id": "tabernera",
-            "nombre": "Marta la Tabernera",
-            "descripcion": "Una mujer robusta de mediana edad con delantal manchado y sonrisa fácil.",
-            "actitud": "amistoso"
-        }
-    ]
+    Returns:
+        Tuple de (ubicacion_dict, npcs_list)
+    """
+    print()
+    print("  ═══ ¿DÓNDE COMIENZA TU AVENTURA? ═══")
+    print()
     
-    return ubicacion, npcs
+    for key, loc in UBICACIONES_INICIALES.items():
+        print(f"  [{key}] {loc['nombre']}")
+    print()
+    print("  [0] Dejar que el DM decida según mi trasfondo")
+    print()
+    
+    while True:
+        opcion = input("  Elige ubicación (0-6): ").strip()
+        
+        if opcion == "0":
+            # Dejar que el LLM decida
+            return generar_ubicacion_por_trasfondo(dm)
+        
+        if opcion in UBICACIONES_INICIALES:
+            loc = UBICACIONES_INICIALES[opcion]
+            ubicacion = {
+                "ubicacion_id": loc["ubicacion_id"],
+                "nombre": loc["nombre"],
+                "descripcion": loc["descripcion"],
+                "tipo": loc["tipo"]
+            }
+            return ubicacion, loc.get("npcs", [])
+        
+        print("  Opción no válida. Elige 0-6.")
+
+
+def generar_ubicacion_por_trasfondo(dm: 'DMCerebro') -> tuple:
+    """
+    Usa el LLM para generar una ubicación inicial basada en el trasfondo del PJ.
+    """
+    if not dm.llm_callback or not dm.contexto.pj:
+        # Fallback a taberna si no hay LLM
+        print("  (Sin LLM - comenzando en la Taberna)")
+        loc = UBICACIONES_INICIALES["1"]
+        ubicacion = {k: v for k, v in loc.items() if k != "npcs"}
+        return ubicacion, loc.get("npcs", [])
+    
+    print("  El DM está pensando en la mejor ubicación para tu personaje...")
+    
+    pj = dm.contexto.pj
+    info = pj.get("info_basica", {})
+    trasfondo = pj.get("trasfondo", {})
+    
+    prompt = f"""Basándote en este personaje de D&D, sugiere UNA ubicación inicial apropiada para comenzar una aventura.
+
+PERSONAJE:
+- Nombre: {info.get('nombre', 'Aventurero')}
+- Raza: {info.get('raza', 'Humano')}
+- Clase: {info.get('clase', 'Guerrero')}
+- Trasfondo: {trasfondo.get('nombre', 'Desconocido')}
+
+Responde SOLO en este formato JSON:
+{{
+    "ubicacion_id": "id_sin_espacios",
+    "nombre": "Nombre del Lugar",
+    "descripcion": "Descripción de 2-3 frases del lugar, atmosférica y evocadora.",
+    "tipo": "exterior o interior",
+    "npc_nombre": "Nombre del NPC inicial o null",
+    "npc_descripcion": "Descripción breve del NPC o null"
+}}"""
+
+    try:
+        respuesta = dm.llm_callback(prompt, "Genera ubicaciones de D&D en JSON. Sé conciso.")
+        
+        import json
+        import re
+        
+        json_match = re.search(r'\{[\s\S]*\}', respuesta)
+        if json_match:
+            datos = json.loads(json_match.group())
+            
+            ubicacion = {
+                "ubicacion_id": datos.get("ubicacion_id", "lugar_inicio"),
+                "nombre": datos.get("nombre", "Lugar Misterioso"),
+                "descripcion": datos.get("descripcion", "Un lugar donde comienza tu aventura."),
+                "tipo": datos.get("tipo", "exterior")
+            }
+            
+            npcs = []
+            if datos.get("npc_nombre"):
+                npcs.append({
+                    "id": "npc_inicial",
+                    "nombre": datos["npc_nombre"],
+                    "descripcion": datos.get("npc_descripcion", "Un personaje misterioso."),
+                    "actitud": "neutral"
+                })
+            
+            print(f"  → {ubicacion['nombre']}")
+            return ubicacion, npcs
+            
+    except Exception as e:
+        pass
+    
+    # Fallback
+    print("  (Usando ubicación por defecto)")
+    loc = UBICACIONES_INICIALES["1"]
+    ubicacion = {k: v for k, v in loc.items() if k != "npcs"}
+    return ubicacion, loc.get("npcs", [])
 
 
 
@@ -1072,8 +1209,8 @@ def main():
                 dm.contexto.flags["bible_id"] = bible.get("meta", {}).get("id")
                 print(f"  📖 Aventura: {bible.get('logline', '')[:60]}...")
         
-        # Crear escena inicial
-        ubicacion, npcs = crear_escena_demo()
+        # Crear escena inicial - permitir selección de ubicación
+        ubicacion, npcs = seleccionar_ubicacion_inicial(dm)
         dm.establecer_escena(**ubicacion)
         for npc in npcs:
             dm.añadir_npc(**npc)
