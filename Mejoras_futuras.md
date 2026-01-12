@@ -170,6 +170,123 @@ Prompt tokens to decode: 5749  ← Todos
 
 ---
 
+### Mejora Propuesta: Historial como Mensajes Separados
+
+**Estado**: Pendiente de implementación  
+**Prioridad**: Media  
+**Impacto**: Alto para rendimiento de KV cache
+
+#### Problema Actual
+
+El historial de turnos se incluye **dentro** del system prompt como texto:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ SYSTEM PROMPT (cambia cada turno)                           │
+│ • Instrucciones DM (fijo)                                   │
+│ • Bible (semi-fijo)                                         │
+│ • Historial de turnos (DINÁMICO) ← Rompe el cache           │
+│ • Contexto PJ (dinámico)                                    │
+├─────────────────────────────────────────────────────────────┤
+│ USER: "ataco al goblin"                                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+Cada turno el system prompt cambia, invalidando el KV cache.
+
+#### Solución Propuesta
+
+Mover el historial a **mensajes user/assistant separados**:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ SYSTEM PROMPT (FIJO - 100% cacheable)                       │
+│ • Instrucciones DM                                          │
+│ • Bible                                                     │
+│ • Reglas                                                    │
+├─────────────────────────────────────────────────────────────┤
+│ USER: "entro en la taberna"                                 │
+│ ASSISTANT: "La taberna huele a cerveza..."                  │
+│ USER: "hablo con el tabernero"                              │
+│ ASSISTANT: "El tabernero te mira con desconfianza..."       │
+│ ...                                                         │
+│ USER: "ataco al goblin" ← Mensaje actual                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Beneficios
+
+- System prompt 100% cacheable
+- KV cache se reutiliza completamente
+- Tiempo de procesamiento reducido significativamente
+
+#### Cambios Necesarios
+
+1. Modificar `dm_cerebro.py`:
+   ```python
+   def _llamar_llm(self, mensaje_usuario: str) -> str:
+       # Separar mensajes en lugar de un solo system prompt
+       messages = [
+           {"role": "system", "content": self._system_prompt_fijo()},
+           *self._historial_como_mensajes(),  # Lista de user/assistant
+           {"role": "user", "content": mensaje_usuario}
+       ]
+   ```
+
+2. Modificar `llm/__init__.py`:
+   - Aceptar lista de mensajes en lugar de solo system+user
+
+3. Modificar `contexto.py`:
+   - Separar historial del contexto embebido
+
+---
+
+### Aprovechamiento del Contexto Largo
+
+**Estado**: No implementado (investigación)  
+**Contexto disponible**: Hasta 131K tokens con modelos modernos
+
+#### Uso Actual vs Potencial
+
+| Elemento | Uso Actual | Uso Potencial |
+|----------|------------|---------------|
+| System prompt base | ~3,000 tokens | ~3,000 tokens (fijo) |
+| Adventure Bible | ~800 tokens | ~3,000-5,000 tokens (completa) |
+| Historial | ~15 turnos (~1,500 tokens) | ~50-100 turnos (~5,000-10,000 tokens) |
+| Resumen sesiones | ❌ No existe | ~1,000-2,000 tokens |
+| Memoria NPCs | Solo escena actual | Historial completo (~1,000 tokens) |
+| **Total** | **~5,500 tokens** | **~15,000-20,000 tokens** |
+
+#### Mejoras Posibles
+
+1. **Historial más largo** (fácil):
+   - Cambiar límite de turnos de 15 a 50-100
+   - El DM recuerda todo lo de la sesión actual
+
+2. **Resumen de sesiones anteriores** (medio):
+   - Al terminar sesión, guardar resumen LLM
+   - Al cargar, incluir resúmenes previos
+   - Ejemplo: "Sesión 1: Llegaste a Neverwinter, conociste a Marta..."
+
+3. **Adventure Bible completa** (fácil):
+   - No filtrar por acto actual
+   - El DM conoce todo el plot, mejora coherencia
+
+4. **Memoria de NPCs persistente** (medio):
+   - Guardar historial de cada NPC encontrado
+   - Incluir actitudes, interacciones previas
+
+#### Recomendación de Contexto LM Studio
+
+| Uso | Contexto Recomendado | RAM KV Cache |
+|-----|---------------------|--------------|
+| Solo D&D actual | 16,384 tokens | ~2-3 GB |
+| Con mejoras | 32,768 tokens | ~4-6 GB |
+| Máximo aprovechamiento | 65,536 tokens | ~8-12 GB |
+| Overkill (sin beneficio) | 131,072 tokens | ~16-24 GB |
+
+---
+
 ## Streaming de Respuestas LLM
 
 **Estado**: Parcialmente implementado  

@@ -259,7 +259,9 @@ class GestorContexto:
         # Amenazas
         amenazas = mn.get("amenazas_activas", [])
         if amenazas:
-            partes.append(f"Amenazas activas: {', '.join(amenazas[-3:])}")
+            # Convertir dicts a strings si es necesario
+            amenazas_str = [str(a) if isinstance(a, dict) else a for a in amenazas[-3:]]
+            partes.append(f"Amenazas activas: {', '.join(amenazas_str)}")
         
         # Side quests
         sqs = mn.get("side_quests", [])
